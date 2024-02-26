@@ -1,19 +1,13 @@
-//
-//  ViewController.swift
-//  MVPTask
-//
-//  Created by Sonata Girl on 26.02.2024.
-//
+// ViewController.swift
+// Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
-class ViewController: UIViewController {
-
+/// Экран
+final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        print("")
     }
-
-
 }
-

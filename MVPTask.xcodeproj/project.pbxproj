@@ -10,7 +10,6 @@
 		6751D0102B8CB9AB00396F91 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751D00F2B8CB9AB00396F91 /* AppDelegate.swift */; };
 		6751D0122B8CB9AB00396F91 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751D0112B8CB9AB00396F91 /* SceneDelegate.swift */; };
 		6751D0142B8CB9AB00396F91 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751D0132B8CB9AB00396F91 /* ViewController.swift */; };
-		6751D0172B8CB9AB00396F91 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6751D0152B8CB9AB00396F91 /* Main.storyboard */; };
 		6751D0192B8CB9AD00396F91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6751D0182B8CB9AD00396F91 /* Assets.xcassets */; };
 		6751D01C2B8CB9AD00396F91 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6751D01A2B8CB9AD00396F91 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -20,7 +19,6 @@
 		6751D00F2B8CB9AB00396F91 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6751D0112B8CB9AB00396F91 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6751D0132B8CB9AB00396F91 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		6751D0162B8CB9AB00396F91 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6751D0182B8CB9AD00396F91 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6751D01B2B8CB9AD00396F91 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6751D01D2B8CB9AD00396F91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -59,7 +57,6 @@
 				6751D00F2B8CB9AB00396F91 /* AppDelegate.swift */,
 				6751D0112B8CB9AB00396F91 /* SceneDelegate.swift */,
 				6751D0132B8CB9AB00396F91 /* ViewController.swift */,
-				6751D0152B8CB9AB00396F91 /* Main.storyboard */,
 				6751D0182B8CB9AD00396F91 /* Assets.xcassets */,
 				6751D01A2B8CB9AD00396F91 /* LaunchScreen.storyboard */,
 				6751D01D2B8CB9AD00396F91 /* Info.plist */,
@@ -77,6 +74,8 @@
 				6751D0082B8CB9AB00396F91 /* Sources */,
 				6751D0092B8CB9AB00396F91 /* Frameworks */,
 				6751D00A2B8CB9AB00396F91 /* Resources */,
+				6751D0232B8CBF5E00396F91 /* SwiftLint */,
+				6751D0242B8CC13800396F91 /* SwiftFormat */,
 			);
 			buildRules = (
 			);
@@ -127,11 +126,53 @@
 			files = (
 				6751D01C2B8CB9AD00396F91 /* LaunchScreen.storyboard in Resources */,
 				6751D0192B8CB9AD00396F91 /* Assets.xcassets in Resources */,
-				6751D0172B8CB9AB00396F91 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6751D0232B8CBF5E00396F91 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6751D0242B8CC13800396F91 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftformat > /dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6751D0082B8CB9AB00396F91 /* Sources */ = {
@@ -147,14 +188,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		6751D0152B8CB9AB00396F91 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6751D0162B8CB9AB00396F91 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		6751D01A2B8CB9AD00396F91 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -293,6 +326,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RD3BV5S34P;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MVPTask/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -300,6 +334,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -321,6 +356,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RD3BV5S34P;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MVPTask/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -328,6 +364,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

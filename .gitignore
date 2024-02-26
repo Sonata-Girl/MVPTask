@@ -1,0 +1,32 @@
+#macOS
+.DS_Store
+
+#Xcode
+xcuserdata
+build
+DerivedData
+*.xcuserstate
+*.xcbkptlist
+*.pbxuser
+
+#Obj-C/Swift specific
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+#Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Pods
+Pods/
+
+# SwiftGen
+Generated
+
+#xcodegen
+Darium.xcodeproj
+Darium.xcworkspace
