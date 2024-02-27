@@ -57,4 +57,12 @@ final class AppBuilder {
         )
         return view
     }
+
+    func createBonusesModule() -> BonusesViewController {
+        let view = BonusesViewController()
+        let presenter = BonusesViewPresenter(view: view)
+        view.presenter = presenter
+
+        return view
+    }
 }

@@ -21,7 +21,7 @@ final class LoginViewController: UIViewController {
         static let crossButton = "cross"
     }
 
-    var presenter: LoginViewPresenter?
+    var presenter: LoginViewPresenterProtocol?
 
     // MARK: Private Property
 

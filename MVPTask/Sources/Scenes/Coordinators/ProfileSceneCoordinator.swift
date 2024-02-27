@@ -14,6 +14,17 @@ final class ProfileSceneCoordinator: BaseCoordinator {
         )
     }
 
+    func showBonusesScreen() {
+        guard let currentView = navigationController.viewControllers.last else { return }
+        let bonusesViewController = AppBuilder().createBonusesModule()
+        bonusesViewController.modalPresentationStyle = .formSheet
+        if let sheet = bonusesViewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+        }
+        currentView.present(bonusesViewController, animated: true)
+    }
+
     func logOut() {
         goToLoginScreen?()
     }
