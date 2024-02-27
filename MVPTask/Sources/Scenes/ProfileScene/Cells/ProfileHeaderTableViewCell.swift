@@ -81,8 +81,11 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
     // MARK: Private Methods
 
     private func setupHierarchy() {
-        contentView.addSubview(mainImageView)
-        contentView.addSubview(nameLabel)
+        [
+            mainImageView,
+            nameLabel,
+            editNameButton
+        ].forEach { contentView.addSubview($0) }
     }
 
     private func setupConstraints() {

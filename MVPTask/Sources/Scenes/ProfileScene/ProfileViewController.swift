@@ -31,7 +31,8 @@ final class ProfileViewController: UIViewController {
 
     private lazy var profileTableView: UITableView = {
         let tableView = UITableView()
-        tableView.allowsSelection = false // отключение возможности выбора
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+//        tableView.allowsSelection = false // отключение возможности выбора
         tableView.register(
             ProfileHeaderTableViewCell.self,
             forCellReuseIdentifier: ProfileHeaderTableViewCell.identifier
@@ -40,9 +41,9 @@ final class ProfileViewController: UIViewController {
             ProfileInfoTableViewCell.self,
             forCellReuseIdentifier: ProfileInfoTableViewCell.identifier
         )
+
         tableView.dataSource = self
         tableView.delegate = self
-
         return tableView
     }()
 
@@ -78,15 +79,26 @@ final class ProfileViewController: UIViewController {
         navigationItem.leftBarButtonItem = buttonBar
     }
 
-    private func configureView() {}
-
-    private func setupHierarchy() {}
-
-    private func setupConstraints() {
-        setupMainImageViewConstraint()
+    private func configureView() {
+        view.backgroundColor = .white
     }
 
-    private func setupMainImageViewConstraint() {}
+    private func setupHierarchy() {
+        view.addSubview(profileTableView)
+    }
+
+    private func setupConstraints() {
+        setupProfileTableViewConstraint()
+    }
+
+    private func setupProfileTableViewConstraint() {
+        NSLayoutConstraint.activate([
+            profileTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            profileTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            profileTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            profileTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
 }
 
 // MARK: - UITableViewDataSource
