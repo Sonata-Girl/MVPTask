@@ -8,8 +8,8 @@ final class ProfileViewController: UIViewController {
     // MARK: Types
 
     private enum TableSections {
+        case profileHeader
         case profileInfo
-        case profileSettings
     }
 
     // MARK: Constants
@@ -32,9 +32,16 @@ final class ProfileViewController: UIViewController {
     private lazy var profileTableView: UITableView = {
         let tableView = UITableView()
         tableView.allowsSelection = false // отключение возможности выбора
-        //        tableView.register(WeatherTableViewCell.self, forCellReuseIdentifier: WeatherTableViewCell.identifier)
-        //        tableView.dataSource = self
-        //        tableView.delegate = self
+        tableView.register(
+            ProfileHeaderTableViewCell.self,
+            forCellReuseIdentifier: ProfileHeaderTableViewCell.identifier
+        )
+        tableView.register(
+            ProfileInfoTableViewCell.self,
+            forCellReuseIdentifier: ProfileInfoTableViewCell.identifier
+        )
+        tableView.dataSource = self
+        tableView.delegate = self
 
         return tableView
     }()
@@ -45,7 +52,8 @@ final class ProfileViewController: UIViewController {
 
     // MARK: Private Properties
 
-    private var sections: [TableSections] = [.profileInfo, .profileSettings]
+    private var tableSections: [TableSections] = [.profileHeader, .profileInfo]
+    private var profileInfoCellTypes: [ProfileInfoCellTypes] = [.bonuses, .terms, .logOut]
 
     // MARK: Initializers
 
@@ -79,4 +87,53 @@ final class ProfileViewController: UIViewController {
     }
 
     private func setupMainImageViewConstraint() {}
+}
+
+// MARK: - UITableViewDataSource
+
+/// ProfileViewController + UITableViewDataSource
+extension ProfileViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch tableSections[section] {
+        case .profileHeader:
+            return 1
+        case .profileInfo:
+            return profileInfoCellTypes.count
+        }
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch tableSections[indexPath.section] {
+        case .profileHeader:
+            guard let user = presenter?.user,
+                  let cell = tableView.dequeueReusableCell(
+                      withIdentifier: ProfileHeaderTableViewCell.identifier,
+                      for: indexPath
+                  ) as? ProfileHeaderTableViewCell
+            else { return UITableViewCell() }
+            cell.configureCell(
+                imageName: user.imageName,
+                userName: "\(user.surname) \(user.name)"
+            )
+            return cell
+        case .profileInfo:
+            guard let user = presenter?.user,
+                  let cell = tableView.dequeueReusableCell(
+                      withIdentifier: ProfileInfoTableViewCell.identifier,
+                      for: indexPath
+                  ) as? ProfileInfoTableViewCell
+            else { return UITableViewCell() }
+            cell.configureCell(cellType: profileInfoCellTypes[indexPath.row])
+            return cell
+        }
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+/// ProfileViewController + UITableViewDelegate
+extension ProfileViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("")
+    }
 }
