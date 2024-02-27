@@ -21,6 +21,8 @@
 		6751D04E2B8D2B0800396F91 /* AppBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751D04D2B8D2B0800396F91 /* AppBuilder.swift */; };
 		6751D0522B8D3DD000396F91 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751D0512B8D3DD000396F91 /* BaseCoordinator.swift */; };
 		6751D0542B8D3F4500396F91 /* ProfileSceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751D0532B8D3F4500396F91 /* ProfileSceneCoordinator.swift */; };
+		737A75572B8E44850019FB22 /* LoginViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A75562B8E44850019FB22 /* LoginViewPresenter.swift */; };
+		737A75592B8E46530019FB22 /* LoginSceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A75582B8E46530019FB22 /* LoginSceneCoordinator.swift */; };
 		73A326722B8E241000D92928 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A326712B8E241000D92928 /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +43,8 @@
 		6751D04D2B8D2B0800396F91 /* AppBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBuilder.swift; sourceTree = "<group>"; };
 		6751D0512B8D3DD000396F91 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		6751D0532B8D3F4500396F91 /* ProfileSceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSceneCoordinator.swift; sourceTree = "<group>"; };
+		737A75562B8E44850019FB22 /* LoginViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewPresenter.swift; sourceTree = "<group>"; };
+		737A75582B8E46530019FB22 /* LoginSceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSceneCoordinator.swift; sourceTree = "<group>"; };
 		73A326712B8E241000D92928 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				6751D0132B8CB9AB00396F91 /* LoginViewController.swift */,
+				737A75562B8E44850019FB22 /* LoginViewPresenter.swift */,
 			);
 			path = LoginScene;
 			sourceTree = "<group>";
@@ -170,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				6751D0532B8D3F4500396F91 /* ProfileSceneCoordinator.swift */,
+				737A75582B8E46530019FB22 /* LoginSceneCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -291,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6751D0142B8CB9AB00396F91 /* LoginViewController.swift in Sources */,
+				737A75592B8E46530019FB22 /* LoginSceneCoordinator.swift in Sources */,
 				6751D04A2B8D191D00396F91 /* ProfileViewPresenter.swift in Sources */,
 				6751D04E2B8D2B0800396F91 /* AppBuilder.swift in Sources */,
 				73A326722B8E241000D92928 /* UIColor+Extension.swift in Sources */,
@@ -299,6 +306,7 @@
 				6751D0362B8CCAFD00396F91 /* MainTabBarController.swift in Sources */,
 				6751D0482B8D18FD00396F91 /* UIFont+extension.swift in Sources */,
 				6751D03B2B8CF25C00396F91 /* AppCoordinator.swift in Sources */,
+				737A75572B8E44850019FB22 /* LoginViewPresenter.swift in Sources */,
 				6751D0522B8D3DD000396F91 /* BaseCoordinator.swift in Sources */,
 				6751D0322B8CCA0D00396F91 /* ProfileViewController.swift in Sources */,
 				6751D0122B8CB9AB00396F91 /* SceneDelegate.swift in Sources */,
