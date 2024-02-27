@@ -13,6 +13,7 @@
 		6751D0192B8CB9AD00396F91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6751D0182B8CB9AD00396F91 /* Assets.xcassets */; };
 		6751D01C2B8CB9AD00396F91 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6751D01A2B8CB9AD00396F91 /* LaunchScreen.storyboard */; };
 		6751D0322B8CCA0D00396F91 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751D0312B8CCA0D00396F91 /* ProfileViewController.swift */; };
+		731B09182B8DDA0D006D869E /* Verdana-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 731B09172B8DDA0D006D869E /* Verdana-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		6751D01B2B8CB9AD00396F91 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6751D01D2B8CB9AD00396F91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6751D0312B8CCA0D00396F91 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		731B09172B8DDA0D006D869E /* Verdana-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Verdana-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				6751D0132B8CB9AB00396F91 /* LoginViewController.swift */,
+				731B09162B8DD9C7006D869E /* font */,
 			);
 			path = LoginScene;
 			sourceTree = "<group>";
@@ -113,6 +116,14 @@
 				6751D0312B8CCA0D00396F91 /* ProfileViewController.swift */,
 			);
 			path = ProfileScene;
+			sourceTree = "<group>";
+		};
+		731B09162B8DD9C7006D869E /* font */ = {
+			isa = PBXGroup;
+			children = (
+				731B09172B8DDA0D006D869E /* Verdana-Bold.ttf */,
+			);
+			path = font;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6751D01C2B8CB9AD00396F91 /* LaunchScreen.storyboard in Resources */,
+				731B09182B8DDA0D006D869E /* Verdana-Bold.ttf in Resources */,
 				6751D0192B8CB9AD00396F91 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
