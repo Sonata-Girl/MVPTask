@@ -117,11 +117,10 @@ extension ProfileViewController: UITableViewDataSource {
             )
             return cell
         case .profileInfo:
-            guard let user = presenter?.user,
-                  let cell = tableView.dequeueReusableCell(
-                      withIdentifier: ProfileInfoTableViewCell.identifier,
-                      for: indexPath
-                  ) as? ProfileInfoTableViewCell
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: ProfileInfoTableViewCell.identifier,
+                for: indexPath
+            ) as? ProfileInfoTableViewCell
             else { return UITableViewCell() }
             cell.configureCell(cellType: profileInfoCellTypes[indexPath.row])
             return cell

@@ -12,7 +12,7 @@ protocol ProfileViewPresenterProtocol {
 }
 
 /// Презентер экрана профиля
-final class ProfileViewPresenter {
+final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     // MARK: Public Properties
 
     weak var coordinator: ProfileSceneCoordinator?

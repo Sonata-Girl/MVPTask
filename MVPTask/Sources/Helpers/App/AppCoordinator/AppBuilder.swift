@@ -16,6 +16,12 @@ final class AppBuilder {
         static let recipesTitle = "Recipes"
         static let favoritesTitle = "Favorites"
         static let profileTitle = "Profile"
+        static let tabBarRecipesUnselectImage = "tabBarRecipesUnselect"
+        static let tabBarRecipesSelectImage = "tabBarRecipesSelect"
+        static let tabBatFavoritesUnselectImage = "tabBatFavoritesUnselect"
+        static let tabBarFavoritesSelectImage = "tabBarFavoritesSelect"
+        static let tabBarProfileUnselectImage = "tabBarProfileUnselect"
+        static let tabBarProfileSelectImage = "tabBarProfileSelect"
     }
 
     func createRecipesModule() -> UIViewController {
@@ -23,8 +29,8 @@ final class AppBuilder {
 
         view.tabBarItem = UITabBarItem(
             title: Constants.recipesTitle,
-            image: .tabBarRecipesUnselect,
-            selectedImage: .tabBarRecipesSelect
+            image: UIImage(named: Constants.tabBarRecipesUnselectImage),
+            selectedImage: UIImage(named: Constants.tabBarRecipesSelectImage)
         )
         return view
     }
@@ -34,8 +40,8 @@ final class AppBuilder {
 
         view.tabBarItem = UITabBarItem(
             title: Constants.recipesTitle,
-            image: .tabBatFavoritesUnselect,
-            selectedImage: .tabBarFavoritesSelect
+            image: UIImage(named: Constants.tabBatFavoritesUnselectImage),
+            selectedImage: UIImage(named: Constants.tabBarFavoritesSelectImage)
         )
         return view
     }
@@ -46,8 +52,8 @@ final class AppBuilder {
         view.presenter = presenter
         view.tabBarItem = UITabBarItem(
             title: Constants.profileTitle,
-            image: .tabBarProfileUnselect,
-            selectedImage: .tabBarProfileSelect
+            image: UIImage(named: Constants.tabBarProfileUnselectImage),
+            selectedImage: UIImage(named: Constants.tabBarProfileSelectImage)
         )
         return view
     }
