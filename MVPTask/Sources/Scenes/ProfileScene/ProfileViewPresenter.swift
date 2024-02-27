@@ -7,13 +7,16 @@ import UIKit
 protocol ProfileViewProtocol {}
 
 /// Протокол презентера экрана профиля
-protocol ProfileViewPresenterProtocol {}
+protocol ProfileViewPresenterProtocol {
+    var user: User? { get }
+}
 
 /// Презентер экрана профиля
-final class ProfileViewPresenter {
+final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     // MARK: Public Properties
 
     weak var coordinator: ProfileSceneCoordinator?
+    private(set) var user: User?
 
     // MARK: Private Properties
 
@@ -23,5 +26,6 @@ final class ProfileViewPresenter {
 
     init(view: ProfileViewController?) {
         self.view = view
+        user = User(name: "Name", surname: "Surname", imageName: "userAvatar")
     }
 }
