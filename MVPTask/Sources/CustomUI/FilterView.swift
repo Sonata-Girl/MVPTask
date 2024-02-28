@@ -53,18 +53,6 @@ final class FilterView: UIControl {
             let button = FilterButton(title: title)
             button.addTarget(self, action: #selector(selectedButton), for: .touchUpInside)
             button.tag = item
-//            let button = UIButton(type: .system)
-//            button.setTitle(title, for: .normal)
-//            button.tag = item
-//            button.setTitleColor(.label, for: .normal)
-//            button.setTitleColor(.white, for: .selected)
-//            button.backgroundColor = .systemGray6
-//            button.layer.cornerRadius = 17
-//            button.addTarget(self, action: #selector(selectedButton), for: .touchUpInside)
-//            button.semanticContentAttribute = .forceRightToLeft
-//            var config = UIButton.Configuration.plain()
-//            config.baseBackgroundColor = .clear
-//            button.configuration = config
             buttons.append(button)
             addSubview(button)
         }
@@ -75,16 +63,15 @@ final class FilterView: UIControl {
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fillProportionally
+        stackView.translatesAutoresizingMaskIntoConstraints = false
     }
 
     private func setLowToHighStateFilterButton(button: UIButton) {
         button.setImage(UIImage(named: Constants.selectedLowFilterButtonImageName), for: .selected)
-//        button.tintColor = .white
     }
 
     private func setHighToLowStateFilterButton(button: UIButton) {
         button.setImage(UIImage(named: Constants.selectedHighFilterButtonImageName), for: .selected)
-//        button.tintColor = .white
     }
 
     @objc private func selectedButton(sender: UIButton) {

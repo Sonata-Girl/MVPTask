@@ -91,10 +91,11 @@ final class CategoryRecipeViewController: UIViewController {
 
     private func setupFilterButtonsViewConstraint() {
         NSLayoutConstraint.activate([
-            filterButtonsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            filterButtonsView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: filterButtonsView.trailingAnchor, constant: 10),
-            filterButtonsView.heightAnchor.constraint(equalToConstant: 56)
+            filterButtonsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            filterButtonsView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+//            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: filterButtonsView.trailingAnchor, constant: 10),
+            filterButtonsView.heightAnchor.constraint(equalToConstant: 56),
+            filterButtonsView.widthAnchor.constraint(equalToConstant: 230)
         ])
     }
 
