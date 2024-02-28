@@ -267,3 +267,8 @@ final class LoginViewController: UIViewController {
         loginButton.layer.cornerRadius = 12
     }
 }
+
+// MARK: - LoginViewProtocol
+
+/// LoginViewController + LoginViewProtocol
+extension LoginViewController: LoginViewProtocol {}

@@ -10,7 +10,7 @@ protocol LoginViewProtocol: AnyObject {}
 protocol LoginViewPresenterProtocol: AnyObject {}
 
 /// Презентер экрана логина
-final class LoginViewPresenter {
+final class LoginViewPresenter: LoginViewPresenterProtocol {
     // MARK: Public Properties
 
     weak var coordinator: LoginSceneCoordinator?

@@ -5,6 +5,8 @@ import UIKit
 
 /// Протокол билдера приложения
 protocol AppBuilderProtocol {
+    /// Создание модуля экрана авторизации
+    func createLoginModule() -> LoginViewController
     /// Создание модуля экрана рецептов (1 экран таббара)
     func createRecipesModule() -> UIViewController
     /// Создание модуля экрана избранных  (2 экран таббара)
@@ -15,7 +17,6 @@ protocol AppBuilderProtocol {
 
 /// Общий билдер приложения
 final class AppBuilder {
-
     // MARK: Constants
 
     enum Constants {
@@ -31,7 +32,15 @@ final class AppBuilder {
     }
 
     // MARK: Public Methods
-    
+
+    func createLoginModule() -> LoginViewController {
+        let view = LoginViewController()
+        let presenter = LoginViewPresenter(view: view)
+        view.presenter = presenter
+
+        return view
+    }
+
     func createRecipesModule() -> UIViewController {
         let view = UIViewController()
 

@@ -5,8 +5,8 @@ import UIKit
 
 /// Координатор экрана профиля в таббаре
 final class ProfileSceneCoordinator: BaseCoordinator {
-
     // MARK: Public Properties
+
     var navigationController: UINavigationController
     var goToLoginScreen: (() -> ())?
 

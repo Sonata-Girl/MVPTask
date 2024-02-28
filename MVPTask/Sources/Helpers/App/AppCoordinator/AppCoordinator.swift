@@ -12,7 +12,7 @@ final class AppCoordinator: BaseCoordinator {
         if "admin" == "admin" {
             goToMainTabBarController()
         } else {
-            // login controller
+            goToLoginController()
         }
     }
 
@@ -48,5 +48,14 @@ final class AppCoordinator: BaseCoordinator {
         setAsRoot​(​_​: tabBarViewController)
     }
 
-    func goToLoginController() {}
+    func goToLoginController() {
+        let loginViewController = appBuilder.createLoginModule()
+        let loginCoordinator = LoginSceneCoordinator(rootViewController: loginViewController)
+        loginCoordinator.goToProfileScreen = { [weak self] in
+            self?.remove(coordinator: loginCoordinator)
+            self?.goToMainTabBarController()
+        }
+        add(coordinator: loginCoordinator)
+        setAsRoot​(​_​: loginViewController)
+    }
 }
