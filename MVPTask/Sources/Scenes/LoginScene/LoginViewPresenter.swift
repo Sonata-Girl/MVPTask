@@ -13,7 +13,7 @@ protocol LoginViewPresenterProtocol: AnyObject {}
 final class LoginViewPresenter: LoginViewPresenterProtocol {
     // MARK: Public Properties
 
-    weak var coordinator: LoginSceneCoordinator?
+    private weak var coordinator: LoginSceneCoordinator?
 
     // MARK: Private Properties
 
@@ -21,7 +21,11 @@ final class LoginViewPresenter: LoginViewPresenterProtocol {
 
     // MARK: Initializers
 
-    init(view: LoginViewProtocol?) {
+    init(
+        view: LoginViewProtocol?,
+        coordinator: LoginSceneCoordinator
+    ) {
         self.view = view
+        self.coordinator = coordinator
     }
 }

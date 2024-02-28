@@ -206,9 +206,6 @@ final class LoginViewController: UIViewController {
                 red: 151 / 255, green: 162 / 255, blue: 176 / 255, alpha: 1
             )]
         )
-
-        emailAddressTextField.delegate = self
-        passwordTextField.delegate = self
     }
 
     private func addConstrainsButton() {
@@ -216,7 +213,6 @@ final class LoginViewController: UIViewController {
         loginButton.widthAnchor.constraint(equalToConstant: 350).isActive = true
         loginButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
         loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-//        loginButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 725).isActive = true
 
         bottomConstraint = loginButton.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
@@ -290,11 +286,6 @@ final class LoginViewController: UIViewController {
 
 /// LoginViewController + LoginViewProtocol
 extension LoginViewController: LoginViewProtocol {}
-
-// MARK: - UITextFieldDelegate
-
-/// LoginViewController + UITextFieldDelegate
-extension LoginViewController: UITextFieldDelegate {}
 
 // MARK: - Keyboard Notification
 

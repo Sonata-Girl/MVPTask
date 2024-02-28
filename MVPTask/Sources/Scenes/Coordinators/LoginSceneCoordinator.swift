@@ -7,18 +7,18 @@ import UIKit
 final class LoginSceneCoordinator: BaseCoordinator {
     // MARK: Public Properties
 
-    var navigationController: UINavigationController
-    var goToProfileScreen: (() -> ())?
-
-    init(rootViewController: UIViewController) {
-        navigationController = UINavigationController(
-            rootViewController: rootViewController
-        )
-    }
+    var navigationController: UINavigationController?
+    var finishFlowHandler: (() -> ())?
 
     // MARK: Public Methods
 
+    func setRootViewController(view: UIViewController) {
+        navigationController = UINavigationController(
+            rootViewController: view
+        )
+    }
+
     func tapProfile() {
-        goToProfileScreen?()
+        finishFlowHandler?()
     }
 }

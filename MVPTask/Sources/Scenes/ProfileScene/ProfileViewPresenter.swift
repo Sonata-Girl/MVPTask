@@ -11,8 +11,6 @@ protocol ProfileViewProtocol: AnyObject {
 
 /// Протокол презентера экрана профиля
 protocol ProfileViewPresenterProtocol: AnyObject {
-    /// Координатор модуля
-    var coordinator: ProfileSceneCoordinator? { get set }
     /// Пользователь
     var user: User? { get }
     /// Типы ячеек для информации пользователя
@@ -42,7 +40,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
 
     // MARK: Public Properties
 
-    weak var coordinator: ProfileSceneCoordinator?
+    private weak var coordinator: ProfileSceneCoordinator?
     private(set) var user: User?
     private(set) var profileInfoCellTypes: [ProfileInfoCellTypes] = [.bonuses, .terms, .logOut]
 
@@ -52,11 +50,15 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
 
     // MARK: Initializers
 
-    init(view: ProfileViewProtocol?) {
+    init(
+        view: ProfileViewProtocol?,
+        coordinator: ProfileSceneCoordinator
+    ) {
         self.view = view
+        self.coordinator = coordinator
         user = User(name: "Name", surname: "Surname", imageName: "userAvatar")
-    } 
-  
+    }
+
     // MARK: Public Methods
 
     func showChangeNameInputAlert() {

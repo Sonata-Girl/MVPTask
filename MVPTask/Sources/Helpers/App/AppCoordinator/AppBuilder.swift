@@ -33,15 +33,18 @@ final class AppBuilder {
 
     // MARK: Public Methods
 
-    func createLoginModule() -> LoginViewController {
+    func makeLoginModule(coordinator: LoginSceneCoordinator) -> LoginViewController {
         let view = LoginViewController()
-        let presenter = LoginViewPresenter(view: view)
+        let presenter = LoginViewPresenter(
+            view: view,
+            coordinator: coordinator
+        )
         view.presenter = presenter
 
         return view
     }
 
-    func createRecipesModule() -> UIViewController {
+    func makeRecipesModule() -> UIViewController {
         let view = UIViewController()
 
         view.tabBarItem = UITabBarItem(
@@ -52,7 +55,7 @@ final class AppBuilder {
         return view
     }
 
-    func createFavoritesModule() -> UIViewController {
+    func makeFavoritesModule() -> UIViewController {
         let view = UIViewController()
 
         view.tabBarItem = UITabBarItem(
@@ -63,9 +66,12 @@ final class AppBuilder {
         return view
     }
 
-    func createProfileModule() -> ProfileViewController {
+    func makeProfileModule(coordinator: ProfileSceneCoordinator) -> ProfileViewController {
         let view = ProfileViewController()
-        let presenter = ProfileViewPresenter(view: view)
+        let presenter = ProfileViewPresenter(
+            view: view,
+            coordinator: coordinator
+        )
         view.presenter = presenter
         view.tabBarItem = UITabBarItem(
             title: Constants.profileTitle,
@@ -75,9 +81,12 @@ final class AppBuilder {
         return view
     }
 
-    func createBonusesModule() -> BonusesViewController {
+    func makeBonusesModule(coordinator: ProfileSceneCoordinator) -> BonusesViewController {
         let view = BonusesViewController()
-        let presenter = BonusesViewPresenter(view: view)
+        let presenter = BonusesViewPresenter(
+            view: view,
+            coordinator: coordinator
+        )
         view.presenter = presenter
 
         return view

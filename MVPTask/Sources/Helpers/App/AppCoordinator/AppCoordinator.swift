@@ -5,7 +5,7 @@ import UIKit
 
 /// Главный координатор приложения
 final class AppCoordinator: BaseCoordinator {
-    private var tabBarViewController: MainTabBarController?
+    private var mainTabBarController: MainTabBarController?
     private var appBuilder = AppBuilder()
 
     // TODO: Будет дорабатываться
@@ -19,41 +19,43 @@ final class AppCoordinator: BaseCoordinator {
 
     // TODO: Будет дорабатываться
     func goToMainTabBarController() {
-        tabBarViewController = MainTabBarController()
-        guard let tabBarViewController else { return }
-        let recipeModuleView = appBuilder.createRecipesModule()
+        mainTabBarController = MainTabBarController()
+        guard let mainTabBarController else { return }
+        let recipeModuleView = appBuilder.makeRecipesModule()
         //        add(coordinator: tabBarCoordinator)
 
-        let favoritesModuleView = appBuilder.createFavoritesModule()
+        let favoritesModuleView = appBuilder.makeFavoritesModule()
         //        add(coordinator: tabBarCoordinator)
 
-        let profileModuleView = appBuilder.createProfileModule()
-        let profileCoordinator = ProfileSceneCoordinator(rootViewController: profileModuleView)
-        profileCoordinator.goToLoginScreen = { [weak self] in
+        let profileCoordinator = ProfileSceneCoordinator()
+        let profileModuleView = appBuilder.makeProfileModule(coordinator: profileCoordinator)
+        profileCoordinator.setRootViewController(view: profileModuleView)
+        profileCoordinator.finishFlowHandler = { [weak self] in
             self?.remove(coordinator: profileCoordinator)
-            self?.tabBarViewController = nil
+            self?.mainTabBarController = nil
             self?.goToLoginController()
         }
 
-        profileModuleView.presenter?.coordinator = profileCoordinator
         add(coordinator: profileCoordinator)
 
-        tabBarViewController.setViewControllers(
+        guard let navigationController = profileCoordinator.navigationController else { return }
+        mainTabBarController.setViewControllers(
             [
                 recipeModuleView,
                 favoritesModuleView,
-                profileCoordinator.navigationController
+                navigationController
             ],
             animated: true
         )
 
-        setAsRoot​(​_​: tabBarViewController)
+        setAsRoot​(​_​: mainTabBarController)
     }
 
     func goToLoginController() {
-        let loginViewController = appBuilder.createLoginModule()
-        let loginCoordinator = LoginSceneCoordinator(rootViewController: loginViewController)
-        loginCoordinator.goToProfileScreen = { [weak self] in
+        let loginCoordinator = LoginSceneCoordinator()
+        let loginViewController = appBuilder.makeLoginModule(coordinator: loginCoordinator)
+        loginCoordinator.setRootViewController(view: loginViewController)
+        loginCoordinator.finishFlowHandler = { [weak self] in
             self?.remove(coordinator: loginCoordinator)
             self?.goToMainTabBarController()
         }

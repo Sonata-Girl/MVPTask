@@ -12,9 +12,13 @@ protocol BonusesPresenterProtocol: AnyObject {}
 /// Презентер экрана отображения бонусов профиля
 final class BonusesViewPresenter: BonusesPresenterProtocol {
     private weak var view: BonusesViewProtocol?
-    weak var coordinator: ProfileSceneCoordinator?
+    private weak var coordinator: ProfileSceneCoordinator?
 
-    init(view: BonusesViewProtocol? = nil) {
+    init(
+        view: BonusesViewProtocol,
+        coordinator: ProfileSceneCoordinator
+    ) {
         self.view = view
+        self.coordinator = coordinator
     }
 }

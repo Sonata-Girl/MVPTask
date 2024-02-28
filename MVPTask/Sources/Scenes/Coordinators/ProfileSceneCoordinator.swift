@@ -7,20 +7,20 @@ import UIKit
 final class ProfileSceneCoordinator: BaseCoordinator {
     // MARK: Public Properties
 
-    var navigationController: UINavigationController
-    var goToLoginScreen: (() -> ())?
-
-    init(rootViewController: UIViewController) {
-        navigationController = UINavigationController(
-            rootViewController: rootViewController
-        )
-    }
+    var navigationController: UINavigationController?
+    var finishFlowHandler: (() -> ())?
 
     // MARK: Public Methods
 
+    func setRootViewController(view: UIViewController) {
+        navigationController = UINavigationController(
+            rootViewController: view
+        )
+    }
+
     func showBonusesScreen() {
-        guard let currentView = navigationController.viewControllers.last else { return }
-        let bonusesViewController = AppBuilder().createBonusesModule()
+        guard let currentView = navigationController?.viewControllers.last else { return }
+        let bonusesViewController = AppBuilder().makeBonusesModule(coordinator: self)
         bonusesViewController.modalPresentationStyle = .formSheet
         if let sheet = bonusesViewController.sheetPresentationController {
             sheet.detents = [.medium()]
@@ -30,6 +30,6 @@ final class ProfileSceneCoordinator: BaseCoordinator {
     }
 
     func logOut() {
-        goToLoginScreen?()
+        finishFlowHandler?()
     }
 }
