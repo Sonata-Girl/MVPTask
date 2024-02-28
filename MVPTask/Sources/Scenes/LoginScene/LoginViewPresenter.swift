@@ -4,24 +4,24 @@
 import UIKit
 
 /// Протокол вью экрана логина
-protocol LoginViewProtocol {}
+protocol LoginViewProtocol: AnyObject {}
 
 /// Протокол презентера экрана логина
-protocol LoginViewPresenterProtocol {}
+protocol LoginViewPresenterProtocol: AnyObject {}
 
 /// Презентер экрана логина
-final class LoginViewPresenter {
+final class LoginViewPresenter: LoginViewPresenterProtocol {
     // MARK: Public Properties
 
     weak var coordinator: LoginSceneCoordinator?
 
     // MARK: Private Properties
 
-    private weak var view: LoginViewController?
+    private weak var view: LoginViewProtocol?
 
     // MARK: Initializers
 
-    init(view: LoginViewController?) {
+    init(view: LoginViewProtocol?) {
         self.view = view
     }
 }

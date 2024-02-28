@@ -21,7 +21,7 @@ final class LoginViewController: UIViewController {
         static let crossButton = "cross"
     }
 
-    var presenter: LoginViewPresenter?
+    var presenter: LoginViewPresenterProtocol?
 
     // MARK: Private Property
 
@@ -40,6 +40,8 @@ final class LoginViewController: UIViewController {
     private let gredient = CAGradientLayer()
     private let crossButton = UIButton()
 
+    private var bottomConstraint: NSLayoutConstraint?
+
     // MARK: Life Cycle
 
     override func viewDidLoad() {
@@ -55,6 +57,12 @@ final class LoginViewController: UIViewController {
         setupButton()
         setupView()
         setupGradient()
+
+        registerForKeyboardNotifications()
+    }
+
+    override func touchesBegan(_ touchesSet: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 
     // MARK: Private Method
@@ -198,6 +206,9 @@ final class LoginViewController: UIViewController {
                 red: 151 / 255, green: 162 / 255, blue: 176 / 255, alpha: 1
             )]
         )
+
+        emailAddressTextField.delegate = self
+        passwordTextField.delegate = self
     }
 
     private func addConstrainsButton() {
@@ -205,7 +216,13 @@ final class LoginViewController: UIViewController {
         loginButton.widthAnchor.constraint(equalToConstant: 350).isActive = true
         loginButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
         loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        loginButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 725).isActive = true
+//        loginButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 725).isActive = true
+
+        bottomConstraint = loginButton.bottomAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            constant: -75
+        )
+        bottomConstraint?.isActive = true
 
         envelopeButton.translatesAutoresizingMaskIntoConstraints = false
         envelopeButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
@@ -266,5 +283,60 @@ final class LoginViewController: UIViewController {
         loginButton.tintColor = UIColor.white
         loginButton.backgroundColor = UIColor(red: 4 / 255, green: 38 / 255, blue: 40 / 255, alpha: 1)
         loginButton.layer.cornerRadius = 12
+    }
+}
+
+// MARK: - LoginViewProtocol
+
+/// LoginViewController + LoginViewProtocol
+extension LoginViewController: LoginViewProtocol {}
+
+// MARK: - UITextFieldDelegate
+
+/// LoginViewController + UITextFieldDelegate
+extension LoginViewController: UITextFieldDelegate {}
+
+// MARK: - Keyboard Notification
+
+/// LoginViewController
+extension LoginViewController {
+    private func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShowHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShowHide),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+    }
+
+    @objc private func keyboardWillShowHide(_ notification: NSNotification) {
+        guard
+            let userInfo = notification.userInfo,
+            let animationDuration = (
+                userInfo[UIResponder.keyboardAnimationDurationUserInfoKey]
+                    as? NSNumber
+            )?.doubleValue else { return }
+
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
+            as? NSValue else { return }
+
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            bottomConstraint?.constant = -75
+        } else {
+            bottomConstraint?.constant = -keyboardScreenEndFrame.height - 5
+        }
+
+        UIView.animate(withDuration: animationDuration) {
+            self.view.layoutIfNeeded()
+        }
     }
 }
