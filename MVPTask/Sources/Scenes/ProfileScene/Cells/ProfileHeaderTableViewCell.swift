@@ -17,13 +17,16 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
 
     // MARK: Visual Components
 
-    private let mainImageView: UIImageView = {
+    private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.clipsToBounds = false
+        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.layer.borderWidth = 1
         imageView.layer.cornerRadius = 80
+        imageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(changeUserAvatar))
+        imageView.addGestureRecognizer(tap)
         imageView.layer.borderColor = UIColor.appMint.cgColor
         return imageView
     }()
@@ -33,7 +36,6 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .setVerdanaBold(withSize: 25)
         label.textColor = .gray
-        label.contentMode = .center
         label.textAlignment = .center
         return label
     }()
@@ -42,7 +44,7 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setBackgroundImage(UIImage(named: Constants.editNameButtonImageName), for: .normal)
-        button.tintColor = .label
+        button.tintColor = .gray
         button.addTarget(self, action: #selector(showEditingNameAlert), for: .touchUpInside)
         return button
     }()
@@ -50,17 +52,20 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
     // MARK: Public Properties
 
     var nameChangeHandler: (() -> ())?
+    var avatarChangeHandler: (() -> ())?
 
     // MARK: Life Cycle
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupView()
         setupHierarchy()
         setupConstraints()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setupView()
         setupHierarchy()
         setupConstraints()
     }
@@ -78,15 +83,32 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
         nameLabel.text = userName
     }
 
+    func changeName(userName: String) {
+        nameLabel.text = userName
+    }
+
+    func changeAvatar(image: UIImage) {
+        mainImageView.image = image
+    }
+
     // MARK: Private Methods
 
+    private func setupView() {
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = .white
+        selectedBackgroundView = backgroundView
+    }
+
     private func setupHierarchy() {
-        contentView.addSubview(mainImageView)
-        contentView.addSubview(nameLabel)
+        [
+            mainImageView,
+            nameLabel,
+            editNameButton
+        ].forEach { contentView.addSubview($0) }
     }
 
     private func setupConstraints() {
-        contentView.heightAnchor.constraint(equalToConstant: 290).isActive = true
+        contentView.heightAnchor.constraint(equalToConstant: 280).isActive = true
 
         setupMainImageViewConstraint()
         setupNameLabelConstraint()
@@ -104,23 +126,28 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
 
     private func setupNameLabelConstraint() {
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 20),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 50),
-            nameLabel.heightAnchor.constraint(equalToConstant: 30)
+            nameLabel.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 10),
+            nameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            nameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 270)
         ])
     }
 
     private func setupEditNameButtonConstraint() {
         NSLayoutConstraint.activate([
-            editNameButton.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 20),
-            editNameButton.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 8),
+            editNameButton.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 15),
             editNameButton.heightAnchor.constraint(equalToConstant: 24),
             editNameButton.widthAnchor.constraint(equalToConstant: 24),
-            editNameButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 50)
+            editNameButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            editNameButton.trailingAnchor.constraint(greaterThanOrEqualTo: contentView.trailingAnchor, constant: -25)
         ])
     }
 
     @objc private func showEditingNameAlert() {
         nameChangeHandler?()
+    }
+
+    @objc private func changeUserAvatar() {
+        avatarChangeHandler?()
     }
 }

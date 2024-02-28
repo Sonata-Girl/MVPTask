@@ -3,13 +3,19 @@
 
 import UIKit
 
+/// Протокол билдера приложения
 protocol AppBuilderProtocol {
+    /// Создание модуля экрана рецептов (1 экран таббара)
     func createRecipesModule() -> UIViewController
+    /// Создание модуля экрана избранных  (2 экран таббара)
     func createFavoritesModule() -> UIViewController
+    /// Создание модуля экрана профиля  (3 экран таббара)
     func createProfileModule() -> ProfileViewController
 }
 
+/// Общий билдер приложения
 final class AppBuilder {
+
     // MARK: Constants
 
     enum Constants {
@@ -24,6 +30,8 @@ final class AppBuilder {
         static let tabBarProfileSelectImage = "tabBarProfileSelect"
     }
 
+    // MARK: Public Methods
+    
     func createRecipesModule() -> UIViewController {
         let view = UIViewController()
 
@@ -55,6 +63,14 @@ final class AppBuilder {
             image: UIImage(named: Constants.tabBarProfileUnselectImage),
             selectedImage: UIImage(named: Constants.tabBarProfileSelectImage)
         )
+        return view
+    }
+
+    func createBonusesModule() -> BonusesViewController {
+        let view = BonusesViewController()
+        let presenter = BonusesViewPresenter(view: view)
+        view.presenter = presenter
+
         return view
     }
 }

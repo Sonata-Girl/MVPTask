@@ -45,17 +45,15 @@ final class ProfileInfoTableViewCell: UITableViewCell {
         imageView.clipsToBounds = false
         imageView.contentMode = .center
         imageView.layer.cornerRadius = 10
-        imageView.layer.borderColor = UIColor.systemGray6.cgColor
+        imageView.backgroundColor = .systemGray6
         return imageView
     }()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .setVerdanaBold(withSize: 25)
+        label.font = .setVerdana(withSize: 17)
         label.textColor = .gray
-        label.contentMode = .center
-        label.textAlignment = .center
         return label
     }()
 
@@ -63,29 +61,28 @@ final class ProfileInfoTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: Constants.arrowImageName)
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(systemName: Constants.arrowImageName)
+        imageView.tintColor = .gray
         return imageView
     }()
-
-    // MARK: Public Properties
 
     // MARK: Private Properties
 
     private var cellType: ProfileInfoCellTypes?
 
-    // MARK: Initializers
-
     // MARK: Life Cycle
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupView()
         setupHierarchy()
         setupConstraints()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setupView()
         setupHierarchy()
         setupConstraints()
     }
@@ -107,6 +104,12 @@ final class ProfileInfoTableViewCell: UITableViewCell {
 
     // MARK: Private Methods
 
+    private func setupView() {
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = .white
+        selectedBackgroundView = backgroundView
+    }
+
     private func setupHierarchy() {
         [
             cellTypeImageView,
@@ -116,7 +119,7 @@ final class ProfileInfoTableViewCell: UITableViewCell {
     }
 
     private func setupConstraints() {
-        contentView.heightAnchor.constraint(equalToConstant: 78).isActive = true
+        contentView.heightAnchor.constraint(equalToConstant: 68).isActive = true
 
         setupCellTypeImageViewConstraint()
         setupTitleLabelConstraint()
@@ -137,20 +140,15 @@ final class ProfileInfoTableViewCell: UITableViewCell {
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             titleLabel.leadingAnchor.constraint(equalTo: cellTypeImageView.trailingAnchor, constant: 10),
             titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-//            titleLabel.widthAnchor.constraint(equalToConstant: 48)
         ])
     }
 
     private func setupArrowImageViewConstraint() {
         NSLayoutConstraint.activate([
-            arrowImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            arrowImageView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 10),
-            arrowImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25),
-            arrowImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            arrowImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            arrowImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             arrowImageView.widthAnchor.constraint(equalToConstant: 24),
             arrowImageView.heightAnchor.constraint(equalTo: arrowImageView.widthAnchor)
         ])
     }
-
-    @objc private func showEditingNameAlert() {}
 }
