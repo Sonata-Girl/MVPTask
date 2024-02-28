@@ -3,14 +3,19 @@
 
 import UIKit
 
-
+/// Протокол билдера приложения
 protocol AppBuilderProtocol {
+    /// Создание модуля экрана рецептов (1 экран таббара)
     func createRecipesModule() -> UIViewController
+    /// Создание модуля экрана избранных  (2 экран таббара)
     func createFavoritesModule() -> UIViewController
+    /// Создание модуля экрана профиля  (3 экран таббара)
     func createProfileModule() -> ProfileViewController
 }
 
+/// Общий билдер приложения
 final class AppBuilder {
+
     // MARK: Constants
 
     enum Constants {

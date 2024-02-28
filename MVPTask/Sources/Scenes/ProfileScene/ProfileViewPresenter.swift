@@ -49,6 +49,8 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
         user = User(name: "Name", surname: "Surname", imageName: "userAvatar")
     }
 
+    // MARK: Public Methods
+
     func showChangeNameInputAlert() {
         let viewController = view as? UIViewController
         viewController?.showInputAlert(
