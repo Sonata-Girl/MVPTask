@@ -63,6 +63,10 @@ final class BonusesViewController: UIViewController {
         return label
     }()
 
+    // MARK: Public Properties
+
+    var presenter: BonusesPresenterProtocol?
+
     // MARK: Life Cycle
 
     override func viewDidLoad() {
@@ -71,10 +75,6 @@ final class BonusesViewController: UIViewController {
         setupHierarchy()
         setupConstraints()
     }
-
-    // MARK: Public Properties
-
-    var presenter: BonusesPresenterProtocol?
 
     // MARK: Public Method
 

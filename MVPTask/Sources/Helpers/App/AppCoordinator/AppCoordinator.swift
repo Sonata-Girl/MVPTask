@@ -21,8 +21,10 @@ final class AppCoordinator: BaseCoordinator {
     func goToMainTabBarController() {
         mainTabBarController = MainTabBarController()
         guard let mainTabBarController else { return }
-        let recipeModuleView = appBuilder.makeRecipesModule()
-        //        add(coordinator: tabBarCoordinator)
+        let recipesCoordinator = RecipesSceneCoordinator()
+        let recipeModuleView = appBuilder.makeRecipesModule(coordinator: recipesCoordinator)
+        recipesCoordinator.setRootViewController(view: recipeModuleView)
+        add(coordinator: recipesCoordinator)
 
         let favoritesModuleView = appBuilder.makeFavoritesModule()
         //        add(coordinator: tabBarCoordinator)
