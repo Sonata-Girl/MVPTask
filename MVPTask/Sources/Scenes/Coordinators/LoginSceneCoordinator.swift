@@ -5,7 +5,6 @@ import UIKit
 
 /// Координатор экрана регистрации
 final class LoginSceneCoordinator: BaseCoordinator {
-    
     // MARK: Public Properties
 
     var navigationController: UINavigationController
@@ -18,7 +17,7 @@ final class LoginSceneCoordinator: BaseCoordinator {
     }
 
     // MARK: Public Methods
-    
+
     func tapProfile() {
         goToProfileScreen?()
     }
