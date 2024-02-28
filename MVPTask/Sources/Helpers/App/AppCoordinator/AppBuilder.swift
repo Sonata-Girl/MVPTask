@@ -6,17 +6,21 @@ import UIKit
 /// Протокол билдера приложения
 protocol AppBuilderProtocol {
     /// Создание модуля экрана авторизации
-    func createLoginModule() -> LoginViewController
+    func makeLoginModule(coordinator: LoginSceneCoordinator) -> LoginViewController
     /// Создание модуля экрана рецептов (1 экран таббара)
-    func createRecipesModule() -> UIViewController
+    func makeRecipesModule(coordinator: RecipesSceneCoordinator) -> RecipesViewController
+    /// Создание модуля экрана категории
+    func makeCategoryRecipeModule(coordinator: RecipesSceneCoordinator) -> CategoryRecipeViewController
     /// Создание модуля экрана избранных  (2 экран таббара)
-    func createFavoritesModule() -> UIViewController
+    func makeFavoritesModule() -> UIViewController
     /// Создание модуля экрана профиля  (3 экран таббара)
-    func createProfileModule() -> ProfileViewController
+    func makeProfileModule(coordinator: ProfileSceneCoordinator) -> ProfileViewController
+    /// Создание модуля экрана бонусов
+    func makeBonusesModule(coordinator: ProfileSceneCoordinator) -> BonusesViewController
 }
 
 /// Общий билдер приложения
-final class AppBuilder {
+final class AppBuilder: AppBuilderProtocol {
     // MARK: Constants
 
     enum Constants {
@@ -44,14 +48,28 @@ final class AppBuilder {
         return view
     }
 
-    func makeRecipesModule() -> UIViewController {
-        let view = UIViewController()
-
+    func makeRecipesModule(coordinator: RecipesSceneCoordinator) -> RecipesViewController {
+        let view = RecipesViewController()
+        let presenter = RecipesViewPresenter(
+            view: view,
+            coordinator: coordinator
+        )
+        view.presenter = presenter
         view.tabBarItem = UITabBarItem(
             title: Constants.recipesTitle,
             image: UIImage(named: Constants.tabBarRecipesUnselectImage),
             selectedImage: UIImage(named: Constants.tabBarRecipesSelectImage)
         )
+        return view
+    }
+
+    func makeCategoryRecipeModule(coordinator: RecipesSceneCoordinator) -> CategoryRecipeViewController {
+        let view = CategoryRecipeViewController()
+        let presenter = CategoryRecipeViewPresenter(
+            view: view,
+            coordinator: coordinator
+        )
+        view.presenter = presenter
         return view
     }
 
