@@ -3,6 +3,7 @@
 
 import UIKit
 
+
 protocol AppBuilderProtocol {
     func createRecipesModule() -> UIViewController
     func createFavoritesModule() -> UIViewController
@@ -24,6 +25,8 @@ final class AppBuilder {
         static let tabBarProfileSelectImage = "tabBarProfileSelect"
     }
 
+    // MARK: Public Methods
+    
     func createRecipesModule() -> UIViewController {
         let view = UIViewController()
 

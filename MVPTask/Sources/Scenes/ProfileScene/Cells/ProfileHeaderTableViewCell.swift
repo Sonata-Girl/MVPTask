@@ -128,7 +128,8 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 10),
             nameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            nameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 270)
         ])
     }
 
@@ -137,7 +138,8 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
             editNameButton.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 15),
             editNameButton.heightAnchor.constraint(equalToConstant: 24),
             editNameButton.widthAnchor.constraint(equalToConstant: 24),
-            editNameButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15)
+            editNameButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            editNameButton.trailingAnchor.constraint(greaterThanOrEqualTo: contentView.trailingAnchor, constant: -25)
         ])
     }
 
