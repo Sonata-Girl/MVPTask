@@ -9,4 +9,9 @@ extension UIColor {
     var appMint: UIColor? {
         UIColor(named: "appMint") ?? nil
     }
+
+    /// Быстрый доступ к загруженному цвету
+    var appLightMint: UIColor? {
+        UIColor(named: "appLightMint") ?? nil
+    }
 }

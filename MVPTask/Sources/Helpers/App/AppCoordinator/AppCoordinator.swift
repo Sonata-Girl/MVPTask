@@ -40,12 +40,13 @@ final class AppCoordinator: BaseCoordinator {
 
         add(coordinator: profileCoordinator)
 
-        guard let navigationController = profileCoordinator.navigationController else { return }
+        guard let profileNavigation = profileCoordinator.navigationController,
+              let recipeNavigation = recipesCoordinator.navigationController else { return }
         mainTabBarController.setViewControllers(
             [
-                recipeModuleView,
+                recipeNavigation,
                 favoritesModuleView,
-                navigationController
+                profileNavigation
             ],
             animated: true
         )

@@ -1,13 +1,15 @@
 // RecipesViewPresenter.swift
 // Copyright © RoadMap. All rights reserved.
 
-import UIKit
+import Foundation
 
 /// Протокол вью экрана общего списка рецептов
 protocol RecipesViewProtocol: AnyObject {}
 
 /// Протокол презентера экрана общего списка рецептов
-protocol RecipesViewPresenterProtocol: AnyObject {}
+protocol RecipesViewPresenterProtocol: AnyObject {
+    func goToCategoryScreen()
+}
 
 /// Презентер экрана общего списка рецептов
 final class RecipesViewPresenter: RecipesViewPresenterProtocol {
@@ -29,5 +31,9 @@ final class RecipesViewPresenter: RecipesViewPresenterProtocol {
     ) {
         self.view = view
         self.coordinator = coordinator
+    }
+
+    func goToCategoryScreen() {
+        coordinator?.showCategoryScreen()
     }
 }
