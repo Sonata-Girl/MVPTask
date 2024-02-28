@@ -13,7 +13,17 @@ final class RecipesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        ""
+
+        let button = UIButton()
+        view.addSubview(button)
+        button.frame = .init(x: 0, y: 0, width: 200, height: 200)
+        button.center = view.center
+        button.backgroundColor = .systemBlue
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    }
+
+    @objc private func buttonTapped() {
+        presenter?.goToCategoryScreen()
     }
 }
 
