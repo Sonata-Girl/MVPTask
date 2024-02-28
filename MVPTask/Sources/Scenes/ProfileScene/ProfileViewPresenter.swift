@@ -47,8 +47,8 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     init(view: ProfileViewProtocol?) {
         self.view = view
         user = User(name: "Name", surname: "Surname", imageName: "userAvatar")
-    }
-
+    } 
+  
     // MARK: Public Methods
 
     func showChangeNameInputAlert() {
