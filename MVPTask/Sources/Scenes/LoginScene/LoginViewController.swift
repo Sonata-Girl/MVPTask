@@ -74,6 +74,7 @@ final class LoginViewController: UIViewController {
         textFildLoginViewTwo.addSubview(eyeButton)
         view.addSubview(gradientView)
         view.addSubview(crossButton)
+        print("")
     }
 
     private func setupGradient() {

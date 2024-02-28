@@ -11,20 +11,17 @@ protocol ProfileViewPresenterProtocol {}
 
 /// Презентер экрана профиля
 final class ProfileViewPresenter: ProfileViewPresenterProtocol {
-    
-    
     // MARK: Public Properties
-    
+
     weak var coordinator: ProfileSceneCoordinator?
-    
+
     // MARK: Private Properties
-    
+
     private weak var view: ProfileViewController?
-    
+
     // MARK: Initializers
-    
+
     init(view: ProfileViewController?) {
         self.view = view
     }
 }
-
