@@ -8,14 +8,16 @@ final class AppCoordinator: BaseCoordinator {
     private var tabBarViewController: MainTabBarController?
     private var appBuilder = AppBuilder()
 
+    // TODO: Будет дорабатываться
     override func start() {
-        if "admin" == "admin" {
+        if true {
             goToMainTabBarController()
         } else {
             goToLoginController()
         }
     }
 
+    // TODO: Будет дорабатываться
     func goToMainTabBarController() {
         tabBarViewController = MainTabBarController()
         guard let tabBarViewController else { return }

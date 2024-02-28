@@ -5,17 +5,25 @@ import UIKit
 
 /// Протокол вью экрана профиля
 protocol ProfileViewProtocol: AnyObject {
+    /// Перезагрузка шапки профиля на экране
     func reloadHeaderProfile()
 }
 
 /// Протокол презентера экрана профиля
 protocol ProfileViewPresenterProtocol: AnyObject {
+    /// Координатор модуля
     var coordinator: ProfileSceneCoordinator? { get set }
+    /// Пользователь
     var user: User? { get }
+    /// Типы ячеек для информации пользователя
     var profileInfoCellTypes: [ProfileInfoCellTypes] { get }
+    ///  Показать алерт для изменения имени
     func showChangeNameInputAlert()
+    ///  Показать экран отображения бонусов
     func showBonusesScreen()
+    ///  Показать вопрос о выходе из профиля
     func showLogOutAlert()
+    ///  Показать алерт для соглашений и политики
     func showTermsAlert()
 }
 
