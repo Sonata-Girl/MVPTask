@@ -27,7 +27,7 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
         imageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(changeUserAvatar))
         imageView.addGestureRecognizer(tap)
-        imageView.layer.borderColor = UIColor.appMint.cgColor
+        imageView.layer.borderColor = UIColor().appMint?.cgColor
         return imageView
     }()
 
