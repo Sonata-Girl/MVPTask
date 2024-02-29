@@ -160,7 +160,7 @@ extension CategoryRecipeViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UITableViewDelegate
 
 /// CategoryRecipeViewController + UITableViewDelegate
 extension CategoryRecipeViewController: UITableViewDelegate {
@@ -178,6 +178,7 @@ extension CategoryRecipeViewController: UITableViewDelegate {
 
 /// CategoryRecipeViewController + FiltersTableHeaderViewDelegate
 extension CategoryRecipeViewController: SortButtonsTableHeaderViewDelegate {
+    // TODO: Будет доработка
     /// Произошло изменение состояния сортировки по пришедшему виду сортировки
     func sortButtonsView(with stateSortButton: SortButtonState, didChangeSortTo sortType: SortType) {
         print("sortButtonsView didChangeSortTo \(sortType)")

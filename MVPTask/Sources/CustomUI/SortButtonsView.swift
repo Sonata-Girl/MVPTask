@@ -1,4 +1,4 @@
-// FilterView.swift
+// SortButtonsView.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
