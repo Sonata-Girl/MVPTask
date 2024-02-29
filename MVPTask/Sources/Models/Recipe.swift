@@ -1,10 +1,5 @@
-//
-//  Recipe.swift
-//  MVPTask
-//
-//  Created by Sonata Girl on 29.02.2024.
-//
-//import Foundation
+// Recipe.swift
+// Copyright © RoadMap. All rights reserved.
 
 /// Рецепт
 struct Recipe {
@@ -19,7 +14,7 @@ struct Recipe {
     /// Вес в граммах
     var weightGram: Int
     /// Количество углеводов в граммах
-    var сarbohydratesGram: Double
+    var carbohydratesGram: Double
     /// Количество жиров в граммах
     var fatsGram: Double
     /// Количество протеинов в граммах

@@ -12,8 +12,6 @@ final class CategoryRecipeViewController: UIViewController {
     enum Constants {
         static let screenDefaultTitle = "Category"
         static let backButtonImage = "tabBarBackButton"
-        static let caloriesFilterTitle = "Calories"
-        static let timeFilterTitle = "Time"
         static let searchBarPlaceholder = "Search recipes"
     }
 
@@ -45,11 +43,19 @@ final class CategoryRecipeViewController: UIViewController {
         return searchBar
     }()
 
-    private lazy var filterButtonsView: FilterView = {
-        let view = FilterView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.dataSource = self
-        return view
+    private lazy var mainTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
+//        tableView.allowsSelection = false // отключение возможности выбора
+        tableView.register(
+            SortButtonsTableHeaderView.self,
+            forHeaderFooterViewReuseIdentifier: SortButtonsTableHeaderView.identifier
+        )
+        tableView.dataSource = self
+        tableView.delegate = self
+
+        return tableView
     }()
 
     // MARK: Public Properties
@@ -57,11 +63,6 @@ final class CategoryRecipeViewController: UIViewController {
     var presenter: CategoryRecipeViewPresenter?
 
     // MARK: Private Properties
-
-    private let filterButtonsSource = [
-        Constants.caloriesFilterTitle,
-        Constants.timeFilterTitle
-    ]
 
     // MARK: Initializers
 
@@ -89,13 +90,15 @@ final class CategoryRecipeViewController: UIViewController {
     }
 
     private func setupHierarchy() {
-        view.addSubview(searchBar)
-        view.addSubview(filterButtonsView)
+        [
+            mainTableView,
+            searchBar
+        ].forEach { view.addSubview($0) }
     }
 
     private func setupConstraints() {
+        setupMainTableViewConstraint()
         setupSearchBarConstraint()
-        setupFilterButtonsViewConstraint()
 //        setupEditNameButtonConstraint()
     }
 
@@ -117,18 +120,15 @@ final class CategoryRecipeViewController: UIViewController {
         ])
     }
 
-    private func setupFilterButtonsViewConstraint() {
+    private func setupMainTableViewConstraint() {
         NSLayoutConstraint.activate([
-            filterButtonsView.topAnchor.constraint(
-                equalTo: searchBar.bottomAnchor,
+            mainTableView.topAnchor.constraint(equalTo: searchBar.topAnchor),
+            mainTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            view.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: mainTableView.trailingAnchor,
                 constant: 10
             ),
-            filterButtonsView.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                constant: 20
-            ),
-            filterButtonsView.heightAnchor.constraint(equalToConstant: 56),
-            filterButtonsView.widthAnchor.constraint(equalToConstant: 230)
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainTableView.bottomAnchor),
         ])
     }
 
@@ -142,20 +142,44 @@ final class CategoryRecipeViewController: UIViewController {
 /// CategoryRecipeViewController + CategoryRecipeViewProtocol
 extension CategoryRecipeViewController: CategoryRecipeViewProtocol {}
 
-// MARK: - FilterViewDataSource
-
-/// CategoryRecipeViewController + FilterViewDataSource
-extension CategoryRecipeViewController: FilterViewDataSource {
-    func filterViewCount(_ filterView: FilterView) -> Int {
-        filterButtonsSource.count
-    }
-
-    func filterViewTitle(_ filterView: FilterView, indexPath: IndexPath) -> String {
-        filterButtonsSource[indexPath.row]
-    }
-}
-
 // MARK: - UISearchBarDelegate
 
 /// CategoryRecipeViewController + UISearchBarDelegate
 extension CategoryRecipeViewController: UISearchBarDelegate {}
+
+// MARK: - UITableViewDataSource
+
+/// CategoryRecipeViewController + UITableViewDataSource
+extension CategoryRecipeViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        UITableViewCell()
+    }
+}
+
+// MARK: - UITableViewDataSource
+
+/// CategoryRecipeViewController + UITableViewDelegate
+extension CategoryRecipeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard
+            let header = tableView.dequeueReusableHeaderFooterView(
+                withIdentifier: SortButtonsTableHeaderView.identifier
+            ) as? SortButtonsTableHeaderView else { return UITableViewHeaderFooterView() }
+        header.delegate = self
+        return header
+    }
+}
+
+// MARK: - FiltersTableHeaderViewDelegate
+
+/// CategoryRecipeViewController + FiltersTableHeaderViewDelegate
+extension CategoryRecipeViewController: SortButtonsTableHeaderViewDelegate {
+    /// Произошло изменение состояния сортировки по пришедшему виду сортировки
+    func sortButtonsView(with stateSortButton: SortButtonState, didChangeSortTo sortType: SortType) {
+        print("sortButtonsView didChangeSortTo \(sortType)")
+    }
+}

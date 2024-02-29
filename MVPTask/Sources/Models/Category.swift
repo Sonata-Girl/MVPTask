@@ -1,14 +1,10 @@
-//
-//  Category.swift
-//  MVPTask
-//
-//  Created by Sonata Girl on 29.02.2024.
-//
+// Category.swift
+// Copyright © RoadMap. All rights reserved.
 
 /// Категория рецептов
 struct Category {
     /// Наименование
     var name: String
-   /// Наименование картинки категории
+    /// Наименование картинки категории
     var imageName: String
 }
