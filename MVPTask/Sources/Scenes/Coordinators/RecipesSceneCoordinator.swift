@@ -24,6 +24,10 @@ final class RecipesSceneCoordinator: BaseCoordinator {
         navigationController?.pushViewController(categoryViewController, animated: true)
     }
 
+    func backToRecipeScreen() {
+        navigationController?.popViewController(animated: true)
+    }
+
     func logOut() {
         finishFlowHandler?()
     }
