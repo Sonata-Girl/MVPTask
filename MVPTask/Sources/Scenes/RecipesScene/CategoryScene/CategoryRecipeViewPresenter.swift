@@ -5,7 +5,9 @@
 protocol CategoryRecipeViewProtocol: AnyObject {}
 
 /// Протокол презентера экрана списка рецептов одной категории
-protocol CategoryRecipeViewPresenterProtocol: AnyObject {}
+protocol CategoryRecipeViewPresenterProtocol: AnyObject {
+    func backToRecipeScreen()
+}
 
 /// Презентер экрана списка рецептов одной категории
 final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
@@ -27,5 +29,9 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     ) {
         self.view = view
         self.coordinator = coordinator
+    }
+
+    func backToRecipeScreen() {
+        coordinator?.backToRecipeScreen()
     }
 }
