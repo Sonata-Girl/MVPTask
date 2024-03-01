@@ -1,7 +1,7 @@
 // BonusesViewPresenter.swift
 // Copyright © RoadMap. All rights reserved.
 
-import UIKit
+import Foundation
 
 /// Протокол вью экрана отображения бонусов профиля
 protocol BonusesViewProtocol: AnyObject {}
