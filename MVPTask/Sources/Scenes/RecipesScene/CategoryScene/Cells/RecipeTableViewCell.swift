@@ -11,6 +11,8 @@ final class RecipeTableViewCell: UITableViewCell {
         static let arrowImageName = "rightChevron"
         static let pizzaImageName = "pizzaIcon"
         static let timerImageName = "timerIcon"
+        static let minutesTitle = "min"
+        static let caloriesTitle = "kkal"
     }
 
     static var identifier: String {
@@ -18,6 +20,15 @@ final class RecipeTableViewCell: UITableViewCell {
     }
 
     // MARK: Visual Components
+
+    private let mainView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor().appLightMint
+        view.layer.cornerRadius = 20
+        view.layer.borderColor = UIColor().appMint?.cgColor
+        return view
+    }()
 
     private let recipeImageView: UIImageView = {
         let imageView = UIImageView()
@@ -30,13 +41,13 @@ final class RecipeTableViewCell: UITableViewCell {
     private lazy var recipeNameLabel: UILabel = {
         let label = makeLabel()
         label.font = .setVerdana(withSize: 14)
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         return label
     }()
 
     private lazy var timerImageView: UIImageView = {
         let imageView = makeImageView()
-        imageView.image = UIImage(systemName: Constants.timerImageName)
+        imageView.image = UIImage(named: Constants.timerImageName)
         return imageView
     }()
 
@@ -44,7 +55,7 @@ final class RecipeTableViewCell: UITableViewCell {
 
     private lazy var caloriesImageView: UIImageView = {
         let imageView = makeImageView()
-        imageView.image = UIImage(systemName: Constants.pizzaImageName)
+        imageView.image = UIImage(named: Constants.pizzaImageName)
         return imageView
     }()
 
@@ -57,6 +68,12 @@ final class RecipeTableViewCell: UITableViewCell {
     }()
 
     // MARK: Private Properties
+
+    override var isSelected: Bool {
+        didSet {
+            mainView.layer.borderWidth = isSelected ? 2 : 0
+        }
+    }
 
     private var cellType: ProfileInfoCellTypes?
 
@@ -78,21 +95,36 @@ final class RecipeTableViewCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        ""
-//        cellType = nil
-//        cellTypeImageView.image = nil
-//        titleLabel.text = nil
+        recipeImageView.image = nil
+        recipeNameLabel.text = nil
+        timerLabel.text = nil
+        caloriesLabel.text = nil
     }
 
     // MARK: Public methods
 
-    func configureCell(cellType: ProfileInfoCellTypes) {
-//        self.cellType = cellType
-//        cellTypeImageView.image = UIImage(named: cellType.imageName)
-//        titleLabel.text = cellType.rawValue
+    func selectCell() {
+        setupStateCell()
+    }
+
+    func configureCell(recipe: Recipe) {
+        recipeImageView.image = UIImage(named: recipe.imageName)
+        recipeNameLabel.text = recipe.name
+        timerLabel.text = "\(recipe.cookingTimeInMinutes) \(Constants.minutesTitle)"
+        caloriesLabel.text = "\(recipe.caloriesCount) \(Constants.caloriesTitle)"
     }
 
     // MARK: Private Methods
+
+    private func setupView() {
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = .white
+        selectedBackgroundView = backgroundView
+    }
+
+    private func setupStateCell() {
+        mainView.layer.borderWidth = isSelected ? 2 : 0
+    }
 
     private func makeImageView() -> UIImageView {
         let imageView = UIImageView()
@@ -111,18 +143,8 @@ final class RecipeTableViewCell: UITableViewCell {
         return label
     }
 
-    private func setupView() {
-        contentView.backgroundColor = UIColor().appLightMint
-        contentView.layer.cornerRadius = 10
-
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = contentView.backgroundColor
-        backgroundView.layer.borderWidth = 1
-        backgroundView.layer.borderColor = UIColor().appMint?.cgColor
-        selectedBackgroundView = backgroundView
-    }
-
     private func setupHierarchy() {
+        contentView.addSubview(mainView)
         [
             recipeImageView,
             recipeNameLabel,
@@ -131,12 +153,13 @@ final class RecipeTableViewCell: UITableViewCell {
             caloriesImageView,
             caloriesLabel,
             arrowButton
-        ].forEach { contentView.addSubview($0) }
+        ].forEach { mainView.addSubview($0) }
     }
 
     private func setupConstraints() {
-        contentView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        contentView.heightAnchor.constraint(equalToConstant: 114).isActive = true
 
+        setupMainViewConstraint()
         setupRecipeImageViewConstraint()
         setupRecipeNameLabelConstraint()
         setupTimerImageViewConstraint()
@@ -146,21 +169,29 @@ final class RecipeTableViewCell: UITableViewCell {
         setupArrowButtonConstraint()
     }
 
+    private func setupMainViewConstraint() {
+        NSLayoutConstraint.activate([
+            mainView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 7),
+            mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            mainView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            mainView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7),
+        ])
+    }
+
     private func setupRecipeImageViewConstraint() {
         NSLayoutConstraint.activate([
-            recipeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            recipeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: -10),
-            recipeImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            recipeImageView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 10),
+            recipeImageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 10),
+            recipeImageView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -10),
             recipeImageView.widthAnchor.constraint(equalToConstant: 80)
         ])
     }
 
     private func setupRecipeNameLabelConstraint() {
         NSLayoutConstraint.activate([
-            recipeNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            recipeNameLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 20),
             recipeNameLabel.leadingAnchor.constraint(equalTo: recipeImageView.trailingAnchor, constant: 20),
-            recipeNameLabel.widthAnchor.constraint(equalToConstant: 197),
-            recipeNameLabel.heightAnchor.constraint(equalToConstant: 32)
+            recipeNameLabel.heightAnchor.constraint(equalToConstant: 35)
         ])
     }
 
@@ -185,7 +216,7 @@ final class RecipeTableViewCell: UITableViewCell {
     private func setupCaloriesImageViewConstraint() {
         NSLayoutConstraint.activate([
             caloriesImageView.topAnchor.constraint(equalTo: recipeNameLabel.bottomAnchor, constant: 10),
-            caloriesImageView.leadingAnchor.constraint(equalTo: timerImageView.trailingAnchor, constant: 8),
+            caloriesImageView.leadingAnchor.constraint(equalTo: timerLabel.trailingAnchor, constant: 8),
             caloriesImageView.widthAnchor.constraint(equalToConstant: 15),
             caloriesImageView.heightAnchor.constraint(equalToConstant: 15)
         ])
@@ -202,8 +233,9 @@ final class RecipeTableViewCell: UITableViewCell {
 
     private func setupArrowButtonConstraint() {
         NSLayoutConstraint.activate([
-            arrowButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            arrowButton.trailingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            arrowButton.leadingAnchor.constraint(equalTo: recipeNameLabel.trailingAnchor),
+            arrowButton.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
+            arrowButton.trailingAnchor.constraint(equalTo: mainView.trailingAnchor),
             arrowButton.widthAnchor.constraint(equalToConstant: 40),
             arrowButton.heightAnchor.constraint(equalToConstant: 40)
         ])

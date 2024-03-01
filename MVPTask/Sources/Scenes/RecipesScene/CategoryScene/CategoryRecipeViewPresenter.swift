@@ -2,11 +2,14 @@
 // Copyright © RoadMap. All rights reserved.
 
 /// Протокол вью экрана списка рецептов одной категории
-protocol CategoryRecipeViewProtocol: AnyObject {}
+protocol CategoryRecipeViewProtocol: AnyObject {
+    func setTitle(title: String)
+}
 
 /// Протокол презентера экрана списка рецептов одной категории
 protocol CategoryRecipeViewPresenterProtocol: AnyObject {
     func backToRecipeScreen()
+    func getRecipes() -> [Recipe]
 }
 
 /// Презентер экрана списка рецептов одной категории
@@ -20,6 +23,9 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     // MARK: Private Properties
 
     private weak var view: CategoryRecipeViewProtocol?
+    private let storageSource = StorageService()
+    private var recipes: [Recipe]?
+    private var category: Category?
 
     // MARK: Initializers
 
@@ -29,9 +35,20 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     ) {
         self.view = view
         self.coordinator = coordinator
+        fillSources()
+        view?.setTitle(title: category?.name ?? "")
+    }
+
+    func getRecipes() -> [Recipe] {
+        recipes ?? []
     }
 
     func backToRecipeScreen() {
         coordinator?.backToRecipeScreen()
+    }
+
+    private func fillSources() {
+        recipes = storageSource.getRecipes()
+        category = recipes?.last?.category
     }
 }

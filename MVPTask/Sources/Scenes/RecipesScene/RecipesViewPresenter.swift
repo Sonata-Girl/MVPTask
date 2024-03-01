@@ -8,7 +8,7 @@ protocol RecipesViewProtocol: AnyObject {}
 
 /// Протокол презентера экрана общего списка рецептов
 protocol RecipesViewPresenterProtocol: AnyObject {
-    func goToCategoryScreen()
+    func goToCategoryScreen(index: Int)
 }
 
 /// Презентер экрана общего списка рецептов
@@ -22,7 +22,7 @@ final class RecipesViewPresenter: RecipesViewPresenterProtocol {
     // MARK: Private Properties
 
     private weak var view: RecipesViewProtocol?
-
+    private(set) var categories: [Category] = []
     // MARK: Initializers
 
     init(
@@ -33,7 +33,7 @@ final class RecipesViewPresenter: RecipesViewPresenterProtocol {
         self.coordinator = coordinator
     }
 
-    func goToCategoryScreen() {
-        coordinator?.showCategoryScreen()
+    func goToCategoryScreen(index: Int) {
+        coordinator?.showCategoryScreen(category: categories[index])
     }
 }

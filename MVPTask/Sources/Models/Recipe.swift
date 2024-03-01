@@ -6,7 +6,7 @@ struct Recipe {
     /// Наименование блюда
     var name: String
     /// Категория
-    var category: [Category]
+    var category: Category
     /// Время приготовления в минутах
     var cookingTimeInMinutes: Int
     /// Количество каллорий
@@ -19,4 +19,10 @@ struct Recipe {
     var fatsGram: Double
     /// Количество протеинов в граммах
     var proteinGram: Double
+    /// Энергетических каллорий
+    var enercKcal: Int
+    /// Картинка рецепта
+    var imageName: String
+    /// Описание детальное
+    var detailDescription: String = ""
 }
