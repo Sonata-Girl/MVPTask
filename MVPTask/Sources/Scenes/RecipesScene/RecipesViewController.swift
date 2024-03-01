@@ -23,7 +23,7 @@ final class RecipesViewController: UIViewController {
     }
 
     @objc private func buttonTapped() {
-        presenter?.goToCategoryScreen()
+        presenter?.goToCategoryScreen(index: 1)
     }
 }
 

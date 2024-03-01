@@ -3,7 +3,7 @@
 
 import UIKit
 
-/// Открытые камеры и галереи пользователя
+/// Открытие галереи пользователя
 final class ImagePicker: NSObject, UINavigationControllerDelegate {
     var imagePickerController: UIImagePickerController?
     var completionHandler: ((UIImage) -> ())?

@@ -18,7 +18,6 @@ final class RecipesSceneCoordinator: BaseCoordinator {
         )
     }
 
-    // TODO: - Доработать добавить модель
     func showCategoryScreen(category: Category) {
         let categoryViewController = AppBuilder().makeCategoryRecipeModule(coordinator: self)
         categoryViewController.setTitle(title: category.name)

@@ -140,7 +140,6 @@
 		6751D02C2B8CC98100396F91 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				6751D0772B8FBDAC00396F91 /* New Group */,
 				6751D0462B8D18E600396F91 /* Helpers */,
 				6751D05D2B8E49CA00396F91 /* Models */,
 				6751D0782B8FC55500396F91 /* CustomUI */,
@@ -281,13 +280,6 @@
 				6751D06F2B8FAFB600396F91 /* CategoryRecipeViewController.swift */,
 			);
 			path = CategoryScene;
-			sourceTree = "<group>";
-		};
-		6751D0772B8FBDAC00396F91 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		6751D0782B8FC55500396F91 /* CustomUI */ = {

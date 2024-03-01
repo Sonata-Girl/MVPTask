@@ -8,14 +8,15 @@ protocol CategoryRecipeViewProtocol: AnyObject {
 
 /// Протокол презентера экрана списка рецептов одной категории
 protocol CategoryRecipeViewPresenterProtocol: AnyObject {
+    /// Переход на экран рецептов по кнопке возврата
     func backToRecipeScreen()
+    /// Получение рецептов для таблицы
     func getRecipes() -> [Recipe]
 }
 
 /// Презентер экрана списка рецептов одной категории
 final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
-    // MARK: Constants
-
+  
     // MARK: Public Properties
 
     private weak var coordinator: RecipesSceneCoordinator?

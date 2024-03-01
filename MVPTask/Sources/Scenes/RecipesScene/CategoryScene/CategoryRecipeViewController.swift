@@ -63,10 +63,6 @@ final class CategoryRecipeViewController: UIViewController {
 
     var presenter: CategoryRecipeViewPresenterProtocol?
 
-    // MARK: Private Properties
-
-    // MARK: Initializers
-
     // MARK: Life Cycle
 
     override func viewDidLoad() {
@@ -80,7 +76,7 @@ final class CategoryRecipeViewController: UIViewController {
     // MARK: Public methods
 
     func setTitle(title: String) {
-        button.setTitle(title, for: .normal)
+        backButton.setTitle(title, for: .normal)
     }
 
     // MARK: Private Methods
