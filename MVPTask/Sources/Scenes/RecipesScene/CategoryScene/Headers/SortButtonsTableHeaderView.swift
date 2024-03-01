@@ -93,9 +93,9 @@ final class SortButtonsTableHeaderView: UITableViewHeaderFooterView {
     }
 }
 
-// MARK: - FilterViewDataSource
+// MARK: - SortButtonsViewDataSource
 
-/// FiltersTableHeaderView + FilterViewDataSource
+/// SortButtonsTableHeaderView + SortButtonsViewDataSource
 extension SortButtonsTableHeaderView: SortButtonsViewDataSource {
     func sortButtonsViewCount(_ sortButtonsView: SortButtonsView) -> Int {
         sortButtonsSource.count
@@ -106,9 +106,9 @@ extension SortButtonsTableHeaderView: SortButtonsViewDataSource {
     }
 }
 
-// MARK: - FilterViewDelegate
+// MARK: - SortButtonsViewDelegate
 
-/// FiltersTableHeaderView + FilterViewDelegate
+/// SortButtonsTableHeaderView + SortButtonsViewDelegate
 extension SortButtonsTableHeaderView: SortButtonsViewDelegate {
     func sortButtonsView(
         _ sortButtonsView: SortButtonsView,

@@ -8,6 +8,7 @@ protocol RecipesViewProtocol: AnyObject {}
 
 /// Протокол презентера экрана общего списка рецептов
 protocol RecipesViewPresenterProtocol: AnyObject {
+    /// Инициация перехода на экран категории
     func goToCategoryScreen(index: Int)
 }
 
