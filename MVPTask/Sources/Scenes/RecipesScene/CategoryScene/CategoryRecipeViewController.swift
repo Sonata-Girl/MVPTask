@@ -5,8 +5,6 @@ import UIKit
 
 /// Экран отображения  категории рецептов
 final class CategoryRecipeViewController: UIViewController {
-    // MARK: Types
-
     // MARK: Constants
 
     enum Constants {
@@ -47,10 +45,13 @@ final class CategoryRecipeViewController: UIViewController {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
-//        tableView.allowsSelection = false // отключение возможности выбора
         tableView.register(
             SortButtonsTableHeaderView.self,
             forHeaderFooterViewReuseIdentifier: SortButtonsTableHeaderView.identifier
+        )
+        tableView.register(
+            RecipeTableViewCell.self,
+            forCellReuseIdentifier: RecipeTableViewCell.identifier
         )
         tableView.dataSource = self
         tableView.delegate = self
@@ -60,7 +61,7 @@ final class CategoryRecipeViewController: UIViewController {
 
     // MARK: Public Properties
 
-    var presenter: CategoryRecipeViewPresenter?
+    var presenter: CategoryRecipeViewPresenterProtocol?
 
     // MARK: Private Properties
 
@@ -77,6 +78,10 @@ final class CategoryRecipeViewController: UIViewController {
     }
 
     // MARK: Public methods
+
+    func setTitle(title: String) {
+        button.setTitle(title, for: .normal)
+    }
 
     // MARK: Private Methods
 
@@ -99,7 +104,6 @@ final class CategoryRecipeViewController: UIViewController {
     private func setupConstraints() {
         setupMainTableViewConstraint()
         setupSearchBarConstraint()
-//        setupEditNameButtonConstraint()
     }
 
     private func setupSearchBarConstraint() {
@@ -122,12 +126,9 @@ final class CategoryRecipeViewController: UIViewController {
 
     private func setupMainTableViewConstraint() {
         NSLayoutConstraint.activate([
-            mainTableView.topAnchor.constraint(equalTo: searchBar.topAnchor),
+            mainTableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
             mainTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: mainTableView.trailingAnchor,
-                constant: 10
-            ),
+            mainTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainTableView.bottomAnchor),
         ])
     }
@@ -152,11 +153,18 @@ extension CategoryRecipeViewController: UISearchBarDelegate {}
 /// CategoryRecipeViewController + UITableViewDataSource
 extension CategoryRecipeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        guard let presenter else { return 0 }
+        return presenter.getRecipes().count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        guard let presenter,
+              let cell = tableView.dequeueReusableCell(
+                  withIdentifier: RecipeTableViewCell.identifier
+              ) as? RecipeTableViewCell
+        else { return UITableViewCell() }
+        cell.configureCell(recipe: presenter.getRecipes()[indexPath.row])
+        return cell
     }
 }
 
@@ -164,13 +172,24 @@ extension CategoryRecipeViewController: UITableViewDataSource {
 
 /// CategoryRecipeViewController + UITableViewDelegate
 extension CategoryRecipeViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard
             let header = tableView.dequeueReusableHeaderFooterView(
                 withIdentifier: SortButtonsTableHeaderView.identifier
-            ) as? SortButtonsTableHeaderView else { return UITableViewHeaderFooterView() }
+            ) as? SortButtonsTableHeaderView
+        else { return UITableViewHeaderFooterView() }
         header.delegate = self
         return header
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? RecipeTableViewCell else { return }
+        cell.selectCell()
+    }
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? RecipeTableViewCell else { return }
+        cell.selectCell()
     }
 }
 

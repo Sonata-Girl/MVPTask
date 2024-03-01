@@ -38,8 +38,9 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
         static let defaultButtonTermsAlert = "Ok"
     }
 
-    // MARK: Public Properties
+    // MARK: Private Methods
 
+    private let storageSource = StorageService()
     private weak var coordinator: ProfileSceneCoordinator?
     private(set) var user: User?
     private(set) var profileInfoCellTypes: [ProfileInfoCellTypes] = [.bonuses, .terms, .logOut]
@@ -56,7 +57,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     ) {
         self.view = view
         self.coordinator = coordinator
-        user = User(name: "Name", surname: "Surname", imageName: "userAvatar")
+        user = storageSource.getUser()
     }
 
     // MARK: Public Methods
