@@ -39,8 +39,12 @@ final class LoginViewController: UIViewController {
     private let gradientView = UIView()
     private let gredient = CAGradientLayer()
     private let crossButton = UIButton()
-
+    private var activityIndicator = UIActivityIndicatorView()
+    private let icncorenFormatLabel = UILabel()
+    private let icncorenPasswordLabel = UILabel()
+    private let errorView = ErorrAlertView()
     private var bottomConstraint: NSLayoutConstraint?
+    private var errorAlertBottomConstraint: NSLayoutConstraint?
 
     // MARK: Life Cycle
 
@@ -57,8 +61,9 @@ final class LoginViewController: UIViewController {
         setupButton()
         setupView()
         setupGradient()
-
         registerForKeyboardNotifications()
+        setupActivityIndicator()
+        setupKeyboardToolBar()
     }
 
     override func touchesBegan(_ touchesSet: Set<UITouch>, with event: UIEvent?) {
@@ -73,6 +78,7 @@ final class LoginViewController: UIViewController {
         gradientView.addSubview(emailAddressLabel)
         gradientView.addSubview(passwordLabel)
         textFildLoginView.addSubview(emailAddressTextField)
+        gradientView.addSubview(errorView)
         gradientView.addSubview(loginButton)
         gradientView.addSubview(textFildLoginView)
         textFildLoginView.addSubview(envelopeButton)
@@ -82,7 +88,18 @@ final class LoginViewController: UIViewController {
         textFildLoginViewTwo.addSubview(eyeButton)
         view.addSubview(gradientView)
         view.addSubview(crossButton)
-        print("")
+        view.addSubview(icncorenFormatLabel)
+        view.addSubview(icncorenPasswordLabel)
+    }
+
+    private func setupKeyboardToolBar() {
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Ok", style: .done, target: self, action: #selector(hideKeyboard))
+        toolBar.setItems([flexibleSpace, doneButton], animated: true)
+        passwordTextField.inputAccessoryView = toolBar
+        emailAddressTextField.inputAccessoryView = toolBar
     }
 
     private func setupGradient() {
@@ -109,6 +126,16 @@ final class LoginViewController: UIViewController {
         gradientView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         gradientView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         gradientView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+
+        errorView.translatesAutoresizingMaskIntoConstraints = false
+        errorView.heightAnchor.constraint(equalToConstant: 87).isActive = true
+        errorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        errorAlertBottomConstraint = errorView.bottomAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            constant: 115
+        )
+        errorAlertBottomConstraint?.isActive = true
+        errorView.widthAnchor.constraint(equalToConstant: 320).isActive = true
     }
 
     private func setupAddConstrainsView() {
@@ -162,9 +189,32 @@ final class LoginViewController: UIViewController {
         passwordLabel.font = .setVerdanaBold(withSize: 18)
         passwordLabel.textAlignment = .left
         passwordLabel.textColor = UIColor(red: 71 / 255, green: 92 / 255, blue: 102 / 255, alpha: 1)
+
+        icncorenFormatLabel.text = "Incorrect format"
+        icncorenFormatLabel.font = UIFont(name: Constanta.fontVerdana, size: 12)
+        icncorenFormatLabel.textAlignment = .left
+        icncorenFormatLabel.textColor = .red
+        icncorenFormatLabel.isHidden = true
+        icncorenFormatLabel.translatesAutoresizingMaskIntoConstraints = false
+        icncorenFormatLabel.widthAnchor.constraint(equalToConstant: 230).isActive = true
+        icncorenFormatLabel.heightAnchor.constraint(equalToConstant: 19).isActive = true
+        icncorenFormatLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        icncorenFormatLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 225).isActive = true
+
+        icncorenPasswordLabel.text = "You entered the wrong password"
+        icncorenPasswordLabel.isHidden = true
+        icncorenPasswordLabel.font = UIFont(name: Constanta.fontVerdana, size: 12)
+        icncorenPasswordLabel.textAlignment = .left
+        icncorenPasswordLabel.textColor = .red
+        icncorenPasswordLabel.translatesAutoresizingMaskIntoConstraints = false
+        icncorenPasswordLabel.widthAnchor.constraint(equalToConstant: 230).isActive = true
+        icncorenPasswordLabel.heightAnchor.constraint(equalToConstant: 19).isActive = true
+        icncorenPasswordLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        icncorenPasswordLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 338).isActive = true
     }
 
     private func addConstrainsTextField() {
+        emailAddressTextField.delegate = self
         emailAddressTextField.translatesAutoresizingMaskIntoConstraints = false
         emailAddressTextField.widthAnchor.constraint(equalToConstant: 255).isActive = true
         emailAddressTextField.heightAnchor.constraint(equalToConstant: 24).isActive = true
@@ -177,6 +227,8 @@ final class LoginViewController: UIViewController {
             constant: 14
         ).isActive = true
 
+        passwordTextField.delegate = self
+        passwordTextField.isSecureTextEntry = true
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         passwordTextField.widthAnchor.constraint(equalToConstant: 255).isActive = true
         passwordTextField.heightAnchor.constraint(equalToConstant: 24).isActive = true
@@ -213,13 +265,11 @@ final class LoginViewController: UIViewController {
         loginButton.widthAnchor.constraint(equalToConstant: 350).isActive = true
         loginButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
         loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-
         bottomConstraint = loginButton.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
             constant: -75
         )
         bottomConstraint?.isActive = true
-
         envelopeButton.translatesAutoresizingMaskIntoConstraints = false
         envelopeButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
         envelopeButton.heightAnchor.constraint(equalToConstant: 16).isActive = true
@@ -244,6 +294,7 @@ final class LoginViewController: UIViewController {
             constant: 14
         ).isActive = true
 
+        eyeButton.addTarget(self, action: #selector(hiddenTextTapped), for: .touchUpInside)
         eyeButton.translatesAutoresizingMaskIntoConstraints = false
         eyeButton.widthAnchor.constraint(equalToConstant: 22).isActive = true
         eyeButton.heightAnchor.constraint(equalToConstant: 19).isActive = true
@@ -267,6 +318,7 @@ final class LoginViewController: UIViewController {
             equalTo: textFildLoginView.topAnchor,
             constant: 15
         ).isActive = true
+        crossButton.addTarget(self, action: #selector(clearText), for: .touchUpInside)
     }
 
     private func setupButton() {
@@ -275,17 +327,94 @@ final class LoginViewController: UIViewController {
         eyeButton.setImage(UIImage(named: Constanta.eyeButton), for: .normal)
         crossButton.setImage(UIImage(named: Constanta.crossButton), for: .normal)
         loginButton.setTitle(Constanta.textLogin, for: .normal)
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         loginButton.titleLabel?.font = UIFont(name: Constanta.textLogin, size: 16)
         loginButton.tintColor = UIColor.white
         loginButton.backgroundColor = UIColor(red: 4 / 255, green: 38 / 255, blue: 40 / 255, alpha: 1)
         loginButton.layer.cornerRadius = 12
+    }
+
+    private func setupActivityIndicator() {
+        activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.color = UIColor.red
+        loginButton.addSubview(activityIndicator)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.centerXAnchor.constraint(equalTo: loginButton.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: loginButton.centerYAnchor).isActive = true
+    }
+
+    private func lockLoginButton() {
+        loginButton.setTitle("", for: .normal)
+        activityIndicator.startAnimating()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.loginButton.setTitle("Login", for: .normal)
+            self.activityIndicator.stopAnimating()
+        }
+    }
+
+    @objc private func loginButtonTapped() {
+        lockLoginButton()
+        presenter?.validatePassword(password: passwordTextField.text ?? "")
+        UIView.animate(withDuration: 1.5) {
+            self.errorAlertBottomConstraint?.constant = -110
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            UIView.animate(withDuration: 1.5) {
+                self.errorAlertBottomConstraint?.constant = 250
+            }
+        }
+    }
+
+    @objc private func hiddenTextTapped() {
+        passwordTextField.isSecureTextEntry.toggle()
+    }
+
+    @objc private func clearText() {
+        emailAddressTextField.text = ""
+    }
+
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
     }
 }
 
 // MARK: - LoginViewProtocol
 
 /// LoginViewController + LoginViewProtocol
-extension LoginViewController: LoginViewProtocol {}
+extension LoginViewController: LoginViewProtocol {
+    func changeEmailColor(valideStyle: ValideStyle) {
+        switch valideStyle {
+        case .valid:
+            icncorenFormatLabel.isHidden = true
+            emailAddressLabel.textColor = UIColor(red: 71 / 255, green: 92 / 255, blue: 102 / 255, alpha: 1)
+        case .notValide:
+            icncorenFormatLabel.isHidden = false
+            emailAddressLabel.textColor = .red
+        }
+    }
+
+    func changePasswordColor(valideStyle: ValideStyle) {
+        switch valideStyle {
+        case .valid:
+            icncorenPasswordLabel.isHidden = true
+            icncorenPasswordLabel.textColor = UIColor(red: 71 / 255, green: 92 / 255, blue: 102 / 255, alpha: 1)
+        case .notValide:
+            icncorenPasswordLabel.isHidden = false
+            icncorenPasswordLabel.textColor = .red
+        }
+    }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        presenter?.validateEmail(email: emailAddressTextField.text ?? "")
+        crossButton.isHidden = true
+    }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        crossButton.isHidden = false
+    }
+}
 
 // MARK: - Keyboard Notification
 
