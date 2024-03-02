@@ -16,7 +16,6 @@ protocol CategoryRecipeViewPresenterProtocol: AnyObject {
 
 /// Презентер экрана списка рецептов одной категории
 final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
-  
     // MARK: Public Properties
 
     private weak var coordinator: RecipesSceneCoordinator?

@@ -3,6 +3,8 @@
 
 import Foundation
 
+import UIKit
+
 /// Протокол вью экрана общего списка рецептов
 protocol RecipesViewProtocol: AnyObject {}
 
@@ -10,20 +12,20 @@ protocol RecipesViewProtocol: AnyObject {}
 protocol RecipesViewPresenterProtocol: AnyObject {
     /// Инициация перехода на экран категории
     func goToCategoryScreen(index: Int)
+    var categories: [Category] { get }
 }
 
 /// Презентер экрана общего списка рецептов
 final class RecipesViewPresenter: RecipesViewPresenterProtocol {
     // MARK: Constants
 
-    // MARK: Public Properties
-
-    private weak var coordinator: RecipesSceneCoordinator?
-
     // MARK: Private Properties
 
+    private weak var coordinator: RecipesSceneCoordinator?
+    private var storageService = StorageService()
     private weak var view: RecipesViewProtocol?
     private(set) var categories: [Category] = []
+
     // MARK: Initializers
 
     init(
@@ -32,9 +34,14 @@ final class RecipesViewPresenter: RecipesViewPresenterProtocol {
     ) {
         self.view = view
         self.coordinator = coordinator
+        filsSourse()
     }
 
     func goToCategoryScreen(index: Int) {
         coordinator?.showCategoryScreen(category: categories[index])
+    }
+
+    private func filsSourse() {
+        categories = storageService.getCategories()
     }
 }
