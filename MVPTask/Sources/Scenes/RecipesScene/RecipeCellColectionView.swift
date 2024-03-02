@@ -80,7 +80,7 @@ class RecipeCellColectionView: UICollectionViewCell {
         nameLabel.font = UIFont(name: "Verdana", size: 20)
     }
 
-    func configureCell(param: Data) {
+    func configureCell(param: Category) {
         nameImageView.image = UIImage(named: param.imageName)
         nameLabel.text = param.name
     }

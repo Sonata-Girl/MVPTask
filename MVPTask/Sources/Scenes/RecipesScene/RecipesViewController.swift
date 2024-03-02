@@ -7,8 +7,6 @@ import UIKit
 final class RecipesViewController: UIViewController {
     // MARK: Public Properties
 
-    let listCategory: [Data] = Category.category()
-
     var presenter: RecipesViewPresenter?
 
     // MARK: Private Properties
@@ -50,7 +48,6 @@ final class RecipesViewController: UIViewController {
             forCellWithReuseIdentifier: "RecipeCellColectionView"
         )
     }
-
 }
 
 // MARK: - RecipesViewProtocol
@@ -66,18 +63,19 @@ extension RecipesViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        9
+        presenter?.categories.count ?? 0
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "RecipeCellColectionView",
-            for: indexPath
-        ) as? RecipeCellColectionView else { return UICollectionViewCell() }
-        cell.configureCell(param: listCategory[indexPath.item])
+        guard let presenter,
+              let cell = collectionView.dequeueReusableCell(
+                  withReuseIdentifier: "RecipeCellColectionView",
+                  for: indexPath
+              ) as? RecipeCellColectionView else { return UICollectionViewCell() }
+        cell.configureCell(param: presenter.categories[indexPath.item])
         return cell
     }
 }
@@ -122,7 +120,6 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
         9
     }
 
-    // отступов секций
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -134,8 +131,7 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
 
 extension RecipesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       
+        guard let presenter else { return }
+        presenter.goToCategoryScreen(index: indexPath.item)
     }
-    
-    
 }
