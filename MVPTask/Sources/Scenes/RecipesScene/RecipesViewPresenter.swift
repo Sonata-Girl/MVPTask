@@ -3,17 +3,22 @@
 
 import Foundation
 
+import UIKit
+
 /// Протокол вью экрана общего списка рецептов
 protocol RecipesViewProtocol: AnyObject {}
 
 /// Протокол презентера экрана общего списка рецептов
 protocol RecipesViewPresenterProtocol: AnyObject {
+
     /// Инициация перехода на экран категории
     func goToCategoryScreen(index: Int)
 }
 
 /// Презентер экрана общего списка рецептов
 final class RecipesViewPresenter: RecipesViewPresenterProtocol {
+   
+    
     // MARK: Constants
 
     // MARK: Public Properties
@@ -33,7 +38,6 @@ final class RecipesViewPresenter: RecipesViewPresenterProtocol {
         self.view = view
         self.coordinator = coordinator
     }
-
     func goToCategoryScreen(index: Int) {
         coordinator?.showCategoryScreen(category: categories[index])
     }
