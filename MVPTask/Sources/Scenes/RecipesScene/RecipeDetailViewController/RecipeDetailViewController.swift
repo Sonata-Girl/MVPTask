@@ -7,6 +7,6 @@ import UIKit
 final class RecipeDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        ""
+        print("")
     }
 }

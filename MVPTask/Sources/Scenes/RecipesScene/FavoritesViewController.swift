@@ -1,4 +1,4 @@
-// FishViewController.swift
+// FavoritesViewController.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit

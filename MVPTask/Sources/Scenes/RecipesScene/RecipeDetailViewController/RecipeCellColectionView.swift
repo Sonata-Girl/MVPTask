@@ -7,12 +7,6 @@ import UIKit
 class RecipeCellColectionView: UICollectionViewCell {
     // MARK: Publick Property
 
-    // MARK: Constant
-
-    enum Constant {
-        static let nameImageView = "soup"
-    }
-
     let recipeCellColectionView = "RecipeCellColectionView"
 
     // MARK: Private Property
@@ -21,6 +15,8 @@ class RecipeCellColectionView: UICollectionViewCell {
     private let nameLabel = UILabel()
     private let screenView = UIView()
     private let translitionButton = UIButton()
+
+    // MARK: Life Cycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,6 +33,13 @@ class RecipeCellColectionView: UICollectionViewCell {
         setupView()
         setupLabel()
         setupContentView()
+    }
+
+    // MARK: Public Methode
+
+    func configureCell(param: Category) {
+        nameImageView.image = UIImage(named: param.imageName)
+        nameLabel.text = param.name
     }
 
     private func setupContentView() {
@@ -78,10 +81,5 @@ class RecipeCellColectionView: UICollectionViewCell {
         nameLabel.textColor = #colorLiteral(red: 0.9567841887, green: 0.9992051721, blue: 1, alpha: 1)
         nameLabel.textAlignment = .center
         nameLabel.font = UIFont(name: "Verdana", size: 20)
-    }
-
-    func configureCell(param: Category) {
-        nameImageView.image = UIImage(named: param.imageName)
-        nameLabel.text = param.name
     }
 }
