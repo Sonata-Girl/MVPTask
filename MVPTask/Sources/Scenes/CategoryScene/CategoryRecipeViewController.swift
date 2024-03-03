@@ -181,11 +181,16 @@ extension CategoryRecipeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? RecipeTableViewCell else { return }
         cell.selectCell()
+        presenter?.goToDetailRecipeScreen(index: indexPath.row)
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? RecipeTableViewCell else { return }
         cell.selectCell()
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        10
     }
 }
 

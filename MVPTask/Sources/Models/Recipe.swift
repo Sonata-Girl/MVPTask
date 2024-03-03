@@ -24,5 +24,5 @@ struct Recipe {
     /// Картинка рецепта
     var imageName: String
     /// Описание детальное
-    var detailDescription: String = ""
+    var detailDescription: String
 }

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "weightRecipeIcon.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
