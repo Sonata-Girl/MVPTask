@@ -4,7 +4,7 @@
 import UIKit
 
 /// Ячейка для отображения рецетов
-final class RecipeTableViewCell: UITableViewCell {
+class RecipeTableViewCell: UITableViewCell {
     // MARK: Constants
 
     private enum Constants {
@@ -20,6 +20,12 @@ final class RecipeTableViewCell: UITableViewCell {
     }
 
     // MARK: Visual Components
+
+    lazy var arrowButton: UIImageView = {
+        let imageView = makeImageView()
+        imageView.image = UIImage(named: Constants.arrowImageName)
+        return imageView
+    }()
 
     private let mainView: UIView = {
         let view = UIView()
@@ -61,12 +67,6 @@ final class RecipeTableViewCell: UITableViewCell {
 
     private lazy var caloriesLabel: UILabel = makeLabel()
 
-    private lazy var arrowButton: UIImageView = {
-        let imageView = makeImageView()
-        imageView.image = UIImage(named: Constants.arrowImageName)
-        return imageView
-    }()
-
     // MARK: Private Properties
 
     override var isSelected: Bool {
@@ -105,6 +105,11 @@ final class RecipeTableViewCell: UITableViewCell {
 
     func selectCell() {
         setupStateCell()
+    }
+
+    func setupUnselectState() {
+        isSelected.toggle()
+        mainView.layer.borderWidth = 0
     }
 
     func configureCell(recipe: Recipe) {

@@ -36,7 +36,17 @@ final class StorageService {
     private func fillTestSources() {
         // Заполнение Категорий
         let categoryFish = Category(name: "fish", imageName: "recipe7")
-        categories.append(categoryFish)
+        categories = [
+            .init(name: "Salad", imageName: "salad"),
+            .init(name: "Soup", imageName: "soup"),
+            .init(name: "Chicken", imageName: "chicken"),
+            .init(name: "Meat", imageName: "meat"),
+            categoryFish,
+            .init(name: "Side dish", imageName: "side dish"),
+            .init(name: "Drinks", imageName: "drinks"),
+            .init(name: "Pancake", imageName: "pancakes"),
+            .init(name: "Desserts", imageName: "desserts")
+        ]
 
         /// Recipe
         let recipe1 = Recipe(
@@ -49,7 +59,8 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe1"
+            imageName: "recipe1",
+            detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe1)
 
@@ -63,7 +74,8 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe2"
+            imageName: "recipe2",
+            detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe2)
 
@@ -77,7 +89,8 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe3"
+            imageName: "recipe3",
+            detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe3)
 
@@ -91,7 +104,8 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe4"
+            imageName: "recipe4",
+            detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe4)
 
@@ -105,7 +119,8 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe5"
+            imageName: "recipe5",
+            detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe5)
 
@@ -119,8 +134,44 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe6"
+            imageName: "recipe6",
+            detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe6)
+    }
+
+    private func getDescriptionForRecipe() -> String {
+        """
+        1/2 to 2 fish heads, depending on size, about 5 pounds total
+        2 tablespoons vegetable oil
+        1/4 cup red or green thai curry paste
+        3 tablespoons fish sauce or anchovy sauce
+        1 tablespoon sugar
+        1 can coconut milk, about 12 ounces
+        3 medium size asian eggplants, cut int 1 inch rounds
+        Handful of bird's eye chilies
+        1/2 cup thai basil leaves
+        Juice of 3 limes
+        1/2 to 2 fish heads, depending on size, about 5 pounds total
+        2 tablespoons vegetable oil
+        1/4 cup red or green thai curry paste
+        3 tablespoons fish sauce or anchovy sauce
+        1 tablespoon sugar
+        1 can coconut milk, about 12 ounces
+        3 medium size asian eggplants, cut int 1 inch rounds
+        Handful of bird's eye chilies
+        1/2 cup thai basil leaves
+        Juice of 3 limes
+        1/2 to 2 fish heads, depending on size, about 5 pounds total
+        2 tablespoons vegetable oil
+        1/4 cup red or green thai curry paste
+        3 tablespoons fish sauce or anchovy sauce
+        1 tablespoon sugar
+        1 can coconut milk, about 12 ounces
+        3 medium size asian eggplants, cut int 1 inch rounds
+        Handful of bird's eye chilies
+        1/2 cup thai basil leaves
+        Juice of 3 limes
+        """
     }
 }

@@ -12,11 +12,12 @@ protocol CategoryRecipeViewPresenterProtocol: AnyObject {
     func backToRecipeScreen()
     /// Получение рецептов для таблицы
     func getRecipes() -> [Recipe]
+    /// Переход на экран детализации рецепта
+    func goToDetailRecipeScreen(index: Int)
 }
 
 /// Презентер экрана списка рецептов одной категории
 final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
-  
     // MARK: Public Properties
 
     private weak var coordinator: RecipesSceneCoordinator?
@@ -45,7 +46,12 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     }
 
     func backToRecipeScreen() {
-        coordinator?.backToRecipeScreen()
+        coordinator?.backToPreviousScreen()
+    }
+
+    func goToDetailRecipeScreen(index: Int) {
+        guard let recipes else { return }
+        coordinator?.goToDetailRecipeScreen(recipe: recipes[index])
     }
 
     private func fillSources() {

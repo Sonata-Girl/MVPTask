@@ -11,8 +11,14 @@ protocol AppBuilderProtocol {
     func makeRecipesModule(coordinator: RecipesSceneCoordinator) -> RecipesViewController
     /// Создание модуля экрана категории
     func makeCategoryRecipeModule(coordinator: RecipesSceneCoordinator) -> CategoryRecipeViewController
+    /// Создание модуля экрана детализации рецепта
+    func makeDetailRecipeModule(
+        coordinator: RecipesSceneCoordinator,
+        recipe: Recipe
+    ) -> RecipeDetailViewController
     /// Создание модуля экрана избранных  (2 экран таббара)
-    func makeFavoritesModule() -> UIViewController
+    func makeFavoritesModule(coordinator: FavoritesSceneCoordinator) ->
+        FavoritesView
     /// Создание модуля экрана профиля  (3 экран таббара)
     func makeProfileModule(coordinator: ProfileSceneCoordinator) -> ProfileViewController
     /// Создание модуля экрана бонусов
@@ -73,11 +79,30 @@ final class AppBuilder: AppBuilderProtocol {
         return view
     }
 
-    func makeFavoritesModule() -> UIViewController {
-        let view = UIViewController()
+    func makeDetailRecipeModule(
+        coordinator: RecipesSceneCoordinator,
+        recipe: Recipe
+    ) -> RecipeDetailViewController {
+        let view = RecipeDetailViewController()
+        let presenter = RecipeDetailViewPresenter(
+            view: view,
+            coordinator: coordinator,
+            recipe: recipe
+        )
+        view.presenter = presenter
+        return view
+    }
+
+    func makeFavoritesModule(coordinator: FavoritesSceneCoordinator) -> FavoritesView {
+        let view = FavoritesView()
+        let presenter = FavoritesPresenter(
+            view: view,
+            coordinator: coordinator
+        )
+        view.presenter = presenter
 
         view.tabBarItem = UITabBarItem(
-            title: Constants.recipesTitle,
+            title: Constants.favoritesTitle,
             image: UIImage(named: Constants.tabBatFavoritesUnselectImage),
             selectedImage: UIImage(named: Constants.tabBarFavoritesSelectImage)
         )
