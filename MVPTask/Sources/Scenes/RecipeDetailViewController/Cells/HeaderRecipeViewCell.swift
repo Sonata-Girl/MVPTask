@@ -8,12 +8,13 @@ final class HeaderRecipeViewCell: UITableViewCell {
     // MARK: Constants
 
     private enum Constants {
-        static let grammText = "g"
+        static let gramText = "g"
         static let timeText = "min"
         static let weightImageName = "weightRecipeIcon"
         static let shareButtonImage = "paperplane"
         static let bookMarkImage = "bookmark"
-        static let timerImageName = "timer"
+        static let timeImageName = "timer"
+        static let timeTitle = "Cooking time"
     }
 
     static var identifier: String {
@@ -28,6 +29,7 @@ final class HeaderRecipeViewCell: UITableViewCell {
         label.font = .setVerdanaBold(withSize: 25)
         label.textColor = .black
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
 
@@ -36,7 +38,7 @@ final class HeaderRecipeViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 20
+        imageView.layer.cornerRadius = 24
         return imageView
     }()
 
@@ -62,7 +64,7 @@ final class HeaderRecipeViewCell: UITableViewCell {
     private let timeRecipeView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 25
+        view.layer.cornerRadius = 24
         view.backgroundColor = UIColor().appMint
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         return view
@@ -73,7 +75,8 @@ final class HeaderRecipeViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: Constants.timerImageName)
+        imageView.tintColor = .white
+        imageView.image = UIImage(systemName: Constants.timeImageName)
         return imageView
     }()
 
@@ -107,9 +110,11 @@ final class HeaderRecipeViewCell: UITableViewCell {
     // MARK: Public methods
 
     func configureCell(recipe: Recipe) {
+        recipeLabel.text = recipe.name
         mainImageView.image = UIImage(named: recipe.imageName)
-        weightCountLabel.text = "\(recipe.weightGram) \(Constants.grammText)"
+        weightCountLabel.text = "\(recipe.weightGram) \(Constants.gramText)"
         timeRecipeCountLabel.text = "\(recipe.cookingTimeInMinutes) \(Constants.timeText)"
+        timeRecipeTitleLabel.text = Constants.timeTitle
     }
 
     // MARK: Private Methods
@@ -144,7 +149,7 @@ final class HeaderRecipeViewCell: UITableViewCell {
     }
 
     private func setupConstraints() {
-        contentView.heightAnchor.constraint(equalToConstant: 246).isActive = true
+        contentView.heightAnchor.constraint(equalToConstant: 380).isActive = true
 
         setupRecipeLabelConstraint()
         setupMainImageViewConstraint()
@@ -159,19 +164,19 @@ final class HeaderRecipeViewCell: UITableViewCell {
 
     private func setupRecipeLabelConstraint() {
         NSLayoutConstraint.activate([
-            recipeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            recipeLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             recipeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             recipeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            recipeLabel.heightAnchor.constraint(equalToConstant: 16),
         ])
     }
 
     private func setupMainImageViewConstraint() {
         NSLayoutConstraint.activate([
-            mainImageView.topAnchor.constraint(equalTo: recipeLabel.bottomAnchor, constant: 15),
+            mainImageView.topAnchor.constraint(equalTo: recipeLabel.bottomAnchor, constant: 5),
             mainImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 45),
             mainImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -45),
-            mainImageView.heightAnchor.constraint(equalToConstant: 300)
+            mainImageView.heightAnchor.constraint(equalToConstant: 300),
+            mainImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 
@@ -195,7 +200,7 @@ final class HeaderRecipeViewCell: UITableViewCell {
 
     private func setupWeightCountLabelConstraint() {
         NSLayoutConstraint.activate([
-            weightCountLabel.topAnchor.constraint(equalTo: weightView.topAnchor, constant: 7),
+            weightCountLabel.topAnchor.constraint(equalTo: weightImageView.bottomAnchor, constant: 7),
             weightCountLabel.leadingAnchor.constraint(equalTo: weightView.leadingAnchor, constant: 4),
             weightCountLabel.trailingAnchor.constraint(equalTo: weightView.trailingAnchor, constant: -6),
             weightCountLabel.bottomAnchor.constraint(equalTo: weightView.bottomAnchor, constant: -7),
@@ -216,28 +221,25 @@ final class HeaderRecipeViewCell: UITableViewCell {
             timeImageView.topAnchor.constraint(equalTo: timeRecipeView.topAnchor, constant: 12),
             timeImageView.leadingAnchor.constraint(equalTo: timeRecipeView.leadingAnchor, constant: 8),
             timeImageView.bottomAnchor.constraint(equalTo: timeRecipeView.bottomAnchor, constant: -12),
-            timeImageView.heightAnchor.constraint(equalToConstant: 25),
             timeImageView.widthAnchor.constraint(equalToConstant: 25),
         ])
     }
 
     private func setupTimeRecipeTitleLabelConstraint() {
         NSLayoutConstraint.activate([
-            timeRecipeTitleLabel.topAnchor.constraint(equalTo: timeRecipeView.topAnchor, constant: 12),
-            timeRecipeTitleLabel.leadingAnchor.constraint(equalTo: timeImageView.leadingAnchor),
+            timeRecipeTitleLabel.topAnchor.constraint(equalTo: timeRecipeView.topAnchor, constant: 10),
+            timeRecipeTitleLabel.leadingAnchor.constraint(equalTo: timeImageView.trailingAnchor, constant: 5),
             timeRecipeTitleLabel.trailingAnchor.constraint(equalTo: timeRecipeView.trailingAnchor, constant: -8),
-//            timeRecipeTitleLabel.heightAnchor.constraint(equalToConstant: 25),
-            timeRecipeTitleLabel.widthAnchor.constraint(equalToConstant: 15),
+            timeRecipeTitleLabel.heightAnchor.constraint(equalToConstant: 15),
         ])
     }
 
     private func setupTimeRecipeCountLabelConstraint() {
         NSLayoutConstraint.activate([
-            timeRecipeCountLabel.topAnchor.constraint(equalTo: timeRecipeTitleLabel.topAnchor),
+            timeRecipeCountLabel.topAnchor.constraint(equalTo: timeRecipeTitleLabel.bottomAnchor),
             timeRecipeCountLabel.leadingAnchor.constraint(equalTo: timeRecipeTitleLabel.leadingAnchor),
             timeRecipeCountLabel.trailingAnchor.constraint(equalTo: timeRecipeView.trailingAnchor, constant: -8),
-            //            timeRecipeTitleLabel.heightAnchor.constraint(equalToConstant: 25),
-            timeRecipeCountLabel.bottomAnchor.constraint(equalTo: timeImageView.bottomAnchor)
+            timeRecipeCountLabel.bottomAnchor.constraint(equalTo: timeRecipeView.bottomAnchor)
         ])
     }
 
@@ -248,13 +250,5 @@ final class HeaderRecipeViewCell: UITableViewCell {
         label.textColor = color
         label.textAlignment = .center
         return label
-    }
-
-    @objc private func showEditingNameAlert() {
-//        nameChangeHandler?()
-    }
-
-    @objc private func changeUserAvatar() {
-//        avatarChangeHandler?()
     }
 }

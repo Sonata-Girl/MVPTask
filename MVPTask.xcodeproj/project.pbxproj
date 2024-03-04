@@ -325,6 +325,7 @@
 			isa = PBXGroup;
 			children = (
 				6751D08C2B93745A00396F91 /* Cells */,
+				6751D0942B9496E100396F91 /* RecipeDetailViewPresenter.swift */,
 				6751D08A2B9152C700396F91 /* RecipeDetailViewController.swift */,
 			);
 			path = RecipeDetailViewController;
@@ -336,7 +337,6 @@
 				6751D08D2B937CFC00396F91 /* HeaderRecipeViewCell.swift */,
 				6751D0902B93B9B700396F91 /* NutrientsRecipeViewCell.swift */,
 				6751D0922B94900A00396F91 /* RecipeDescriptionCell.swift */,
-				6751D0942B9496E100396F91 /* RecipeDetailViewPresenter.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";

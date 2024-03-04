@@ -46,7 +46,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     }
 
     func backToRecipeScreen() {
-        coordinator?.backToRecipeScreen()
+        coordinator?.backToPreviousScreen()
     }
 
     func goToDetailRecipeScreen(index: Int) {

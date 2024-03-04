@@ -31,9 +31,6 @@ final class RecipeDescriptionCell: UITableViewCell {
         return label
     }()
 
-    private lazy var heightConstraint =
-        contentView.heightAnchor.constraint(equalToConstant: 50)
-
     // MARK: Life Cycle
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -59,8 +56,6 @@ final class RecipeDescriptionCell: UITableViewCell {
 
     func configureCell(recipe: Recipe) {
         descriptionLabel.text = recipe.detailDescription
-        heightConstraint.constant = CGFloat(recipe.detailDescription.components(separatedBy: "\n").count * 10)
-        layoutIfNeeded()
     }
 
     // MARK: Private Methods
@@ -77,8 +72,6 @@ final class RecipeDescriptionCell: UITableViewCell {
     }
 
     private func setupConstraints() {
-        heightConstraint.isActive = true
-
         NSLayoutConstraint.activate([
             mainView.topAnchor.constraint(equalTo: contentView.topAnchor),
             mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

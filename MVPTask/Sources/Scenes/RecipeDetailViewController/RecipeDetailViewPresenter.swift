@@ -9,6 +9,7 @@ protocol RecipeDetailViewProtocol: AnyObject {}
 /// Протокол презентера экрана детализации рецепта
 protocol RecipeDetailPresenterProtocol: AnyObject {
     var recipe: Recipe? { get }
+    func backToCategoryScreen()
 }
 
 /// Презентер экрана детализации рецепта
@@ -28,5 +29,10 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
     ) {
         self.view = view
         self.coordinator = coordinator
+        self.recipe = recipe
+    }
+
+    func backToCategoryScreen() {
+        coordinator?.backToPreviousScreen()
     }
 }

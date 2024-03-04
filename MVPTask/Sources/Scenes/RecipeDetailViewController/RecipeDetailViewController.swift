@@ -15,6 +15,7 @@ final class RecipeDetailViewController: UIViewController {
         static let searchBarPlaceholder = "Search recipes"
         static let shareButtonImage = "paperplane"
         static let bookMarkImage = "bookmark"
+        static let titleInDevelopmentAlert = "Functionality in development"
     }
 
     /// Секции таблицы
@@ -33,11 +34,8 @@ final class RecipeDetailViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: Constants.backButtonImage), for: .normal)
-        button.setTitleColor(.label, for: .normal)
-        button.setTitle(Constants.screenDefaultTitle, for: .normal)
-        button.titleLabel?.font = UIFont.setVerdanaBold(withSize: 28)
         button.tintColor = .label
-//        button.addTarget(self, action: #selector(backToPreviousScreen), for: .touchUpInside)
+        button.addTarget(self, action: #selector(backToPreviousScreen), for: .touchUpInside)
         return button
     }()
 
@@ -46,7 +44,7 @@ final class RecipeDetailViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .label
         button.setImage(UIImage(systemName: Constants.shareButtonImage), for: .normal)
-        //        button.addTarget(nil, action: #selector(MainViewController.locationButtonTapped), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(shareRecipeDescription), for: .touchUpInside)
         return button
     }()
 
@@ -55,20 +53,19 @@ final class RecipeDetailViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .label
         button.setImage(UIImage(systemName: Constants.bookMarkImage), for: .normal)
-        //        button.addTarget(nil, action: #selector(MainViewController.locationButtonTapped), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(addFavoriteRecipe), for: .touchUpInside)
         return button
     }()
 
     private lazy var mainTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.allowsSelection = false // отключение возможности выбора
+        tableView.allowsSelection = false
+        tableView.separatorStyle = .none
         tableView.register(HeaderRecipeViewCell.self, forCellReuseIdentifier: HeaderRecipeViewCell.identifier)
         tableView.register(NutrientsRecipeViewCell.self, forCellReuseIdentifier: NutrientsRecipeViewCell.identifier)
         tableView.register(RecipeDescriptionCell.self, forCellReuseIdentifier: RecipeDescriptionCell.identifier)
         tableView.dataSource = self
-//        tableView.delegate = self
-
         return tableView
     }()
 
@@ -100,7 +97,7 @@ final class RecipeDetailViewController: UIViewController {
         let barShareButton = UIBarButtonItem(customView: shareButton)
         let barAddFavoriteButton = UIBarButtonItem(customView: addFavoriteButton)
 
-        navigationItem.rightBarButtonItems = [barShareButton, barAddFavoriteButton]
+        navigationItem.rightBarButtonItems = [barAddFavoriteButton, barShareButton]
     }
 
     private func setupHierarchy() {
@@ -116,11 +113,33 @@ final class RecipeDetailViewController: UIViewController {
             mainTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             mainTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             mainTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            mainTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            mainTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 
-    // MARK: - IBAction или @objc (private)
+    private func showAlertAboutFunctionality() {
+        showAlert(
+            title: Constants.titleInDevelopmentAlert,
+            hasCancel: false
+        )
+    }
+
+    @objc private func shareRecipeDescription() {
+        guard let recipe = presenter?.recipe else { return }
+        let shareController = UIActivityViewController(
+            activityItems: [recipe.detailDescription],
+            applicationActivities: nil
+        )
+        present(shareController, animated: true)
+    }
+
+    @objc private func addFavoriteRecipe() {
+        showAlertAboutFunctionality()
+    }
+
+    @objc private func backToPreviousScreen() {
+        presenter?.backToCategoryScreen()
+    }
 }
 
 // MARK: - UITableViewDataSource

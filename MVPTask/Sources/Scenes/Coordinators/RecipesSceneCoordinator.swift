@@ -29,7 +29,7 @@ final class RecipesSceneCoordinator: BaseCoordinator {
         navigationController?.pushViewController(detailRecipeViewController, animated: true)
     }
 
-    func backToRecipeScreen() {
+    func backToPreviousScreen() {
         navigationController?.popViewController(animated: true)
     }
 

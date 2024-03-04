@@ -10,6 +10,7 @@ final class NutrientsRecipeViewCell: UITableViewCell {
     private enum Constants {
         static let gramText = "g"
         static let enercCaloriesTitle = "Enerc kcal"
+        static let enercCaloriesText = " kcal"
         static let carbohydratesTitle = "Carbohydrates"
         static let fatsTitle = "Fats"
         static let proteinsTitle = "Proteins"
@@ -25,38 +26,38 @@ final class NutrientsRecipeViewCell: UITableViewCell {
     private lazy var enercCaloriesView = makeView()
 
     private lazy var enercCaloriesLabel = makeLabel(
-        color: .white,
+        textColor: .white,
         text: Constants.enercCaloriesTitle
     )
 
-    private lazy var enercCaloriesCountLabel = makeLabel(color: Constants.appMintColor)
+    private lazy var enercCaloriesCountLabel = makeLabel(textColor: Constants.appMintColor)
 
     private lazy var carbohydratesView = makeView()
 
     private lazy var carbohydratesLabel = makeLabel(
-        color: .white,
+        textColor: .white,
         text: Constants.carbohydratesTitle
     )
 
-    private lazy var carbohydratesCountLabel = makeLabel(color: Constants.appMintColor)
+    private lazy var carbohydratesCountLabel = makeLabel(textColor: Constants.appMintColor)
 
     private lazy var fatsView = makeView()
 
     private lazy var fatsLabel = makeLabel(
-        color: .white,
+        textColor: .white,
         text: Constants.fatsTitle
     )
 
-    private lazy var fatsCountLabel = makeLabel(color: Constants.appMintColor)
+    private lazy var fatsCountLabel = makeLabel(textColor: Constants.appMintColor)
 
     private lazy var proteinsView = makeView()
 
     private lazy var proteinsLabel = makeLabel(
-        color: .white,
+        textColor: .white,
         text: Constants.proteinsTitle
     )
 
-    private lazy var proteinsCountLabel = makeLabel(color: Constants.appMintColor)
+    private lazy var proteinsCountLabel = makeLabel(textColor: Constants.appMintColor)
 
     // MARK: Life Cycle
 
@@ -85,9 +86,9 @@ final class NutrientsRecipeViewCell: UITableViewCell {
     // MARK: Public methods
 
     func configureCell(recipe: Recipe) {
-        enercCaloriesCountLabel.text = "\(recipe.enercKcal) \(Constants.enercCaloriesTitle)"
+        enercCaloriesCountLabel.text = "\(recipe.enercKcal) \(Constants.enercCaloriesText)"
         carbohydratesCountLabel.text = "\(recipe.carbohydratesGram) \(Constants.gramText)"
-        fatsCountLabel.text = "\(recipe.fatsGram)\(Constants.gramText)"
+        fatsCountLabel.text = "\(recipe.fatsGram) \(Constants.gramText)"
         proteinsCountLabel.text = "\(recipe.proteinGram) \(Constants.gramText)"
     }
 
@@ -153,7 +154,7 @@ final class NutrientsRecipeViewCell: UITableViewCell {
         ])
 
         NSLayoutConstraint.activate([
-            enercCaloriesCountLabel.topAnchor.constraint(equalTo: enercCaloriesLabel.topAnchor),
+            enercCaloriesCountLabel.topAnchor.constraint(equalTo: enercCaloriesLabel.bottomAnchor),
             enercCaloriesCountLabel.leadingAnchor.constraint(equalTo: enercCaloriesView.leadingAnchor),
             enercCaloriesCountLabel.trailingAnchor.constraint(equalTo: enercCaloriesView.trailingAnchor),
             enercCaloriesCountLabel.bottomAnchor.constraint(equalTo: enercCaloriesView.bottomAnchor),
@@ -176,7 +177,7 @@ final class NutrientsRecipeViewCell: UITableViewCell {
         ])
 
         NSLayoutConstraint.activate([
-            carbohydratesCountLabel.topAnchor.constraint(equalTo: carbohydratesLabel.topAnchor),
+            carbohydratesCountLabel.topAnchor.constraint(equalTo: carbohydratesLabel.bottomAnchor),
             carbohydratesCountLabel.leadingAnchor.constraint(equalTo: carbohydratesView.leadingAnchor),
             carbohydratesCountLabel.trailingAnchor.constraint(equalTo: carbohydratesView.trailingAnchor),
             carbohydratesCountLabel.bottomAnchor.constraint(equalTo: carbohydratesView.bottomAnchor),
@@ -199,7 +200,7 @@ final class NutrientsRecipeViewCell: UITableViewCell {
         ])
 
         NSLayoutConstraint.activate([
-            fatsCountLabel.topAnchor.constraint(equalTo: fatsLabel.topAnchor),
+            fatsCountLabel.topAnchor.constraint(equalTo: fatsLabel.bottomAnchor),
             fatsCountLabel.leadingAnchor.constraint(equalTo: fatsView.leadingAnchor),
             fatsCountLabel.trailingAnchor.constraint(equalTo: fatsView.trailingAnchor),
             fatsCountLabel.bottomAnchor.constraint(equalTo: fatsView.bottomAnchor),
@@ -222,7 +223,7 @@ final class NutrientsRecipeViewCell: UITableViewCell {
         ])
 
         NSLayoutConstraint.activate([
-            proteinsCountLabel.topAnchor.constraint(equalTo: proteinsLabel.topAnchor),
+            proteinsCountLabel.topAnchor.constraint(equalTo: proteinsLabel.bottomAnchor),
             proteinsCountLabel.leadingAnchor.constraint(equalTo: proteinsView.leadingAnchor),
             proteinsCountLabel.trailingAnchor.constraint(equalTo: proteinsView.trailingAnchor),
             proteinsCountLabel.bottomAnchor.constraint(equalTo: proteinsView.bottomAnchor),
@@ -232,7 +233,7 @@ final class NutrientsRecipeViewCell: UITableViewCell {
     private func makeView() -> UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 25
+        view.layer.cornerRadius = 15
         view.backgroundColor = UIColor().appMint
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor().appMint?.cgColor
@@ -240,14 +241,21 @@ final class NutrientsRecipeViewCell: UITableViewCell {
         return view
     }
 
-    private func makeLabel(color: UIColor, text: String = "") -> UILabel {
+    private func makeLabel(textColor: UIColor, text: String = "") -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .setVerdana(withSize: 10)
-        label.textColor = color
+        label.textColor = textColor
         label.textAlignment = .center
         label.text = text
-        label.backgroundColor = color == .white ? UIColor().appMint : .white
+        if textColor == UIColor.white {
+            label.layer.borderColor = UIColor().appMint?.cgColor
+            label.backgroundColor = UIColor().appMint
+            label.layer.borderWidth = 1
+        } else {
+            label.backgroundColor = .white
+            label.layer.borderWidth = 0
+        }
         return label
     }
 }
