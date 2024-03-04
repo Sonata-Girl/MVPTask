@@ -11,6 +11,11 @@ protocol AppBuilderProtocol {
     func makeRecipesModule(coordinator: RecipesSceneCoordinator) -> RecipesViewController
     /// Создание модуля экрана категории
     func makeCategoryRecipeModule(coordinator: RecipesSceneCoordinator) -> CategoryRecipeViewController
+    /// Создание модуля экрана детализации рецепта
+    func makeDetailRecipeModule(
+        coordinator: RecipesSceneCoordinator,
+        recipe: Recipe
+    ) -> RecipeDetailViewController
     /// Создание модуля экрана избранных  (2 экран таббара)
     func makeFavoritesModule(coordinator: FavoritesSceneCoordinator) ->
         FavoritesView
@@ -69,6 +74,20 @@ final class AppBuilder: AppBuilderProtocol {
         let presenter = CategoryRecipeViewPresenter(
             view: view,
             coordinator: coordinator
+        )
+        view.presenter = presenter
+        return view
+    }
+
+    func makeDetailRecipeModule(
+        coordinator: RecipesSceneCoordinator,
+        recipe: Recipe
+    ) -> RecipeDetailViewController {
+        let view = RecipeDetailViewController()
+        let presenter = RecipeDetailViewPresenter(
+            view: view,
+            coordinator: coordinator,
+            recipe: recipe
         )
         view.presenter = presenter
         return view
