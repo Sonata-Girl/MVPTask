@@ -5,7 +5,6 @@ import UIKit
 
 /// Экран отображения детализации рецепта
 final class RecipeDetailViewController: UIViewController {
-    // MARK: Types
 
     // MARK: Constants
 
@@ -76,8 +75,6 @@ final class RecipeDetailViewController: UIViewController {
     // MARK: Private Properties
 
     private let tableSections: [TableSections] = [.header, .nutrients, .description]
-
-    // MARK: Initializers
 
     // MARK: Life Cycle
 

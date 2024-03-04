@@ -8,7 +8,9 @@ protocol RecipeDetailViewProtocol: AnyObject {}
 
 /// Протокол презентера экрана детализации рецепта
 protocol RecipeDetailPresenterProtocol: AnyObject {
+    /// Рецепт
     var recipe: Recipe? { get }
+    /// Возврат на экран категории
     func backToCategoryScreen()
 }
 

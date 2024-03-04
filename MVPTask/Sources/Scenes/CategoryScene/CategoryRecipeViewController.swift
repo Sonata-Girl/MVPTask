@@ -55,7 +55,6 @@ final class CategoryRecipeViewController: UIViewController {
         )
         tableView.dataSource = self
         tableView.delegate = self
-
         return tableView
     }()
 
