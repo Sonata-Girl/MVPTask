@@ -5,7 +5,6 @@ import UIKit
 
 /// Экран отображения детализации рецепта
 final class RecipeDetailViewController: UIViewController {
-
     // MARK: Constants
 
     enum Constants {

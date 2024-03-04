@@ -17,7 +17,8 @@ protocol AppBuilderProtocol {
         recipe: Recipe
     ) -> RecipeDetailViewController
     /// Создание модуля экрана избранных  (2 экран таббара)
-    func makeFavoritesModule() -> UIViewController
+    func makeFavoritesModule(coordinator: FavoritesSceneCoordinator) ->
+        FavoritesView
     /// Создание модуля экрана профиля  (3 экран таббара)
     func makeProfileModule(coordinator: ProfileSceneCoordinator) -> ProfileViewController
     /// Создание модуля экрана бонусов
@@ -92,11 +93,16 @@ final class AppBuilder: AppBuilderProtocol {
         return view
     }
 
-    func makeFavoritesModule() -> UIViewController {
-        let view = UIViewController()
+    func makeFavoritesModule(coordinator: FavoritesSceneCoordinator) -> FavoritesView {
+        let view = FavoritesView()
+        let presenter = FavoritesPresenter(
+            view: view,
+            coordinator: coordinator
+        )
+        view.presenter = presenter
 
         view.tabBarItem = UITabBarItem(
-            title: Constants.recipesTitle,
+            title: Constants.favoritesTitle,
             image: UIImage(named: Constants.tabBatFavoritesUnselectImage),
             selectedImage: UIImage(named: Constants.tabBarFavoritesSelectImage)
         )
