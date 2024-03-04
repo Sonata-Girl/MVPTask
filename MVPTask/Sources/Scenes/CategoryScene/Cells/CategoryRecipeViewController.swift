@@ -148,7 +148,11 @@ extension CategoryRecipeViewController: CategoryRecipeViewProtocol {
 /// CategoryRecipeViewController + UISearchBarDelegate
 extension CategoryRecipeViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        presenter?.search(active: searchText.count > 3, searchText: searchText)
+        if searchText.count > 3 {
+            presenter?.search(active: true, searchText: searchText)
+        } else {
+            presenter?.search(active: false, searchText: "")
+        }
     }
 }
 
@@ -205,7 +209,6 @@ extension CategoryRecipeViewController: UITableViewDelegate {
 
 /// CategoryRecipeViewController + FiltersTableHeaderViewDelegate
 extension CategoryRecipeViewController: SortButtonsTableHeaderViewDelegate {
-    // TODO: Будет доработка
     /// Произошло изменение состояния сортировки по пришедшему виду сортировки
     func sortButtonsView(with stateSortButton: SortButtonState, didChangeSortTo sortType: SortType) {
         presenter?.changeSort(sortType: sortType, stateSort: stateSortButton)

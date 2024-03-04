@@ -24,11 +24,12 @@ extension UIColor {
     }
 
     /// Получение цвета по rgb
-    class func rgba(_ red: CGFloat,
-                    _ green: CGFloat,
-                    _ blue: CGFloat,
-                    _ alpha: CGFloat) -> UIColor {
-
+    class func rgba(
+        _ red: CGFloat,
+        _ green: CGFloat,
+        _ blue: CGFloat,
+        _ alpha: CGFloat
+    ) -> UIColor {
         let key = "\(red)\(green)\(blue)\(alpha)"
         if let color = colorStoreMap[key] {
             return color

@@ -16,8 +16,8 @@ extension UIFont {
         if let font = fontStoreMap[key] {
             return font
         }
-        
-        guard let font =  UIFont(name: "Verdana-Bold", size: withSize) else { return nil }
+
+        guard let font = UIFont(name: "Verdana-Bold", size: withSize) else { return nil }
         fontStoreMap[key] = font
         return font
     }
@@ -31,7 +31,7 @@ extension UIFont {
             return font
         }
 
-        guard let font =  UIFont(name: "Verdana", size: withSize) else { return nil }
+        guard let font = UIFont(name: "Verdana", size: withSize) else { return nil }
         fontStoreMap[key] = font
         return font
     }
@@ -45,7 +45,7 @@ extension UIFont {
             return font
         }
 
-        guard let font =  UIFont(name: "Verdana-BoldItalic", size: withSize) else { return nil }
+        guard let font = UIFont(name: "Verdana-BoldItalic", size: withSize) else { return nil }
         fontStoreMap[key] = font
         return font
     }

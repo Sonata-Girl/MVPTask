@@ -63,9 +63,9 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
 
     func getRecipes() -> [Recipe] {
         if searchingActive {
-            presentedRecipes = presentedRecipes?.filter {
+            return presentedRecipes?.filter {
                 $0.name.lowercased().contains(searchText.lowercased())
-            }
+            } ?? []
         }
         return presentedRecipes ?? []
     }
@@ -87,7 +87,6 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     func search(active: Bool, searchText: String) {
         searchingActive = active
         self.searchText = searchText
-        presentedRecipes = getRecipes()
         view?.reloadTable()
     }
 
