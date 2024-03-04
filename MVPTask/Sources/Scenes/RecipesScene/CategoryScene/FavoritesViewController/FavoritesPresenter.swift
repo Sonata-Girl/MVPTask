@@ -43,6 +43,8 @@ final class FavoritesPresenter {
     }
 }
 
+// MARK: Extension + FavoritesPresenterProtocol
+
 extension FavoritesPresenter: FavoritesPresenterProtocol {
     func examinationEmptyElement() {
         guard let recipes = recipes else { return }
