@@ -55,7 +55,6 @@ final class CategoryRecipeViewController: UIViewController {
         )
         tableView.dataSource = self
         tableView.delegate = self
-
         return tableView
     }()
 
@@ -84,6 +83,7 @@ final class CategoryRecipeViewController: UIViewController {
     private func configureNavigationBar() {
         let barBackButton = UIBarButtonItem(customView: backButton)
         navigationItem.leftBarButtonItem = barBackButton
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
 
     private func configureView() {
@@ -181,6 +181,10 @@ extension CategoryRecipeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? RecipeTableViewCell else { return }
         cell.selectCell()
+        presenter?.goToDetailRecipeScreen(index: indexPath.row)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            cell.setupUnselectState()
+        }
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

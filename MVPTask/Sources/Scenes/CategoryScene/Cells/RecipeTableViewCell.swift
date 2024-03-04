@@ -107,6 +107,11 @@ final class RecipeTableViewCell: UITableViewCell {
         setupStateCell()
     }
 
+    func setupUnselectState() {
+        isSelected.toggle()
+        mainView.layer.borderWidth = 0
+    }
+
     func configureCell(recipe: Recipe) {
         recipeImageView.image = UIImage(named: recipe.imageName)
         recipeNameLabel.text = recipe.name

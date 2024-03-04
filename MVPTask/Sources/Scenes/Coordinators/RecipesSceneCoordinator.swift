@@ -24,7 +24,12 @@ final class RecipesSceneCoordinator: BaseCoordinator {
         navigationController?.pushViewController(categoryViewController, animated: true)
     }
 
-    func backToRecipeScreen() {
+    func goToDetailRecipeScreen(recipe: Recipe) {
+        let detailRecipeViewController = AppBuilder().makeDetailRecipeModule(coordinator: self, recipe: recipe)
+        navigationController?.pushViewController(detailRecipeViewController, animated: true)
+    }
+
+    func backToPreviousScreen() {
         navigationController?.popViewController(animated: true)
     }
 
