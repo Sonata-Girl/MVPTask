@@ -4,7 +4,7 @@
 import UIKit
 
 /// Описание источника данных для вью содержашей кнопки сортировки
-protocol SortButtonsViewDataSource {
+protocol SortButtonsViewDataSource: AnyObject {
     /// Количество кнопок сортировки
     func sortButtonsViewCount(_ sortButtonsView: SortButtonsView) -> Int
     /// Заголовок для кнопок по индексу

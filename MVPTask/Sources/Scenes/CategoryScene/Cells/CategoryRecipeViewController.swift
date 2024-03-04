@@ -137,12 +137,20 @@ final class CategoryRecipeViewController: UIViewController {
 // MARK: - CategoryRecipeViewProtocol
 
 /// CategoryRecipeViewController + CategoryRecipeViewProtocol
-extension CategoryRecipeViewController: CategoryRecipeViewProtocol {}
+extension CategoryRecipeViewController: CategoryRecipeViewProtocol {
+    func reloadTable() {
+        mainTableView.reloadData()
+    }
+}
 
 // MARK: - UISearchBarDelegate
 
 /// CategoryRecipeViewController + UISearchBarDelegate
-extension CategoryRecipeViewController: UISearchBarDelegate {}
+extension CategoryRecipeViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        presenter?.search(active: searchText.count > 3, searchText: searchText)
+    }
+}
 
 // MARK: - UITableViewDataSource
 
@@ -200,6 +208,6 @@ extension CategoryRecipeViewController: SortButtonsTableHeaderViewDelegate {
     // TODO: Будет доработка
     /// Произошло изменение состояния сортировки по пришедшему виду сортировки
     func sortButtonsView(with stateSortButton: SortButtonState, didChangeSortTo sortType: SortType) {
-        print("sortButtonsView didChangeSortTo \(sortType)")
+        presenter?.changeSort(sortType: sortType, stateSort: stateSortButton)
     }
 }
