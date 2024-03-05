@@ -42,7 +42,6 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         .calories,
         .time
     ]
-
     private var activatedSourcesStates: [SortButtonState] = [
         .notSelected,
         .notSelected
@@ -91,14 +90,22 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     }
 
     func changeSort(sortType: SortType, stateSort: SortButtonState) {
-        if activatedSources.contains(sortType) {
-            guard let index = activatedSources.firstIndex(of: sortType) else { return }
-            activatedSources.remove(at: index)
-            activatedSourcesStates.remove(at: index)
+        let firstSort = activatedSources.first
+        let resetSort = firstSort == sortType
+
+        if resetSort {
+            activatedSources.remove(at: 0)
+            activatedSourcesStates.remove(at: 0)
+
+            activatedSources.append(sortType)
+            activatedSourcesStates.append(stateSort)
         }
 
-        activatedSources.append(sortType)
-        activatedSourcesStates.append(stateSort)
+        guard let index = activatedSources.firstIndex(of: sortType) else { return }
+
+        if activatedSources.contains(sortType) {
+            activatedSourcesStates[index] = stateSort
+        }
 
         configureSort()
         view?.reloadTable()
@@ -146,7 +153,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
                 if lhs.caloriesCount == rhs.caloriesCount {
                     return lhs.cookingTimeInMinutes < rhs.cookingTimeInMinutes
                 }
-                return lhs.caloriesCount > rhs.caloriesCount
+                return lhs.caloriesCount < rhs.caloriesCount
 
             case ((.time, .notSelected), (.calories, .sortHighToLow)):
                 return lhs.caloriesCount > rhs.caloriesCount
@@ -160,7 +167,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
                 if lhs.cookingTimeInMinutes == rhs.cookingTimeInMinutes {
                     return lhs.caloriesCount > rhs.caloriesCount
                 }
-                return lhs.cookingTimeInMinutes < rhs.cookingTimeInMinutes
+                return lhs.cookingTimeInMinutes > rhs.cookingTimeInMinutes
             case ((.time, .sortHighToLow), (.calories, .sortLowToHigh)):
                 if lhs.cookingTimeInMinutes == rhs.cookingTimeInMinutes {
                     return lhs.caloriesCount < rhs.caloriesCount
@@ -179,7 +186,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
                 if lhs.cookingTimeInMinutes == rhs.cookingTimeInMinutes {
                     return lhs.caloriesCount < rhs.caloriesCount
                 }
-                return lhs.cookingTimeInMinutes > rhs.cookingTimeInMinutes
+                return lhs.cookingTimeInMinutes < rhs.cookingTimeInMinutes
 
             default: break
             }

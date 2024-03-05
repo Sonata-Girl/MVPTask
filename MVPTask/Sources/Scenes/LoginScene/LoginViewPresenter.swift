@@ -49,6 +49,7 @@ final class LoginViewPresenter: LoginViewPresenterProtocol {
     func validatePassword(password: String) {
         if password == textPassword {
             view?.changePasswordColor(valideStyle: .valid)
+            coordinator?.finishFlowHandler?()
         } else {
             view?.changePasswordColor(valideStyle: .notValide)
         }
