@@ -231,16 +231,14 @@ extension ProfileViewController {
         guard let tabBarController else { return }
         tabBatHeight = tabBarController.tabBar.frame.height
         view.backgroundColor = .clear
-        visualEffectView = UIVisualEffectView()
 
+        visualEffectView = UIVisualEffectView()
         guard let visualEffectView else { return }
         visualEffectView.frame = view.frame
         view.addSubview(visualEffectView)
         termsView = TermsView()
-        termsView?.setDescription(text: presenter?.termsDescription ?? "")
-
         guard let termsView else { return }
-
+        termsView.setDescription(text: presenter?.termsDescription ?? "")
         tabBarController.view.addSubview(termsView)
         termsView.frame = CGRect(
             x: 0,
@@ -255,7 +253,7 @@ extension ProfileViewController {
         termsView.setGesture(gestures: [tapGesture, panGesture])
     }
 
-    private func animateTransitionOfNeeded(state: TermsViewState, duration: TimeInterval) {
+    private func animateTransitionIfNeeded(state: TermsViewState, duration: TimeInterval) {
         if runningAnimations.isEmpty {
             let frameAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
                 switch state {
@@ -281,7 +279,7 @@ extension ProfileViewController {
             ) {
                 switch state {
                 case .expanded:
-                    self.termsView?.layer.cornerRadius = 20
+                    self.termsView?.layer.cornerRadius = 30
                 case .collapsed:
                     self.termsView?.layer.cornerRadius = 0
                 }
@@ -305,7 +303,7 @@ extension ProfileViewController {
 
     private func startInteractive(state: TermsViewState, duration: TimeInterval) {
         if runningAnimations.isEmpty {
-            animateTransitionOfNeeded(state: state, duration: duration)
+            animateTransitionIfNeeded(state: state, duration: duration)
         }
 
         for animator in runningAnimations {
@@ -349,7 +347,7 @@ extension ProfileViewController {
     @objc func handleTermsViewTap(recognizer: UITapGestureRecognizer) {
         switch recognizer.state {
         case .ended:
-            animateTransitionOfNeeded(state: nextStateTermsView, duration: 0.9)
+            animateTransitionIfNeeded(state: nextStateTermsView, duration: 0.9)
         default:
             break
         }
