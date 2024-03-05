@@ -55,6 +55,8 @@
 		7377CB892B94C78200FC2554 /* FavoritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7377CB882B94C78200FC2554 /* FavoritesCell.swift */; };
 		737A75572B8E44850019FB22 /* LoginViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A75562B8E44850019FB22 /* LoginViewPresenter.swift */; };
 		737A75592B8E46530019FB22 /* LoginSceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A75582B8E46530019FB22 /* LoginSceneCoordinator.swift */; };
+		7399872D2B972FB900E0EEF8 /* UIColor+Extension+Flyweight .swift in Sources */ = {isa = PBXBuildFile; fileRef = 7399872C2B972FB900E0EEF8 /* UIColor+Extension+Flyweight .swift */; };
+		7399872F2B97358B00E0EEF8 /* UIFont+Extension+Flyweight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7399872E2B97358B00E0EEF8 /* UIFont+Extension+Flyweight.swift */; };
 		73A326722B8E241000D92928 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A326712B8E241000D92928 /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -109,6 +111,8 @@
 		7377CB882B94C78200FC2554 /* FavoritesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCell.swift; sourceTree = "<group>"; };
 		737A75562B8E44850019FB22 /* LoginViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewPresenter.swift; sourceTree = "<group>"; };
 		737A75582B8E46530019FB22 /* LoginSceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSceneCoordinator.swift; sourceTree = "<group>"; };
+		7399872C2B972FB900E0EEF8 /* UIColor+Extension+Flyweight .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension+Flyweight .swift"; sourceTree = "<group>"; };
+		7399872E2B97358B00E0EEF8 /* UIFont+Extension+Flyweight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension+Flyweight.swift"; sourceTree = "<group>"; };
 		73A326712B8E241000D92928 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -237,6 +241,8 @@
 		6751D0462B8D18E600396F91 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				7399872C2B972FB900E0EEF8 /* UIColor+Extension+Flyweight .swift */,
+				7399872E2B97358B00E0EEF8 /* UIFont+Extension+Flyweight.swift */,
 				6751D0472B8D18FD00396F91 /* UIFont+extension.swift */,
 				6751D05B2B8E465600396F91 /* UIVIewController+Extension.swift */,
 				73A326712B8E241000D92928 /* UIColor+Extension.swift */,
@@ -523,6 +529,7 @@
 				6751D08B2B9152C700396F91 /* RecipeDetailViewController.swift in Sources */,
 				6751D07C2B8FF34900396F91 /* SortButton.swift in Sources */,
 				6751D0862B90B57400396F91 /* SortButtonsTableHeaderView.swift in Sources */,
+				7399872D2B972FB900E0EEF8 /* UIColor+Extension+Flyweight .swift in Sources */,
 				6751D08E2B937CFC00396F91 /* HeaderRecipeViewCell.swift in Sources */,
 				6751D0582B8E282400396F91 /* ProfileHeaderTableViewCell.swift in Sources */,
 				6751D0322B8CCA0D00396F91 /* ProfileViewController.swift in Sources */,
@@ -531,6 +538,7 @@
 				6751D0882B90E2AA00396F91 /* StorageService.swift in Sources */,
 				6751D0912B93B9B700396F91 /* NutrientsRecipeViewCell.swift in Sources */,
 				6751D0122B8CB9AB00396F91 /* SceneDelegate.swift in Sources */,
+				7399872F2B97358B00E0EEF8 /* UIFont+Extension+Flyweight.swift in Sources */,
 				6751D0642B8E974300396F91 /* BonusesViewPresenter.swift in Sources */,
 				6751D0812B909B3700396F91 /* Recipe.swift in Sources */,
 				6751D07A2B8FC58600396F91 /* SortButtonsView.swift in Sources */,

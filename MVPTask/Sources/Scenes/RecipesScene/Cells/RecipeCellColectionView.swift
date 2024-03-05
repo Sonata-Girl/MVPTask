@@ -80,6 +80,6 @@ class RecipeCellColectionView: UICollectionViewCell {
         nameLabel.centerYAnchor.constraint(equalTo: screenView.centerYAnchor).isActive = true
         nameLabel.textColor = #colorLiteral(red: 0.9567841887, green: 0.9992051721, blue: 1, alpha: 1)
         nameLabel.textAlignment = .center
-        nameLabel.font = UIFont(name: "Verdana", size: 20)
+        nameLabel.font = .addFont("Verdana", 20)
     }
 }

@@ -42,7 +42,7 @@ final class CategoryRecipeViewController: UIViewController {
     }()
 
     private lazy var mainTableView: UITableView = {
-        let tableView = UITableView()
+        var tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         tableView.register(
@@ -55,6 +55,7 @@ final class CategoryRecipeViewController: UIViewController {
         )
         tableView.dataSource = self
         tableView.delegate = self
+
         return tableView
     }()
 
