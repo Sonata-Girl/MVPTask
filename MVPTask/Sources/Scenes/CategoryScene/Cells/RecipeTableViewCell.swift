@@ -93,14 +93,6 @@ class RecipeTableViewCell: UITableViewCell {
         setupConstraints()
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        recipeImageView.image = nil
-        recipeNameLabel.text = nil
-        timerLabel.text = nil
-        caloriesLabel.text = nil
-    }
-
     // MARK: Public methods
 
     func selectCell() {
@@ -189,6 +181,7 @@ class RecipeTableViewCell: UITableViewCell {
             recipeImageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 10),
             recipeImageView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -10),
             recipeImageView.widthAnchor.constraint(equalToConstant: 80)
+
         ])
     }
 

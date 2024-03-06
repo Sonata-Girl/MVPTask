@@ -1,6 +1,8 @@
 // CategoryRecipeViewPresenter.swift
 // Copyright © RoadMap. All rights reserved.
 
+import UIKit
+
 /// Протокол вью экрана списка рецептов одной категории
 protocol CategoryRecipeViewProtocol: AnyObject {
     func setTitle(title: String)
@@ -22,12 +24,18 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
 
     private weak var coordinator: RecipesSceneCoordinator?
 
+    enum State {
+        case state
+        case noState
+    }
+
     // MARK: Private Properties
 
     private weak var view: CategoryRecipeViewProtocol?
     private let storageSource = StorageService()
     private var recipes: [Recipe]?
     private var category: Category?
+    private(set) var state: State = .noState
 
     // MARK: Initializers
 
