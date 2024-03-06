@@ -244,7 +244,7 @@ final class NutrientsRecipeViewCell: UITableViewCell {
     private func makeLabel(textColor: UIColor, text: String = "") -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .setVerdana(withSize: 10)
+        label.font = .addVerdana(withSize: 10)
         label.textColor = textColor
         label.textAlignment = .center
         label.text = text

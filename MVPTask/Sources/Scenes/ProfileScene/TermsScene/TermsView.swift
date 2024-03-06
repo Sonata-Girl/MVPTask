@@ -50,7 +50,7 @@ final class TermsView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = Constants.screenTitle
-        label.font = .setVerdanaBold(withSize: 20)
+        label.font = .addVerdanaBold(withSize: 20)
         label.textColor = .label
         return label
     }()
@@ -59,7 +59,7 @@ final class TermsView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = Constants.screenTitle
-        label.font = .setVerdana(withSize: 14)
+        label.font = .addVerdana(withSize: 14)
         label.textColor = .gray
         label.numberOfLines = 0
         return label

@@ -24,7 +24,7 @@ final class RecipeDescriptionCell: UITableViewCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .setVerdana(withSize: 14)
+        label.font = .addVerdana(withSize: 14)
         label.numberOfLines = 0
         label.textColor = .label
         label.layer.cornerRadius = 20

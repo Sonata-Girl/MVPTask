@@ -24,7 +24,7 @@ final class ProfileViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = Constants.screenTitle
-        label.font = .setVerdanaBold(withSize: 28)
+        label.font = .addVerdanaBold(withSize: 28)
         label.textColor = .label
         return label
     }()

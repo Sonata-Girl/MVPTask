@@ -52,7 +52,7 @@ final class ProfileInfoTableViewCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .setVerdana(withSize: 17)
+        label.font = .addVerdana(withSize: 17)
         label.textColor = .gray
         return label
     }()

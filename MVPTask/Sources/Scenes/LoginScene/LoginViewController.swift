@@ -176,17 +176,17 @@ final class LoginViewController: UIViewController {
 
     private func setupLabel() {
         loginLabel.text = Constanta.textLogin
-        loginLabel.font = .setVerdanaBold(withSize: 28)
+        loginLabel.font = .addVerdanaBold(withSize: 28)
         loginLabel.textAlignment = .left
         loginLabel.textColor = UIColor(red: 71 / 255, green: 92 / 255, blue: 102 / 255, alpha: 1)
 
         emailAddressLabel.text = Constanta.emailAdressText
-        emailAddressLabel.font = .setVerdanaBold(withSize: 18)
+        emailAddressLabel.font = .addVerdanaBold(withSize: 18)
         emailAddressLabel.textAlignment = .left
         emailAddressLabel.textColor = UIColor(red: 71 / 255, green: 92 / 255, blue: 102 / 255, alpha: 1)
 
         passwordLabel.text = Constanta.passwordText
-        passwordLabel.font = .setVerdanaBold(withSize: 18)
+        passwordLabel.font = .addVerdanaBold(withSize: 18)
         passwordLabel.textAlignment = .left
         passwordLabel.textColor = UIColor(red: 71 / 255, green: 92 / 255, blue: 102 / 255, alpha: 1)
 

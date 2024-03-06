@@ -20,7 +20,7 @@ final class CategoryRecipeViewController: UIViewController {
         button.setImage(UIImage(named: Constants.backButtonImage), for: .normal)
         button.setTitleColor(.label, for: .normal)
         button.setTitle(Constants.screenDefaultTitle, for: .normal)
-        button.titleLabel?.font = UIFont.setVerdanaBold(withSize: 28)
+        button.titleLabel?.font = UIFont.addVerdanaBold(withSize: 28)
         button.tintColor = .label
         button.addTarget(self, action: #selector(backToPreviousScreen), for: .touchUpInside)
         return button
@@ -42,7 +42,7 @@ final class CategoryRecipeViewController: UIViewController {
     }()
 
     private lazy var mainTableView: UITableView = {
-        let tableView = UITableView()
+        var tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         tableView.register(
@@ -53,8 +53,10 @@ final class CategoryRecipeViewController: UIViewController {
             RecipeTableViewCell.self,
             forCellReuseIdentifier: RecipeTableViewCell.identifier
         )
+        tableView.register(ShimmerCellView.self, forCellReuseIdentifier: "ShimmerCellView")
         tableView.dataSource = self
         tableView.delegate = self
+
         return tableView
     }()
 
@@ -163,18 +165,34 @@ extension CategoryRecipeViewController: UISearchBarDelegate {
 /// CategoryRecipeViewController + UITableViewDataSource
 extension CategoryRecipeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let presenter else { return 0 }
-        return presenter.getRecipes().count
+        switch presenter?.loadingState {
+        case .loadedData:
+            return presenter?.getRecipes().count ?? 0
+        case .noData:
+            return 10
+        case nil:
+            return 0
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let presenter,
-              let cell = tableView.dequeueReusableCell(
-                  withIdentifier: RecipeTableViewCell.identifier
-              ) as? RecipeTableViewCell
-        else { return UITableViewCell() }
-        cell.configureCell(recipe: presenter.getRecipes()[indexPath.row])
-        return cell
+        guard let presenter else { return UITableViewCell() }
+        switch presenter.loadingState {
+        case .loadedData:
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: RecipeTableViewCell.identifier
+            ) as? RecipeTableViewCell
+            else { return UITableViewCell() }
+            cell.configureCell(recipe: presenter.getRecipes()[indexPath.row])
+            return cell
+        case .noData:
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: ShimmerCellView.identifier
+            ) as? ShimmerCellView
+            else { return UITableViewCell() }
+            cell.startShimmers()
+            return cell
+        }
     }
 }
 
