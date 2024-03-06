@@ -88,8 +88,8 @@
 		6751D0672B8FA5CE00396F91 /* Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealias.swift; sourceTree = "<group>"; };
 		6751D06A2B8FAECD00396F91 /* RecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewController.swift; sourceTree = "<group>"; };
 		6751D06C2B8FAF1600396F91 /* RecipesSceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesSceneCoordinator.swift; sourceTree = "<group>"; };
-		6751D06F2B8FAFB600396F91 /* CategoryRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRecipeViewController.swift; sourceTree = "<group>"; };
-		6751D0712B8FB00700396F91 /* CategoryRecipeViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRecipeViewPresenter.swift; sourceTree = "<group>"; };
+		6751D06F2B8FAFB600396F91 /* CategoryRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CategoryRecipeViewController.swift; path = Cells/CategoryRecipeViewController.swift; sourceTree = "<group>"; };
+		6751D0712B8FB00700396F91 /* CategoryRecipeViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CategoryRecipeViewPresenter.swift; path = Cells/CategoryRecipeViewPresenter.swift; sourceTree = "<group>"; };
 		6751D0732B8FB0D500396F91 /* RecipesViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewPresenter.swift; sourceTree = "<group>"; };
 		6751D0792B8FC58600396F91 /* SortButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortButtonsView.swift; sourceTree = "<group>"; };
 		6751D07B2B8FF34900396F91 /* SortButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortButton.swift; sourceTree = "<group>"; };
@@ -309,6 +309,8 @@
 			children = (
 				6751D0842B90B52D00396F91 /* Headers */,
 				6751D07D2B909AB100396F91 /* Cells */,
+				6751D0712B8FB00700396F91 /* CategoryRecipeViewPresenter.swift */,
+				6751D06F2B8FAFB600396F91 /* CategoryRecipeViewController.swift */,
 			);
 			path = CategoryScene;
 			sourceTree = "<group>";
@@ -326,8 +328,6 @@
 			isa = PBXGroup;
 			children = (
 				6751D07E2B909AD600396F91 /* RecipeTableViewCell.swift */,
-				6751D0712B8FB00700396F91 /* CategoryRecipeViewPresenter.swift */,
-				6751D06F2B8FAFB600396F91 /* CategoryRecipeViewController.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";

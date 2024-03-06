@@ -101,6 +101,7 @@ extension RecipesViewController: UICollectionViewDataSource {
                 withReuseIdentifier: ShimmerRecipeViewCell.identifier,
                 for: indexPath
             ) as? ShimmerRecipeViewCell else { return UICollectionViewCell() }
+            cell.setupShimmers()
             return cell
         }
     }

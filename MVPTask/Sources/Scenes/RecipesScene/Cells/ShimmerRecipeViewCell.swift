@@ -4,11 +4,11 @@
 import UIKit
 
 /// Шаблон ожидания загрузки данных в ячейку рецепта
-final class ShimmerRecipeViewCell: UICollectionViewCell, ShimmerLoadable {
+final class ShimmerRecipeViewCell: UICollectionViewCell {
     // MARK: - Constants
 
     enum Constants {
-        static let gradientKey = "backgroundColor"
+        static let gradientKey = "transform.translation.x"
     }
 
     static var identifier: String {
@@ -23,17 +23,18 @@ final class ShimmerRecipeViewCell: UICollectionViewCell, ShimmerLoadable {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 20
         imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
-    private lazy var nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.backgroundColor = .systemGray6
         label.textAlignment = .center
         label.contentMode = .scaleAspectFit
         label.clipsToBounds = true
+        label.backgroundColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -49,30 +50,24 @@ final class ShimmerRecipeViewCell: UICollectionViewCell, ShimmerLoadable {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
         setupImageView()
         setupLabel()
         setupContentView()
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-//        setupShimmers()
-        ""
+    // MARK: Public Methods
+
+    func setupShimmers() {
+        layoutIfNeeded()
+        animations()
     }
 
-    override func layoutSublayers(of layer: CALayer) {
-        super.layoutSublayers(of: self.layer)
-        animations()
-//        setupShimmers()
-    }
+    // MARK: Private Methods
 
     private func setupContentView() {
         contentView.layer.cornerRadius = 24
         contentView.layer.masksToBounds = true
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowRadius = 10
-        layer.shadowOpacity = 0.5
     }
 
     private func setupImageView() {
@@ -85,59 +80,48 @@ final class ShimmerRecipeViewCell: UICollectionViewCell, ShimmerLoadable {
 
     private func setupLabel() {
         fullImageView.addSubview(nameLabel)
-        nameLabel.leadingAnchor.constraint(equalTo: fullImageView.leadingAnchor).isActive = true
-        nameLabel.trailingAnchor.constraint(equalTo: fullImageView.trailingAnchor).isActive = true
-        nameLabel.bottomAnchor.constraint(equalTo: fullImageView.bottomAnchor).isActive = true
-        nameLabel.widthAnchor.constraint(equalToConstant: contentView.frame.width / 5).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: fullImageView.leadingAnchor, constant: 20).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: fullImageView.trailingAnchor, constant: -20).isActive = true
+        nameLabel.bottomAnchor.constraint(equalTo: fullImageView.bottomAnchor, constant: -5).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
 
     private func animations() {
         let fullImageViewGradient = CAGradientLayer()
-        fullImageViewGradient.startPoint = CGPoint(x: 0, y: 0.5)
-        fullImageViewGradient.endPoint = CGPoint(x: 1, y: 0.5)
-        fullImageViewGradient.frame = contentView.bounds
+        fullImageViewGradient.frame = fullImageView.bounds
+        fullImageViewGradient.colors = [
+            UIColor.clear.cgColor,
+            UIColor().appLightMint?.cgColor,
+            UIColor.clear.cgColor
+        ]
+        fullImageViewGradient.locations = [0, 1]
+        let angle = 90 * CGFloat.pi / 180
+        fullImageViewGradient.transform = CATransform3DMakeRotation(angle, 0, 0, 1)
         fullImageView.layer.addSublayer(fullImageViewGradient)
 
-        let fullImageViewGroup = makeAnimationGroup()
-        fullImageViewGroup.beginTime = 0.0
-        fullImageViewGradient.add(fullImageViewGroup, forKey: Constants.gradientKey)
+        let fullImageViewAnimation = CABasicAnimation(keyPath: Constants.gradientKey)
+        fullImageViewAnimation.fromValue = -fullImageView.bounds.width
+        fullImageViewAnimation.toValue = fullImageView.bounds.width
+        fullImageViewAnimation.duration = 1.5
+        fullImageViewAnimation.repeatCount = Float.infinity
+        fullImageViewGradient.add(fullImageViewAnimation, forKey: Constants.gradientKey)
 
         let nameLabelGradient = CAGradientLayer()
-        nameLabelGradient.startPoint = CGPoint(x: 0, y: 0.5)
-        nameLabelGradient.endPoint = CGPoint(x: 1, y: 0.5)
-        nameLabelGradient.frame = nameLabel.frame
+        nameLabelGradient.frame = nameLabel.bounds
+        nameLabelGradient.colors = [
+            UIColor.clear.cgColor,
+            UIColor().appLightMint?.cgColor,
+            UIColor.clear.cgColor
+        ]
+        nameLabelGradient.locations = [0, 0.5]
+        nameLabelGradient.transform = CATransform3DMakeRotation(angle, 0, 0, 1)
         nameLabel.layer.addSublayer(nameLabelGradient)
 
-        let nameLabelGroup = makeAnimationGroup(previousGroup: fullImageViewGroup)
-        nameLabelGradient.add(nameLabelGroup, forKey: Constants.gradientKey)
-    }
-
-    func setupShimmers() {
-//        fullImageViewLayer.startPoint = CGPoint(x: 0, y: 0.5)
-//        fullImageViewLayer.endPoint = CGPoint(x: 1, y: 0.5)
-//        fullImageViewLayer.frame = contentView.bounds
-//        fullImageView.layer.addSublayer(fullImageViewLayer)
-//
-//        bottomViewLayer.startPoint = CGPoint(x: 0, y: 0.5)
-//        bottomViewLayer.endPoint = CGPoint(x: 1, y: 0.5)
-//        bottomViewLayer.frame = bottomView.bounds
-//        bottomView.layer.addSublayer(bottomViewLayer)
-//
-//        nameLabelLayer.startPoint = CGPoint(x: 0, y: 0.5)
-//        nameLabelLayer.endPoint = CGPoint(x: 1, y: 0.5)
-//        nameLabelLayer.frame = nameLabel.bounds
-//        nameLabel.layer.addSublayer(nameLabelLayer)
-//
-//        let fullImageViewGroup = makeAnimationGroup()
-//        fullImageViewGroup.beginTime = 0.0
-//        fullImageViewLayer.add(fullImageViewGroup, forKey: "backgroundColor")
-//
-//        let bottomViewGroup = makeAnimationGroup(previousGroup: fullImageViewGroup)
-//        bottomViewGroup.beginTime = 0.0
-//        bottomViewLayer.add(bottomViewGroup, forKey: "backgroundColor")
-//
-//        let nameLabelGroup = makeAnimationGroup(previousGroup: bottomViewGroup)
-//        nameLabelGroup.beginTime = 0.0
-//        nameLabelLayer.add(nameLabelGroup, forKey: "backgroundColor")
+        let nameLabelAnimation = CABasicAnimation(keyPath: Constants.gradientKey)
+        nameLabelAnimation.fromValue = -nameLabel.bounds.width
+        nameLabelAnimation.toValue = nameLabel.bounds.width
+        nameLabelAnimation.duration = 1.5
+        nameLabelAnimation.repeatCount = Float.infinity
+        nameLabelGradient.add(nameLabelAnimation, forKey: Constants.gradientKey)
     }
 }

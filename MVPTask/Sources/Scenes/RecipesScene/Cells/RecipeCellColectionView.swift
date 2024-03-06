@@ -35,6 +35,12 @@ class RecipeCellColectionView: UICollectionViewCell {
         setupContentView()
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        nameImageView.image = nil
+        nameLabel.text = nil
+    }
+
     // MARK: Public Methode
 
     func configureCell(param: Category) {
