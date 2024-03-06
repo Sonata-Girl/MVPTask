@@ -33,7 +33,7 @@ final class HeaderRecipeViewCell: UITableViewCell {
         return label
     }()
 
-    private lazy var mainImageView: UIImageView = {
+    private let mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
@@ -84,7 +84,7 @@ final class HeaderRecipeViewCell: UITableViewCell {
 
     private lazy var timeRecipeCountLabel = makeLabel(color: .white)
 
-    // MARK: Life Cycle
+    // MARK: Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

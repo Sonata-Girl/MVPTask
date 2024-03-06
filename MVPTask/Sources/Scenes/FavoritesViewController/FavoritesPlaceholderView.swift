@@ -36,7 +36,7 @@ final class FavoritesPlaceholderView: UIView {
         setupElementMainScreen()
     }
 
-    // MARK: Private Method
+    // MARK: Private Methods
 
     private func addView() {
         frameUnderView.addSubview(imageView)

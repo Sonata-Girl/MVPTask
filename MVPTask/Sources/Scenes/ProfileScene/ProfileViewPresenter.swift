@@ -40,7 +40,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
         static let defaultButtonTermsAlert = "Ok"
     }
 
-    // MARK: Private Methods
+    // MARK: Private Properties
 
     private let storageSource = StorageService()
     private weak var coordinator: ProfileSceneCoordinator?
@@ -48,9 +48,6 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     private(set) var profileInfoCellTypes: [ProfileInfoCellTypes] = [.bonuses, .terms, .logOut]
     private(set) var termsDescription: String = ""
     private let storageService = StorageService()
-
-    // MARK: Private Properties
-
     private weak var view: ProfileViewProtocol?
 
     // MARK: Initializers

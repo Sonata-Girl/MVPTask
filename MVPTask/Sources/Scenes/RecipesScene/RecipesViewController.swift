@@ -5,14 +5,15 @@ import UIKit
 
 /// Экран отображения  рецептов
 final class RecipesViewController: UIViewController {
+    // MARK: Visual Components
+
+    private var collectionView: UICollectionView!
+    private let collectionViewLayout = UICollectionViewFlowLayout()
+
     // MARK: Public Properties
 
     var presenter: RecipesViewPresenter?
 
-    // MARK: Private Properties
-
-    private var collectionView: UICollectionView!
-    private let collectionViewLayout = UICollectionViewFlowLayout()
 
     // MARK: Life Cycle
 
@@ -27,7 +28,7 @@ final class RecipesViewController: UIViewController {
         presenter?.loadRecipes()
     }
 
-    // MARK: Private Methode
+    // MARK: Private Methods
 
     private func addView() {
         view.addSubview(collectionView)

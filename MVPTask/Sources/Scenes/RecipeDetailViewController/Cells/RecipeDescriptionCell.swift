@@ -31,7 +31,7 @@ final class RecipeDescriptionCell: UITableViewCell {
         return label
     }()
 
-    // MARK: Life Cycle
+    // MARK: Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

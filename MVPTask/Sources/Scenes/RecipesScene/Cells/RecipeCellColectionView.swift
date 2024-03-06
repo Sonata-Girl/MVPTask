@@ -9,14 +9,14 @@ class RecipeCellColectionView: UICollectionViewCell {
 
     let recipeCellColectionView = "RecipeCellColectionView"
 
-    // MARK: Private Property
+    // MARK: Visual Components
 
     private let nameImageView = UIImageView()
     private let nameLabel = UILabel()
     private let screenView = UIView()
     private let translitionButton = UIButton()
 
-    // MARK: Life Cycle
+    // MARK: Initializers
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,12 +41,14 @@ class RecipeCellColectionView: UICollectionViewCell {
         nameLabel.text = nil
     }
 
-    // MARK: Public Methode
+    // MARK: Public Methods
 
     func configureCell(param: Category) {
         nameImageView.image = UIImage(named: param.imageName)
         nameLabel.text = param.name
     }
+
+    // MARK: Private Methods
 
     private func setupContentView() {
         contentView.layer.cornerRadius = 24

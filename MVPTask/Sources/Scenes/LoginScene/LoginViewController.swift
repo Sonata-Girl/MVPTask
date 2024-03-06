@@ -7,7 +7,7 @@ import UIKit
 final class LoginViewController: UIViewController {
     // MARK: Constant
 
-    enum Constanta {
+    enum Constants {
         static let textLogin = "Login"
         static let emailAdressText = "Email Address"
         static let passwordText = "Password"
@@ -32,17 +32,17 @@ final class LoginViewController: UIViewController {
     private let passwordTextField = UITextField()
     private let loginButton = UIButton()
     private let lockButton = UIButton()
-    private let textFildLoginView = UIView()
+    private let textFieldLoginView = UIView()
     private let envelopeButton = UIButton()
-    private let textFildLoginViewTwo = UIView()
+    private let textFieldLoginViewTwo = UIView()
     private let eyeButton = UIButton()
     private let gradientView = UIView()
-    private let gredient = CAGradientLayer()
+    private let gradient = CAGradientLayer()
     private let crossButton = UIButton()
     private var activityIndicator = UIActivityIndicatorView()
     private let icncorenFormatLabel = UILabel()
     private let icncorenPasswordLabel = UILabel()
-    private let errorView = ErorrAlertView()
+    private let errorView = ErrorAlertView()
     private var bottomConstraint: NSLayoutConstraint?
     private var errorAlertBottomConstraint: NSLayoutConstraint?
 
@@ -73,19 +73,19 @@ final class LoginViewController: UIViewController {
     // MARK: Private Method
 
     private func addView() {
-        gradientView.layer.addSublayer(gredient)
+        gradientView.layer.addSublayer(gradient)
         gradientView.addSubview(loginLabel)
         gradientView.addSubview(emailAddressLabel)
         gradientView.addSubview(passwordLabel)
-        textFildLoginView.addSubview(emailAddressTextField)
+        textFieldLoginView.addSubview(emailAddressTextField)
         gradientView.addSubview(errorView)
         gradientView.addSubview(loginButton)
-        gradientView.addSubview(textFildLoginView)
-        textFildLoginView.addSubview(envelopeButton)
-        gradientView.addSubview(textFildLoginViewTwo)
-        textFildLoginViewTwo.addSubview(passwordTextField)
-        textFildLoginViewTwo.addSubview(lockButton)
-        textFildLoginViewTwo.addSubview(eyeButton)
+        gradientView.addSubview(textFieldLoginView)
+        textFieldLoginView.addSubview(envelopeButton)
+        gradientView.addSubview(textFieldLoginViewTwo)
+        textFieldLoginViewTwo.addSubview(passwordTextField)
+        textFieldLoginViewTwo.addSubview(lockButton)
+        textFieldLoginViewTwo.addSubview(eyeButton)
         view.addSubview(gradientView)
         view.addSubview(crossButton)
         view.addSubview(icncorenFormatLabel)
@@ -105,21 +105,21 @@ final class LoginViewController: UIViewController {
     private func setupGradient() {
         let colorOneGradient = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).cgColor
         let colorTwoGradient = #colorLiteral(red: 0.8705882353, green: 0.9333333333, blue: 0.937254902, alpha: 1).cgColor
-        gredient.colors = [colorOneGradient, colorTwoGradient]
-        gredient.locations = [0, 1]
-        gredient.frame = view.bounds
+        gradient.colors = [colorOneGradient, colorTwoGradient]
+        gradient.locations = [0, 1]
+        gradient.frame = view.bounds
     }
 
     private func setupView() {
-        textFildLoginView.backgroundColor = .white
-        textFildLoginView.layer.cornerRadius = 12
-        textFildLoginView.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        textFildLoginView.layer.borderWidth = 1
+        textFieldLoginView.backgroundColor = .white
+        textFieldLoginView.layer.cornerRadius = 12
+        textFieldLoginView.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        textFieldLoginView.layer.borderWidth = 1
 
-        textFildLoginViewTwo.backgroundColor = .white
-        textFildLoginViewTwo.layer.cornerRadius = 12
-        textFildLoginViewTwo.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        textFildLoginViewTwo.layer.borderWidth = 1
+        textFieldLoginViewTwo.backgroundColor = .white
+        textFieldLoginViewTwo.layer.cornerRadius = 12
+        textFieldLoginViewTwo.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        textFieldLoginViewTwo.layer.borderWidth = 1
 
         gradientView.translatesAutoresizingMaskIntoConstraints = false
         gradientView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -139,19 +139,19 @@ final class LoginViewController: UIViewController {
     }
 
     private func setupAddConstrainsView() {
-        textFildLoginView.translatesAutoresizingMaskIntoConstraints = false
-        textFildLoginView.translatesAutoresizingMaskIntoConstraints = false
-        textFildLoginView.widthAnchor.constraint(equalToConstant: 350).isActive = true
-        textFildLoginView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        textFildLoginView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        textFildLoginView.topAnchor.constraint(equalTo: view.topAnchor, constant: 175).isActive = true
+        textFieldLoginView.translatesAutoresizingMaskIntoConstraints = false
+        textFieldLoginView.translatesAutoresizingMaskIntoConstraints = false
+        textFieldLoginView.widthAnchor.constraint(equalToConstant: 350).isActive = true
+        textFieldLoginView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        textFieldLoginView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        textFieldLoginView.topAnchor.constraint(equalTo: view.topAnchor, constant: 175).isActive = true
 
-        textFildLoginViewTwo.translatesAutoresizingMaskIntoConstraints = false
-        textFildLoginViewTwo.translatesAutoresizingMaskIntoConstraints = false
-        textFildLoginViewTwo.widthAnchor.constraint(equalToConstant: 350).isActive = true
-        textFildLoginViewTwo.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        textFildLoginViewTwo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        textFildLoginViewTwo.topAnchor.constraint(equalTo: view.topAnchor, constant: 287).isActive = true
+        textFieldLoginViewTwo.translatesAutoresizingMaskIntoConstraints = false
+        textFieldLoginViewTwo.translatesAutoresizingMaskIntoConstraints = false
+        textFieldLoginViewTwo.widthAnchor.constraint(equalToConstant: 350).isActive = true
+        textFieldLoginViewTwo.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        textFieldLoginViewTwo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        textFieldLoginViewTwo.topAnchor.constraint(equalTo: view.topAnchor, constant: 287).isActive = true
     }
 
     private func addConstrainsLabel() {
@@ -175,23 +175,23 @@ final class LoginViewController: UIViewController {
     }
 
     private func setupLabel() {
-        loginLabel.text = Constanta.textLogin
+        loginLabel.text = Constants.textLogin
         loginLabel.font = .addVerdanaBold(withSize: 28)
         loginLabel.textAlignment = .left
         loginLabel.textColor = UIColor(red: 71 / 255, green: 92 / 255, blue: 102 / 255, alpha: 1)
 
-        emailAddressLabel.text = Constanta.emailAdressText
+        emailAddressLabel.text = Constants.emailAdressText
         emailAddressLabel.font = .addVerdanaBold(withSize: 18)
         emailAddressLabel.textAlignment = .left
         emailAddressLabel.textColor = UIColor(red: 71 / 255, green: 92 / 255, blue: 102 / 255, alpha: 1)
 
-        passwordLabel.text = Constanta.passwordText
+        passwordLabel.text = Constants.passwordText
         passwordLabel.font = .addVerdanaBold(withSize: 18)
         passwordLabel.textAlignment = .left
         passwordLabel.textColor = UIColor(red: 71 / 255, green: 92 / 255, blue: 102 / 255, alpha: 1)
 
         icncorenFormatLabel.text = "Incorrect format"
-        icncorenFormatLabel.font = UIFont(name: Constanta.fontVerdana, size: 12)
+        icncorenFormatLabel.font = UIFont(name: Constants.fontVerdana, size: 12)
         icncorenFormatLabel.textAlignment = .left
         icncorenFormatLabel.textColor = .red
         icncorenFormatLabel.isHidden = true
@@ -203,7 +203,7 @@ final class LoginViewController: UIViewController {
 
         icncorenPasswordLabel.text = "You entered the wrong password"
         icncorenPasswordLabel.isHidden = true
-        icncorenPasswordLabel.font = UIFont(name: Constanta.fontVerdana, size: 12)
+        icncorenPasswordLabel.font = UIFont(name: Constants.fontVerdana, size: 12)
         icncorenPasswordLabel.textAlignment = .left
         icncorenPasswordLabel.textColor = .red
         icncorenPasswordLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -219,11 +219,11 @@ final class LoginViewController: UIViewController {
         emailAddressTextField.widthAnchor.constraint(equalToConstant: 255).isActive = true
         emailAddressTextField.heightAnchor.constraint(equalToConstant: 24).isActive = true
         emailAddressTextField.leadingAnchor.constraint(
-            equalTo: textFildLoginView.leadingAnchor,
+            equalTo: textFieldLoginView.leadingAnchor,
             constant: 50
         ).isActive = true
         emailAddressTextField.topAnchor.constraint(
-            equalTo: textFildLoginView.topAnchor,
+            equalTo: textFieldLoginView.topAnchor,
             constant: 14
         ).isActive = true
 
@@ -233,17 +233,17 @@ final class LoginViewController: UIViewController {
         passwordTextField.widthAnchor.constraint(equalToConstant: 255).isActive = true
         passwordTextField.heightAnchor.constraint(equalToConstant: 24).isActive = true
         passwordTextField.leadingAnchor.constraint(
-            equalTo: textFildLoginViewTwo.leadingAnchor,
+            equalTo: textFieldLoginViewTwo.leadingAnchor,
             constant: 50
         ).isActive = true
         passwordTextField.topAnchor.constraint(
-            equalTo: textFildLoginViewTwo.topAnchor,
+            equalTo: textFieldLoginViewTwo.topAnchor,
             constant: 14
         ).isActive = true
     }
 
     private func setupTextField() {
-        let placeholderTwo = Constanta.placeholderEmailAdress
+        let placeholderTwo = Constants.placeholderEmailAdress
         emailAddressTextField.attributedPlaceholder = NSAttributedString(
             string: placeholderTwo,
             attributes: [NSAttributedString.Key.foregroundColor: UIColor(
@@ -251,7 +251,7 @@ final class LoginViewController: UIViewController {
             )]
         )
 
-        let placeholderText = Constanta.placeholderPassword
+        let placeholderText = Constants.placeholderPassword
         passwordTextField.attributedPlaceholder = NSAttributedString(
             string: placeholderText,
             attributes: [NSAttributedString.Key.foregroundColor: UIColor(
@@ -274,11 +274,11 @@ final class LoginViewController: UIViewController {
         envelopeButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
         envelopeButton.heightAnchor.constraint(equalToConstant: 16).isActive = true
         envelopeButton.leadingAnchor.constraint(
-            equalTo: textFildLoginView.leadingAnchor,
+            equalTo: textFieldLoginView.leadingAnchor,
             constant: 17
         ).isActive = true
         envelopeButton.topAnchor.constraint(
-            equalTo: textFildLoginView.topAnchor,
+            equalTo: textFieldLoginView.topAnchor,
             constant: 18
         ).isActive = true
 
@@ -286,11 +286,11 @@ final class LoginViewController: UIViewController {
         lockButton.widthAnchor.constraint(equalToConstant: 16).isActive = true
         lockButton.heightAnchor.constraint(equalToConstant: 21).isActive = true
         lockButton.leadingAnchor.constraint(
-            equalTo: textFildLoginViewTwo.leadingAnchor,
+            equalTo: textFieldLoginViewTwo.leadingAnchor,
             constant: 19
         ).isActive = true
         lockButton.topAnchor.constraint(
-            equalTo: textFildLoginViewTwo.topAnchor,
+            equalTo: textFieldLoginViewTwo.topAnchor,
             constant: 14
         ).isActive = true
 
@@ -299,11 +299,11 @@ final class LoginViewController: UIViewController {
         eyeButton.widthAnchor.constraint(equalToConstant: 22).isActive = true
         eyeButton.heightAnchor.constraint(equalToConstant: 19).isActive = true
         eyeButton.leadingAnchor.constraint(
-            equalTo: textFildLoginViewTwo.leadingAnchor,
+            equalTo: textFieldLoginViewTwo.leadingAnchor,
             constant: 314
         ).isActive = true
         eyeButton.topAnchor.constraint(
-            equalTo: textFildLoginViewTwo.topAnchor,
+            equalTo: textFieldLoginViewTwo.topAnchor,
             constant: 17
         ).isActive = true
 
@@ -311,24 +311,24 @@ final class LoginViewController: UIViewController {
         crossButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
         crossButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         crossButton.leadingAnchor.constraint(
-            equalTo: textFildLoginView.leadingAnchor,
+            equalTo: textFieldLoginView.leadingAnchor,
             constant: 315
         ).isActive = true
         crossButton.topAnchor.constraint(
-            equalTo: textFildLoginView.topAnchor,
+            equalTo: textFieldLoginView.topAnchor,
             constant: 15
         ).isActive = true
         crossButton.addTarget(self, action: #selector(clearText), for: .touchUpInside)
     }
 
     private func setupButton() {
-        envelopeButton.setImage(UIImage(named: Constanta.envelopeButton), for: .normal)
-        lockButton.setImage(UIImage(named: Constanta.lockButton), for: .normal)
-        eyeButton.setImage(UIImage(named: Constanta.eyeButton), for: .normal)
-        crossButton.setImage(UIImage(named: Constanta.crossButton), for: .normal)
-        loginButton.setTitle(Constanta.textLogin, for: .normal)
+        envelopeButton.setImage(UIImage(named: Constants.envelopeButton), for: .normal)
+        lockButton.setImage(UIImage(named: Constants.lockButton), for: .normal)
+        eyeButton.setImage(UIImage(named: Constants.eyeButton), for: .normal)
+        crossButton.setImage(UIImage(named: Constants.crossButton), for: .normal)
+        loginButton.setTitle(Constants.textLogin, for: .normal)
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        loginButton.titleLabel?.font = UIFont(name: Constanta.textLogin, size: 16)
+        loginButton.titleLabel?.font = UIFont(name: Constants.textLogin, size: 16)
         loginButton.tintColor = UIColor.white
         loginButton.backgroundColor = UIColor(red: 4 / 255, green: 38 / 255, blue: 40 / 255, alpha: 1)
         loginButton.layer.cornerRadius = 12

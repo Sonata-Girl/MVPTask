@@ -10,7 +10,7 @@ final class FavoritesSceneCoordinator: BaseCoordinator {
     var navigationController: UINavigationController?
     var finishFlowHandler: (() -> ())?
 
-    // MARK: Public Methode
+    // MARK: Public Methods
 
     func setRootViewController(view: UIViewController) {
         navigationController = UINavigationController(

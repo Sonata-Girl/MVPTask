@@ -11,9 +11,13 @@ protocol BonusesPresenterProtocol: AnyObject {}
 
 /// Презентер экрана отображения бонусов профиля
 final class BonusesViewPresenter: BonusesPresenterProtocol {
+
+    // MARK: Private Properties
+    
     private weak var view: BonusesViewProtocol?
     private weak var coordinator: ProfileSceneCoordinator?
 
+    // MARK: Initializers
     init(
         view: BonusesViewProtocol,
         coordinator: ProfileSceneCoordinator

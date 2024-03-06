@@ -59,7 +59,7 @@ final class NutrientsRecipeViewCell: UITableViewCell {
 
     private lazy var proteinsCountLabel = makeLabel(textColor: Constants.appMintColor)
 
-    // MARK: Life Cycle
+    // MARK: Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
