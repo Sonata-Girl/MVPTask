@@ -22,16 +22,6 @@ class ShimmerCellView: UITableViewCell {
         return view
     }()
 
-    private let shimmerView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor().appLightGray
-        view.layer.borderColor = UIColor().appMint?.cgColor
-        view.layer.cornerRadius = 12
-        view.isHidden = false
-        return view
-    }()
-
     private let shimmerImageView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -87,11 +77,10 @@ class ShimmerCellView: UITableViewCell {
 
     private func addView() {
         contentView.addSubview(mainView)
-        mainView.addSubview(shimmerView)
-        shimmerView.addSubview(shimmerLabelminiTwo)
-        shimmerView.addSubview(shimmerLabelmini)
-        shimmerView.addSubview(shimmerImageView)
-        shimmerView.addSubview(shimmerLabel)
+        mainView.addSubview(shimmerLabelminiTwo)
+        mainView.addSubview(shimmerLabelmini)
+        mainView.addSubview(shimmerImageView)
+        mainView.addSubview(shimmerLabel)
     }
 
     private func setupMainViewConstraint() {
@@ -99,25 +88,20 @@ class ShimmerCellView: UITableViewCell {
 
         NSLayoutConstraint.activate([
             mainView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 7),
-            mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            mainView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            mainView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             mainView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7),
         ])
     }
 
     private func setupMainTwoViewConstraint() {
         NSLayoutConstraint.activate([
-            shimmerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 7),
-            shimmerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            shimmerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            shimmerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7),
-
-            shimmerImageView.topAnchor.constraint(equalTo: shimmerView.topAnchor, constant: 10),
-            shimmerImageView.leadingAnchor.constraint(equalTo: shimmerView.leadingAnchor, constant: 10),
-            shimmerImageView.bottomAnchor.constraint(equalTo: shimmerView.bottomAnchor, constant: -10),
+            shimmerImageView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 10),
+            shimmerImageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 10),
+            shimmerImageView.heightAnchor.constraint(equalToConstant: 80),
             shimmerImageView.widthAnchor.constraint(equalToConstant: 80),
 
-            shimmerLabel.topAnchor.constraint(equalTo: shimmerView.topAnchor, constant: 20),
+            shimmerLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 20),
             shimmerLabel.leadingAnchor.constraint(equalTo: shimmerImageView.trailingAnchor, constant: 20),
             shimmerLabel.heightAnchor.constraint(equalToConstant: 32),
             shimmerLabel.widthAnchor.constraint(equalToConstant: 197),
@@ -135,19 +119,10 @@ class ShimmerCellView: UITableViewCell {
     }
 
     private func startAnimations() {
-        shimmerView.startShimmeringAnimation(animationSpeed: 2.0)
         shimmerImageView.startShimmeringAnimation(animationSpeed: 2.0)
         shimmerLabelmini.startShimmeringAnimation(animationSpeed: 2.0)
         shimmerLabel.startShimmeringAnimation(animationSpeed: 2.0)
         shimmerLabelminiTwo.startShimmeringAnimation(animationSpeed: 2.0)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.mainView.isHidden = false
-            self.shimmerImageView.isHidden = true
-            self.shimmerLabel.isHidden = true
-            self.shimmerLabelmini.isHidden = true
-            self.shimmerLabelminiTwo.isHidden = true
-            self.stopShimmeringAnimation()
-        }
     }
 
     func startShimmers() {
