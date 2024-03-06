@@ -5,20 +5,20 @@ import UIKit
 
 /// Расширение для быстрого доступа к добавленным цветам
 extension UIColor {
-    /// Хранение созданных цветов
+    /// Храненилище созданных цветов
     static var colorStoreMap: [String: UIColor] = [:]
 
-    /// Быстрый доступ к загруженному цвету
+    /// Быстрый доступ к загруженному цвету appMint
     var appMint: UIColor? {
         UIColor(named: "appMint") ?? nil
     }
 
-    /// Быстрый доступ к загруженному цвету
+    /// Быстрый доступ к загруженному цвету appLightMint
     var appLightMint: UIColor? {
         UIColor(named: "appLightMint") ?? nil
     }
 
-    /// Быстрый доступ к загруженному цвету
+    /// Быстрый доступ к загруженному цвету appLightGray
     var appLightGray: UIColor? {
         UIColor(named: "appLightGray") ?? nil
     }

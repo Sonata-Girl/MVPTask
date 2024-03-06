@@ -15,7 +15,7 @@ final class ShimmerRecipeViewCell: UICollectionViewCell {
         String(describing: self)
     }
 
-    // MARK: Private Property
+    // MARK: Visual Components
 
     private let fullImageView: UIImageView = {
         let imageView = UIImageView()
@@ -39,7 +39,7 @@ final class ShimmerRecipeViewCell: UICollectionViewCell {
         return label
     }()
 
-    // MARK: Life Cycle
+    // MARK: Initializers
 
     override init(frame: CGRect) {
         super.init(frame: .zero)

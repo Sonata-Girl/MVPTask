@@ -24,7 +24,6 @@ protocol RecipesViewPresenterProtocol: AnyObject {
 
 /// Презентер экрана общего списка рецептов
 final class RecipesViewPresenter: RecipesViewPresenterProtocol {
-    // MARK: Constants
 
     // MARK: Private Properties
 
@@ -44,6 +43,8 @@ final class RecipesViewPresenter: RecipesViewPresenterProtocol {
         self.coordinator = coordinator
         filsSourse()
     }
+
+    // MARK: Public Methods
 
     func loadRecipes() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {

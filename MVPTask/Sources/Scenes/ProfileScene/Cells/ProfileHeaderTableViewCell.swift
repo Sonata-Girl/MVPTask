@@ -54,7 +54,7 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
     var nameChangeHandler: (() -> ())?
     var avatarChangeHandler: (() -> ())?
 
-    // MARK: Life Cycle
+    // MARK: Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

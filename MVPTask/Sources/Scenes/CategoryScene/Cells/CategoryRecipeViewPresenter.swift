@@ -68,6 +68,8 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         view?.setTitle(title: category?.name ?? "")
     }
 
+    // MARK: Public Methods
+
     func loadRecipes() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             self.loadingState = .loadedData
@@ -125,6 +127,8 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         configureSort()
         view?.reloadTable()
     }
+
+    // MARK: Private Methods
 
     private func configureSort() {
         let firstSort = activatedSources.first

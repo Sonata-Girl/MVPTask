@@ -47,8 +47,6 @@ final class ProfileViewController: UIViewController {
         return tableView
     }()
 
-    private let imagePicker = ImagePicker()
-
     // MARK: Public Properties
 
     var presenter: ProfileViewPresenterProtocol?
@@ -59,6 +57,7 @@ final class ProfileViewController: UIViewController {
 
     private var termsView: TermsView?
     private var visualEffectView: UIVisualEffectView?
+    private let imagePicker = ImagePicker()
 
     private let termsScreenHeight: CGFloat = 750
     private let termsScreenAreaHeight: CGFloat = 30
@@ -230,13 +229,11 @@ extension ProfileViewController {
     private func configureTermsView() {
         guard let tabBarController else { return }
         tabBatHeight = tabBarController.tabBar.frame.height
-        view.backgroundColor = .clear
 
         visualEffectView = UIVisualEffectView()
         guard let visualEffectView else { return }
         visualEffectView.frame = view.frame
         view.addSubview(visualEffectView)
-        tabBarController.view.layer.backgroundColor = UIColor(white: 0.2, alpha: 0.0).cgColor
         termsView = TermsView()
         guard let termsView else { return }
         termsView.setDescription(text: presenter?.termsDescription ?? "")
@@ -247,20 +244,6 @@ extension ProfileViewController {
             width: view.frame.width,
             height: termsScreenHeight
         )
-//        termsView.clipsToBounds = true
-//        let termsAnimator = UIViewPropertyAnimator(duration: 2, dampingRatio: 1) {
-//            termsView.frame = CGRect(
-//                x: 0,
-//                y: self.view.frame.height / 2,
-//                width: self.view.frame.width,
-//                height: self.termsScreenHeight
-//            )
-//        }
-
-//        termsAnimator.addCompletion { _ in
-//            termsAnimator.stopAnimation(false)
-//        }
-//        termsAnimator.startAnimation()
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTermsViewTap))
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleTermsViewPan))
