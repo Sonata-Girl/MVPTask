@@ -23,6 +23,8 @@ final class RecipesViewController: UIViewController {
         addConstraints()
         title = "Recipes"
         navigationController?.navigationBar.prefersLargeTitles = true
+
+        presenter?.loadRecipes()
     }
 
     // MARK: Private Methode
@@ -47,13 +49,21 @@ final class RecipesViewController: UIViewController {
             RecipeCellColectionView.self,
             forCellWithReuseIdentifier: "RecipeCellColectionView"
         )
+        collectionView.register(
+            ShimmerRecipeViewCell.self,
+            forCellWithReuseIdentifier: ShimmerRecipeViewCell.identifier
+        )
     }
 }
 
 // MARK: - RecipesViewProtocol
 
 /// RecipesViewController + RecipesViewProtocol
-extension RecipesViewController: RecipesViewProtocol {}
+extension RecipesViewController: RecipesViewProtocol {
+    func reloadTable() {
+        collectionView.reloadData()
+    }
+}
 
 // MARK: - Extension + UICollectionViewDataSource
 
@@ -63,20 +73,37 @@ extension RecipesViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        presenter?.categories.count ?? 0
+        switch presenter?.loadingState {
+        case .loadedData:
+            presenter?.categories.count ?? 0
+        case .noData:
+            10
+        case nil:
+            0
+        }
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let presenter,
-              let cell = collectionView.dequeueReusableCell(
-                  withReuseIdentifier: "RecipeCellColectionView",
-                  for: indexPath
-              ) as? RecipeCellColectionView else { return UICollectionViewCell() }
-        cell.configureCell(param: presenter.categories[indexPath.item])
-        return cell
+        guard let presenter else { return UICollectionViewCell() }
+        switch presenter.loadingState {
+        case .loadedData:
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "RecipeCellColectionView",
+                for: indexPath
+            ) as? RecipeCellColectionView else { return UICollectionViewCell() }
+            cell.configureCell(param: presenter.categories[indexPath.item])
+            return cell
+        case .noData:
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: ShimmerRecipeViewCell.identifier,
+                for: indexPath
+            ) as? ShimmerRecipeViewCell else { return UICollectionViewCell() }
+            cell.setupShimmers()
+            return cell
+        }
     }
 }
 

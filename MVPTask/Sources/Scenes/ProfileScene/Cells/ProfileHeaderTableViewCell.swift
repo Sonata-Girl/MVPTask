@@ -34,7 +34,7 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .setVerdanaBold(withSize: 25)
+        label.font = .addVerdanaBold(withSize: 25)
         label.textColor = .gray
         label.textAlignment = .center
         return label

@@ -24,7 +24,7 @@ final class ProfileViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = Constants.screenTitle
-        label.font = .setVerdanaBold(withSize: 28)
+        label.font = .addVerdanaBold(withSize: 28)
         label.textColor = .label
         return label
     }()
@@ -56,6 +56,22 @@ final class ProfileViewController: UIViewController {
     // MARK: Private Properties
 
     private var tableSections: [TableSections] = [.profileHeader, .profileInfo]
+
+    private var termsView: TermsView?
+    private var visualEffectView: UIVisualEffectView?
+
+    private let termsScreenHeight: CGFloat = 750
+    private let termsScreenAreaHeight: CGFloat = 30
+    private var tabBatHeight: CGFloat = 0
+
+    private var nextStateTermsView: TermsViewState {
+        termsVisible ? .collapsed : .expanded
+    }
+
+    private var termsVisible = false
+
+    private var runningAnimations: [UIViewPropertyAnimator] = []
+    private var animationProgressWhenInterrupted: CGFloat = 0
 
     // MARK: Life Cycle
 
@@ -112,6 +128,10 @@ final class ProfileViewController: UIViewController {
             ) as? ProfileHeaderTableViewCell
             cell?.changeAvatar(image: image)
         }
+    }
+
+    private func showTermsScreen() {
+        configureTermsView()
     }
 }
 
@@ -179,7 +199,7 @@ extension ProfileViewController: UITableViewDelegate {
             case .logOut:
                 presenter.showLogOutAlert()
             case .terms:
-                presenter.showTermsAlert()
+                showTermsScreen()
             }
         }
     }
@@ -191,5 +211,172 @@ extension ProfileViewController: UITableViewDelegate {
 extension ProfileViewController: ProfileViewProtocol {
     func reloadHeaderProfile() {
         profileTableView.reloadRows(at: [IndexPath.SubSequence(row: 0, section: 0)], with: .none)
+    }
+}
+
+extension ProfileViewController {
+    // MARK: Types
+
+    /// Состояния экрана
+    private enum TermsViewState {
+        /// Развернутый
+        case expanded
+        /// Свернутый
+        case collapsed
+    }
+
+    // MARK: Private Methods
+
+    private func configureTermsView() {
+        guard let tabBarController else { return }
+        tabBatHeight = tabBarController.tabBar.frame.height
+        view.backgroundColor = .clear
+
+        visualEffectView = UIVisualEffectView()
+        guard let visualEffectView else { return }
+        visualEffectView.frame = view.frame
+        view.addSubview(visualEffectView)
+        tabBarController.view.layer.backgroundColor = UIColor(white: 0.2, alpha: 0.0).cgColor
+        termsView = TermsView()
+        guard let termsView else { return }
+        termsView.setDescription(text: presenter?.termsDescription ?? "")
+        tabBarController.view.addSubview(termsView)
+        termsView.frame = CGRect(
+            x: 0,
+            y: view.frame.height / 2,
+            width: view.frame.width,
+            height: termsScreenHeight
+        )
+//        termsView.clipsToBounds = true
+//        let termsAnimator = UIViewPropertyAnimator(duration: 2, dampingRatio: 1) {
+//            termsView.frame = CGRect(
+//                x: 0,
+//                y: self.view.frame.height / 2,
+//                width: self.view.frame.width,
+//                height: self.termsScreenHeight
+//            )
+//        }
+
+//        termsAnimator.addCompletion { _ in
+//            termsAnimator.stopAnimation(false)
+//        }
+//        termsAnimator.startAnimation()
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTermsViewTap))
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleTermsViewPan))
+        termsView.setGesture(gestures: [tapGesture, panGesture])
+    }
+
+    private func animateTransitionIfNeeded(state: TermsViewState, duration: TimeInterval) {
+        if runningAnimations.isEmpty {
+            let frameAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
+                switch state {
+                case .expanded:
+                    self.termsView?.frame.origin.y =
+                        self.view.frame.height - self.termsScreenHeight + self.tabBatHeight
+                case .collapsed:
+                    self.termsView?.frame.origin.y =
+                        self.view.frame.height - self.termsScreenHeight / 2
+                }
+            }
+
+            frameAnimator.addCompletion { _ in
+                self.termsVisible = !self.termsVisible
+                self.runningAnimations.removeAll()
+            }
+            frameAnimator.startAnimation()
+            runningAnimations.append(frameAnimator)
+
+            let cornerRadiusAnimator = UIViewPropertyAnimator(
+                duration: duration,
+                curve: .linear
+            ) {
+                switch state {
+                case .expanded:
+                    self.termsView?.layer.cornerRadius = 30
+                case .collapsed:
+                    self.termsView?.layer.cornerRadius = 0
+                }
+            }
+
+            cornerRadiusAnimator.startAnimation()
+            runningAnimations.append(cornerRadiusAnimator)
+
+            let blurAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
+                switch state {
+                case .expanded:
+                    self.visualEffectView?.effect = UIBlurEffect(style: .dark)
+                case .collapsed:
+                    self.visualEffectView?.effect = nil
+                }
+            }
+            blurAnimator.startAnimation()
+            runningAnimations.append(blurAnimator)
+        }
+    }
+
+    private func startInteractive(state: TermsViewState, duration: TimeInterval) {
+        if runningAnimations.isEmpty {
+            animateTransitionIfNeeded(state: state, duration: duration)
+        }
+
+        for animator in runningAnimations {
+            animator.pauseAnimation()
+            animationProgressWhenInterrupted = animator.fractionComplete
+        }
+    }
+
+    private func updateInteractiveTransition(fractionCompleted: CGFloat) {
+        for animator in runningAnimations {
+            animator.fractionComplete = fractionCompleted + animationProgressWhenInterrupted
+        }
+    }
+
+    private func continueInteractiveTransition() {
+        for animator in runningAnimations {
+            animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+        }
+    }
+
+    private func moveTermsScreen(recognizer: UIPanGestureRecognizer) {
+        let translation = recognizer.translation(in: termsView?.handleAreaView)
+        var fractionComplete = translation.y / termsScreenHeight
+        fractionComplete = termsVisible ? fractionComplete : -fractionComplete
+        updateInteractiveTransition(fractionCompleted: fractionComplete)
+
+        if translation.y > view.frame.height / 2 {
+            for animator in runningAnimations {
+                animator.stopAnimation(false)
+                animator.finishAnimation(at: .end)
+            }
+
+            runningAnimations.removeAll()
+            visualEffectView?.removeFromSuperview()
+            termsView?.removeFromSuperview()
+            termsView = nil
+            visualEffectView = nil
+        }
+    }
+
+    @objc func handleTermsViewTap(recognizer: UITapGestureRecognizer) {
+        switch recognizer.state {
+        case .ended:
+            animateTransitionIfNeeded(state: nextStateTermsView, duration: 0.9)
+        default:
+            break
+        }
+    }
+
+    @objc func handleTermsViewPan(recognizer: UIPanGestureRecognizer) {
+        switch recognizer.state {
+        case .began:
+            startInteractive(state: nextStateTermsView, duration: 0.9)
+        case .changed:
+            moveTermsScreen(recognizer: recognizer)
+        case .ended:
+            continueInteractiveTransition()
+        default:
+            break
+        }
     }
 }

@@ -20,7 +20,7 @@ final class CategoryRecipeViewController: UIViewController {
         button.setImage(UIImage(named: Constants.backButtonImage), for: .normal)
         button.setTitleColor(.label, for: .normal)
         button.setTitle(Constants.screenDefaultTitle, for: .normal)
-        button.titleLabel?.font = UIFont.setVerdanaBold(withSize: 28)
+        button.titleLabel?.font = UIFont.addVerdanaBold(withSize: 28)
         button.tintColor = .label
         button.addTarget(self, action: #selector(backToPreviousScreen), for: .touchUpInside)
         return button
@@ -53,7 +53,6 @@ final class CategoryRecipeViewController: UIViewController {
             RecipeTableViewCell.self,
             forCellReuseIdentifier: RecipeTableViewCell.identifier
         )
-        /// регистрация моей ячейки "ShimmerCellView"
         tableView.register(ShimmerCellView.self, forCellReuseIdentifier: "ShimmerCellView")
         tableView.dataSource = self
         tableView.delegate = self
@@ -73,6 +72,8 @@ final class CategoryRecipeViewController: UIViewController {
         configureView()
         setupHierarchy()
         setupConstraints()
+
+        presenter?.loadRecipes()
     }
 
     // MARK: Public methods
@@ -140,30 +141,58 @@ final class CategoryRecipeViewController: UIViewController {
 // MARK: - CategoryRecipeViewProtocol
 
 /// CategoryRecipeViewController + CategoryRecipeViewProtocol
-extension CategoryRecipeViewController: CategoryRecipeViewProtocol {}
+extension CategoryRecipeViewController: CategoryRecipeViewProtocol {
+    func reloadTable() {
+        mainTableView.reloadData()
+    }
+}
 
 // MARK: - UISearchBarDelegate
 
 /// CategoryRecipeViewController + UISearchBarDelegate
-extension CategoryRecipeViewController: UISearchBarDelegate {}
+extension CategoryRecipeViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.count > 3 {
+            presenter?.search(active: true, searchText: searchText)
+        } else {
+            presenter?.search(active: false, searchText: "")
+        }
+    }
+}
 
 // MARK: - UITableViewDataSource
 
 /// CategoryRecipeViewController + UITableViewDataSource
 extension CategoryRecipeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let presenter else { return 0 }
-        return presenter.getRecipes().count
+        switch presenter?.loadingState {
+        case .loadedData:
+            return presenter?.getRecipes().count ?? 0
+        case .noData:
+            return 10
+        case nil:
+            return 0
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let presenter,
-              let cell = tableView.dequeueReusableCell(
-                  withIdentifier: RecipeTableViewCell.identifier
-              ) as? RecipeTableViewCell
-        else { return UITableViewCell() }
-        cell.configureCell(recipe: presenter.getRecipes()[indexPath.row])
-        return cell
+        guard let presenter else { return UITableViewCell() }
+        switch presenter.loadingState {
+        case .loadedData:
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: RecipeTableViewCell.identifier
+            ) as? RecipeTableViewCell
+            else { return UITableViewCell() }
+            cell.configureCell(recipe: presenter.getRecipes()[indexPath.row])
+            return cell
+        case .noData:
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: ShimmerCellView.identifier
+            ) as? ShimmerCellView
+            else { return UITableViewCell() }
+            cell.startShimmers()
+            return cell
+        }
     }
 }
 
@@ -200,9 +229,8 @@ extension CategoryRecipeViewController: UITableViewDelegate {
 
 /// CategoryRecipeViewController + FiltersTableHeaderViewDelegate
 extension CategoryRecipeViewController: SortButtonsTableHeaderViewDelegate {
-    // TODO: Будет доработка
     /// Произошло изменение состояния сортировки по пришедшему виду сортировки
     func sortButtonsView(with stateSortButton: SortButtonState, didChangeSortTo sortType: SortType) {
-        print("sortButtonsView didChangeSortTo \(sortType)")
+        presenter?.changeSort(sortType: sortType, stateSort: stateSortButton)
     }
 }

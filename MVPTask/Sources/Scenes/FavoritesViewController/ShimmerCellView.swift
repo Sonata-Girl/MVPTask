@@ -7,7 +7,9 @@ import UIKit
 class ShimmerCellView: UITableViewCell {
     // MARK: Public Properties
 
-    var identifiersStateCell = "ShimmerCellView"
+    static var identifier: String {
+        String(describing: self)
+    }
 
     // MARK: Visual Components
 
@@ -78,17 +80,23 @@ class ShimmerCellView: UITableViewCell {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        addView()
+        setupMainTwoViewConstraint()
+        setupMainViewConstraint()
     }
 
     private func addView() {
+        contentView.addSubview(mainView)
+        mainView.addSubview(shimmerView)
         shimmerView.addSubview(shimmerLabelminiTwo)
         shimmerView.addSubview(shimmerLabelmini)
         shimmerView.addSubview(shimmerImageView)
         shimmerView.addSubview(shimmerLabel)
-        contentView.addSubview(shimmerView)
     }
 
     private func setupMainViewConstraint() {
+        contentView.heightAnchor.constraint(equalToConstant: 114).isActive = true
+
         NSLayoutConstraint.activate([
             mainView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 7),
             mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
@@ -103,23 +111,26 @@ class ShimmerCellView: UITableViewCell {
             shimmerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             shimmerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             shimmerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7),
+
             shimmerImageView.topAnchor.constraint(equalTo: shimmerView.topAnchor, constant: 10),
             shimmerImageView.leadingAnchor.constraint(equalTo: shimmerView.leadingAnchor, constant: 10),
             shimmerImageView.bottomAnchor.constraint(equalTo: shimmerView.bottomAnchor, constant: -10),
             shimmerImageView.widthAnchor.constraint(equalToConstant: 80),
+
             shimmerLabel.topAnchor.constraint(equalTo: shimmerView.topAnchor, constant: 20),
             shimmerLabel.leadingAnchor.constraint(equalTo: shimmerImageView.trailingAnchor, constant: 20),
             shimmerLabel.heightAnchor.constraint(equalToConstant: 32),
             shimmerLabel.widthAnchor.constraint(equalToConstant: 197),
+
             shimmerLabelmini.topAnchor.constraint(equalTo: shimmerLabel.bottomAnchor, constant: 8),
             shimmerLabelmini.leadingAnchor.constraint(equalTo: shimmerImageView.trailingAnchor, constant: 20),
             shimmerLabelmini.widthAnchor.constraint(equalToConstant: 74),
             shimmerLabelmini.heightAnchor.constraint(equalToConstant: 15),
+
             shimmerLabelminiTwo.topAnchor.constraint(equalTo: shimmerLabel.bottomAnchor, constant: 8),
             shimmerLabelminiTwo.leadingAnchor.constraint(equalTo: shimmerLabelmini.trailingAnchor, constant: 10),
             shimmerLabelminiTwo.widthAnchor.constraint(equalToConstant: 91),
             shimmerLabelminiTwo.heightAnchor.constraint(equalToConstant: 15),
-
         ])
     }
 
@@ -139,7 +150,8 @@ class ShimmerCellView: UITableViewCell {
         }
     }
 
-    func configurCell() {
+    func startShimmers() {
+        layoutIfNeeded()
         startAnimations()
     }
 }

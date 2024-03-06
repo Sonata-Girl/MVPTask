@@ -46,7 +46,7 @@ class RecipeTableViewCell: UITableViewCell {
 
     private lazy var recipeNameLabel: UILabel = {
         let label = makeLabel()
-        label.font = .setVerdana(withSize: 14)
+        label.font = .addVerdana(withSize: 14)
         label.numberOfLines = 2
         return label
     }()
@@ -135,7 +135,7 @@ class RecipeTableViewCell: UITableViewCell {
     private func makeLabel() -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .setVerdana(withSize: 12)
+        label.font = .addVerdana(withSize: 12)
         label.textColor = .gray
         return label
     }
