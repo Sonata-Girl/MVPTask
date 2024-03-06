@@ -3,6 +3,14 @@
 
 import UIKit
 
+/// Состояния загрузки
+enum Loading {
+    /// Данные загружены
+    case loadedData
+    /// Данные еще не загружены
+    case noData
+}
+
 /// Экран отображения  категории рецептов
 final class CategoryRecipeViewController: UIViewController {
     // MARK: Constants
@@ -70,6 +78,8 @@ final class CategoryRecipeViewController: UIViewController {
         configureView()
         setupHierarchy()
         setupConstraints()
+
+        presenter?.loadRecipes()
     }
 
     // MARK: Public methods
