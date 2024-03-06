@@ -53,6 +53,8 @@ final class CategoryRecipeViewController: UIViewController {
             RecipeTableViewCell.self,
             forCellReuseIdentifier: RecipeTableViewCell.identifier
         )
+        /// регистрация моей ячейки "ShimmerCellView"
+        tableView.register(ShimmerCellView.self, forCellReuseIdentifier: "ShimmerCellView")
         tableView.dataSource = self
         tableView.delegate = self
 
