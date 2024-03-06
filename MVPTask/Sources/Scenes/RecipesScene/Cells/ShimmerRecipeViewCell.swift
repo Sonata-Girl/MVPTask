@@ -113,7 +113,7 @@ final class ShimmerRecipeViewCell: UICollectionViewCell {
             UIColor().appLightMint?.cgColor,
             UIColor.clear.cgColor
         ]
-        nameLabelGradient.locations = [0, 0.5]
+        nameLabelGradient.locations = [0, 1]
         nameLabelGradient.transform = CATransform3DMakeRotation(angle, 0, 0, 1)
         nameLabel.layer.addSublayer(nameLabelGradient)
 

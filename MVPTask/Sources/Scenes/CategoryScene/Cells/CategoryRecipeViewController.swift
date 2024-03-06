@@ -165,6 +165,7 @@ extension CategoryRecipeViewController: UISearchBarDelegate {
 /// CategoryRecipeViewController + UITableViewDataSource
 extension CategoryRecipeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard presenter?.getRecipes().count ?? 0 > 0 else { return 10 }
         switch presenter?.loadingState {
         case .loadedData:
             return presenter?.getRecipes().count ?? 0
@@ -177,6 +178,8 @@ extension CategoryRecipeViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let presenter else { return UITableViewCell() }
+        guard presenter.getRecipes().count > 0 else { return getShimmerCell(tableView) }
+
         switch presenter.loadingState {
         case .loadedData:
             guard let cell = tableView.dequeueReusableCell(
@@ -186,13 +189,17 @@ extension CategoryRecipeViewController: UITableViewDataSource {
             cell.configureCell(recipe: presenter.getRecipes()[indexPath.row])
             return cell
         case .noData:
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: ShimmerCellView.identifier
-            ) as? ShimmerCellView
-            else { return UITableViewCell() }
-            cell.startShimmers()
-            return cell
+            return getShimmerCell(tableView)
         }
+    }
+
+    private func getShimmerCell(_ tableView: UITableView) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: ShimmerCellView.identifier
+        ) as? ShimmerCellView
+        else { return UITableViewCell() }
+        cell.startShimmers()
+        return cell
     }
 }
 
