@@ -41,7 +41,7 @@ class ShimmerCellView: UITableViewCell {
         return view
     }()
 
-    private let shimmerLabelmini: UIView = {
+    private let shimmerLabelMiniLeftView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .systemGray5
@@ -50,7 +50,7 @@ class ShimmerCellView: UITableViewCell {
         return view
     }()
 
-    private let shimmerLabelminiTwo: UIView = {
+    private let shimmerLabelMiniRightView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .systemGray5
@@ -86,8 +86,8 @@ class ShimmerCellView: UITableViewCell {
 
     private func addView() {
         contentView.addSubview(mainView)
-        mainView.addSubview(shimmerLabelminiTwo)
-        mainView.addSubview(shimmerLabelmini)
+        mainView.addSubview(shimmerLabelMiniRightView)
+        mainView.addSubview(shimmerLabelMiniLeftView)
         mainView.addSubview(shimmerImageView)
         mainView.addSubview(shimmerLabel)
     }
@@ -115,22 +115,22 @@ class ShimmerCellView: UITableViewCell {
             shimmerLabel.heightAnchor.constraint(equalToConstant: 32),
             shimmerLabel.widthAnchor.constraint(equalToConstant: 197),
 
-            shimmerLabelmini.topAnchor.constraint(equalTo: shimmerLabel.bottomAnchor, constant: 8),
-            shimmerLabelmini.leadingAnchor.constraint(equalTo: shimmerImageView.trailingAnchor, constant: 20),
-            shimmerLabelmini.widthAnchor.constraint(equalToConstant: 74),
-            shimmerLabelmini.heightAnchor.constraint(equalToConstant: 15),
+            shimmerLabelMiniLeftView.topAnchor.constraint(equalTo: shimmerLabel.bottomAnchor, constant: 8),
+            shimmerLabelMiniLeftView.leadingAnchor.constraint(equalTo: shimmerImageView.trailingAnchor, constant: 20),
+            shimmerLabelMiniLeftView.widthAnchor.constraint(equalToConstant: 74),
+            shimmerLabelMiniLeftView.heightAnchor.constraint(equalToConstant: 15),
 
-            shimmerLabelminiTwo.topAnchor.constraint(equalTo: shimmerLabel.bottomAnchor, constant: 8),
-            shimmerLabelminiTwo.leadingAnchor.constraint(equalTo: shimmerLabelmini.trailingAnchor, constant: 10),
-            shimmerLabelminiTwo.widthAnchor.constraint(equalToConstant: 91),
-            shimmerLabelminiTwo.heightAnchor.constraint(equalToConstant: 15),
+            shimmerLabelMiniRightView.topAnchor.constraint(equalTo: shimmerLabel.bottomAnchor, constant: 8),
+            shimmerLabelMiniRightView.leadingAnchor.constraint(equalTo: shimmerLabelMiniLeftView.trailingAnchor, constant: 10),
+            shimmerLabelMiniRightView.widthAnchor.constraint(equalToConstant: 91),
+            shimmerLabelMiniRightView.heightAnchor.constraint(equalToConstant: 15),
         ])
     }
 
     private func startAnimations() {
         shimmerImageView.startShimmeringAnimation(animationSpeed: 2.0)
-        shimmerLabelmini.startShimmeringAnimation(animationSpeed: 2.0)
+        shimmerLabelMiniLeftView.startShimmeringAnimation(animationSpeed: 2.0)
         shimmerLabel.startShimmeringAnimation(animationSpeed: 2.0)
-        shimmerLabelminiTwo.startShimmeringAnimation(animationSpeed: 2.0)
+        shimmerLabelMiniRightView.startShimmeringAnimation(animationSpeed: 2.0)
     }
 }

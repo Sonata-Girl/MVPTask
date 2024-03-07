@@ -63,11 +63,11 @@ final class ProfileViewController: UIViewController {
     private let termsScreenAreaHeight: CGFloat = 30
     private var tabBatHeight: CGFloat = 0
 
-    private var nextStateTermsView: TermsViewState {
-        termsVisible ? .collapsed : .expanded
-    }
+    private var isTermsVisibled = false
 
-    private var termsVisible = false
+    private var nextStateTermsView: TermsViewState {
+        isTermsVisibled ? .collapsed : .expanded
+    }
 
     private var runningAnimations: [UIViewPropertyAnimator] = []
     private var animationProgressWhenInterrupted: CGFloat = 0
@@ -264,7 +264,7 @@ extension ProfileViewController {
             }
 
             frameAnimator.addCompletion { _ in
-                self.termsVisible = !self.termsVisible
+                self.isTermsVisibled = !self.isTermsVisibled
                 self.runningAnimations.removeAll()
             }
             frameAnimator.startAnimation()
@@ -324,7 +324,7 @@ extension ProfileViewController {
     private func moveTermsScreen(recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: termsView?.handleAreaView)
         var fractionComplete = translation.y / termsScreenHeight
-        fractionComplete = termsVisible ? fractionComplete : -fractionComplete
+        fractionComplete = isTermsVisibled ? fractionComplete : -fractionComplete
         updateInteractiveTransition(fractionCompleted: fractionComplete)
 
         if translation.y > view.frame.height / 2 {

@@ -1,9 +1,5 @@
-//
-//  UIVIew+Extension.swift
-//  MVPTask
-//
-//  Created by Sonata Girl on 06.03.2024.
-//
+// UIVIew+Extension.swift
+// Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
@@ -44,21 +40,18 @@ extension UIView {
         )
 
         switch direction {
-            case .topToBottom:
-                gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
-                gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
-
-            case .bottomToTop:
-                gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
-                gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
-
-            case .leftToRight:
-                gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-                gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-
-            case .rightToLeft:
-                gradientLayer.startPoint = CGPoint(x: 1.0, y: 0.5)
-                gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.5)
+        case .topToBottom:
+            gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+            gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        case .bottomToTop:
+            gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
+            gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
+        case .leftToRight:
+            gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+            gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        case .rightToLeft:
+            gradientLayer.startPoint = CGPoint(x: 1.0, y: 0.5)
+            gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.5)
         }
 
         gradientLayer.locations = [0.35, 0.50, 0.65]

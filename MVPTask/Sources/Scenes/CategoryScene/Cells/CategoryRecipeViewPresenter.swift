@@ -22,11 +22,11 @@ protocol CategoryRecipeViewPresenterProtocol: AnyObject {
     /// Изменить сортировку
     func changeSort(sortType: SortType, stateSort: SortButtonState)
     /// Начать поиск по рецептам
-    func search(active: Bool, searchText: String)
+    func search(searchText: String)
     /// Загрузить данные
     func loadRecipes()
     /// Состояние загрузки
-    var loadingState: Loading { get }
+    var state: ViewState { get }
 }
 
 /// Презентер экрана списка рецептов одной категории
@@ -44,7 +44,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     private var category: Category?
     private var searchingActive = false
     private var searchText = ""
-    private(set) var loadingState: Loading = .noData
+    private(set) var state: ViewState = .loading
 
     private var activatedSources: [SortType] = [
         .calories,
@@ -72,7 +72,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
 
     func loadRecipes() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.loadingState = .loadedData
+            self.state = .loaded
             self.view?.reloadTable()
         }
     }
@@ -100,8 +100,14 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         category = recipes?.last?.category
     }
 
-    func search(active: Bool, searchText: String) {
-        searchingActive = active
+    func search(searchText: String) {
+        if searchText.count > 3 {
+            searchingActive = true
+        } else {
+            searchingActive = false
+            self.searchText = ""
+        }
+
         self.searchText = searchText
         view?.reloadTable()
     }

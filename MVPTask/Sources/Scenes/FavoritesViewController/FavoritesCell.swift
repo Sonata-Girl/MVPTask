@@ -5,10 +5,10 @@ import UIKit
 
 ///
 class FavoritesCell: RecipeTableViewCell {
-
     var identifierFavoritesCell = "FavoritesCell"
 
     // MARK: Initializers
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         arrowButton.isHidden = true

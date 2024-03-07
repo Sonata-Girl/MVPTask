@@ -39,7 +39,7 @@ final class LoginViewController: UIViewController {
     private let gradientView = UIView()
     private let gradient = CAGradientLayer()
     private let crossButton = UIButton()
-    private var activityIndicator = UIActivityIndicatorView()
+    private var activityIndicatorView = UIActivityIndicatorView()
     private let icncorenFormatLabel = UILabel()
     private let icncorenPasswordLabel = UILabel()
     private let errorView = ErrorAlertView()
@@ -335,20 +335,20 @@ final class LoginViewController: UIViewController {
     }
 
     private func setupActivityIndicator() {
-        activityIndicator = UIActivityIndicatorView(style: .medium)
-        activityIndicator.color = UIColor.red
-        loginButton.addSubview(activityIndicator)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.centerXAnchor.constraint(equalTo: loginButton.centerXAnchor).isActive = true
-        activityIndicator.centerYAnchor.constraint(equalTo: loginButton.centerYAnchor).isActive = true
+        activityIndicatorView = UIActivityIndicatorView(style: .medium)
+        activityIndicatorView.color = UIColor.red
+        loginButton.addSubview(activityIndicatorView)
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.centerXAnchor.constraint(equalTo: loginButton.centerXAnchor).isActive = true
+        activityIndicatorView.centerYAnchor.constraint(equalTo: loginButton.centerYAnchor).isActive = true
     }
 
     private func lockLoginButton() {
         loginButton.setTitle("", for: .normal)
-        activityIndicator.startAnimating()
+        activityIndicatorView.startAnimating()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.loginButton.setTitle("Login", for: .normal)
-            self.activityIndicator.stopAnimating()
+            self.activityIndicatorView.stopAnimating()
         }
     }
 

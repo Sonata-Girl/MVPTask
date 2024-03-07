@@ -260,6 +260,7 @@
 		6751D0552B8D3F5A00396F91 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				7377CB812B949A6000FC2554 /* FavoritesSceneCoordinator.swift */,
 				6751D06C2B8FAF1600396F91 /* RecipesSceneCoordinator.swift */,
 				737A75582B8E46530019FB22 /* LoginSceneCoordinator.swift */,
 				6751D0532B8D3F4500396F91 /* ProfileSceneCoordinator.swift */,
@@ -382,7 +383,6 @@
 		7377CB7E2B9499A200FC2554 /* FavoritesViewController */ = {
 			isa = PBXGroup;
 			children = (
-				7377CB812B949A6000FC2554 /* FavoritesSceneCoordinator.swift */,
 				7377CB7F2B949A0200FC2554 /* FavoritesView.swift */,
 				7377CB832B949C9200FC2554 /* FavoritesPresenter.swift */,
 				7377CB862B94AEF200FC2554 /* FavoritesPlaceholderView.swift */,

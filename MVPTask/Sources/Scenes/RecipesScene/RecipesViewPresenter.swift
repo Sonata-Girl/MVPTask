@@ -19,19 +19,18 @@ protocol RecipesViewPresenterProtocol: AnyObject {
     /// Загрузить данные
     func loadRecipes()
     /// Состояние загрузки
-    var loadingState: Loading { get }
+    var state: ViewState { get }
 }
 
 /// Презентер экрана общего списка рецептов
 final class RecipesViewPresenter: RecipesViewPresenterProtocol {
-
     // MARK: Private Properties
 
     private weak var coordinator: RecipesSceneCoordinator?
     private var storageService = StorageService()
     private weak var view: RecipesViewProtocol?
     private(set) var categories: [Category] = []
-    private(set) var loadingState: Loading = .noData
+    private(set) var state: ViewState = .loading
 
     // MARK: Initializers
 
@@ -48,7 +47,7 @@ final class RecipesViewPresenter: RecipesViewPresenterProtocol {
 
     func loadRecipes() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.loadingState = .loadedData
+            self.state = .loaded
             self.view?.reloadTable()
         }
     }

@@ -51,8 +51,8 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
 
     // MARK: Public Properties
 
-    var nameChangeHandler: (() -> ())?
-    var avatarChangeHandler: (() -> ())?
+    var nameChangeHandler: VoidHandler?
+    var avatarChangeHandler: VoidHandler?
 
     // MARK: Initializers
 

@@ -14,7 +14,6 @@ final class RecipesViewController: UIViewController {
 
     var presenter: RecipesViewPresenter?
 
-
     // MARK: Life Cycle
 
     override func viewDidLoad() {
@@ -74,10 +73,10 @@ extension RecipesViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch presenter?.loadingState {
-        case .loadedData:
+        switch presenter?.state {
+        case .loaded:
             presenter?.categories.count ?? 0
-        case .noData:
+        case .loading:
             10
         case nil:
             0
@@ -89,15 +88,15 @@ extension RecipesViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let presenter else { return UICollectionViewCell() }
-        switch presenter.loadingState {
-        case .loadedData:
+        switch presenter.state {
+        case .loaded:
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "RecipeCellColectionView",
                 for: indexPath
             ) as? RecipeCellColectionView else { return UICollectionViewCell() }
             cell.configureCell(param: presenter.categories[indexPath.item])
             return cell
-        case .noData:
+        case .loading:
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: ShimmerRecipeViewCell.identifier,
                 for: indexPath

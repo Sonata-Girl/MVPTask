@@ -8,7 +8,7 @@ final class RecipesSceneCoordinator: BaseCoordinator {
     // MARK: Public Properties
 
     var navigationController: UINavigationController?
-    var finishFlowHandler: (() -> ())?
+    var finishFlowHandler: VoidHandler?
 
     // MARK: Public Methods
 

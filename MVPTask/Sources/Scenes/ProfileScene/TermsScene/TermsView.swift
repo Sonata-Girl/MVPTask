@@ -8,6 +8,7 @@ import UIKit
 
 /// Протокол для связи вью с контроллером
 protocol TermsViewDelegate: AnyObject {
+    /// Обработка события закрытия экрана
     func closeScreen()
 }
 
@@ -67,7 +68,7 @@ final class TermsView: UIView {
 
     // MARK: Public Properties
 
-    var delegate: TermsViewDelegate?
+    weak var delegate: TermsViewDelegate?
 
     // MARK: Initializers
 

@@ -152,11 +152,7 @@ extension CategoryRecipeViewController: CategoryRecipeViewProtocol {
 /// CategoryRecipeViewController + UISearchBarDelegate
 extension CategoryRecipeViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.count > 3 {
-            presenter?.search(active: true, searchText: searchText)
-        } else {
-            presenter?.search(active: false, searchText: "")
-        }
+        presenter?.search(searchText: searchText)
     }
 }
 
@@ -166,10 +162,10 @@ extension CategoryRecipeViewController: UISearchBarDelegate {
 extension CategoryRecipeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard presenter?.getRecipes().count ?? 0 > 0 else { return 10 }
-        switch presenter?.loadingState {
-        case .loadedData:
+        switch presenter?.state {
+        case .loaded:
             return presenter?.getRecipes().count ?? 0
-        case .noData:
+        case .loading:
             return 10
         case nil:
             return 0
@@ -180,15 +176,15 @@ extension CategoryRecipeViewController: UITableViewDataSource {
         guard let presenter else { return UITableViewCell() }
         guard presenter.getRecipes().count > 0 else { return getShimmerCell(tableView) }
 
-        switch presenter.loadingState {
-        case .loadedData:
+        switch presenter.state {
+        case .loaded:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: RecipeTableViewCell.identifier
             ) as? RecipeTableViewCell
             else { return UITableViewCell() }
             cell.configureCell(recipe: presenter.getRecipes()[indexPath.row])
             return cell
-        case .noData:
+        case .loading:
             return getShimmerCell(tableView)
         }
     }

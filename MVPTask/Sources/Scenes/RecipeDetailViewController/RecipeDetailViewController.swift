@@ -4,11 +4,11 @@
 import UIKit
 
 /// Состояния загрузки
-enum Loading {
+public enum ViewState {
     /// Данные загружены
-    case loadedData
+    case loaded
     /// Данные еще не загружены
-    case noData
+    case loading
 }
 
 /// Экран отображения детализации рецепта
