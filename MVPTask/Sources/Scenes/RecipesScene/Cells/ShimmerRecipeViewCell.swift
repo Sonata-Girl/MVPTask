@@ -23,7 +23,7 @@ final class ShimmerRecipeViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 20
         imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = UIColor().appLightMint
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -34,7 +34,7 @@ final class ShimmerRecipeViewCell: UICollectionViewCell {
         label.textAlignment = .center
         label.contentMode = .scaleAspectFit
         label.clipsToBounds = true
-        label.backgroundColor = .white
+        label.backgroundColor = .systemGray5
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

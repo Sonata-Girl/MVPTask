@@ -121,7 +121,10 @@ class ShimmerCellView: UITableViewCell {
             shimmerLabelMiniLeftView.heightAnchor.constraint(equalToConstant: 15),
 
             shimmerLabelMiniRightView.topAnchor.constraint(equalTo: shimmerLabel.bottomAnchor, constant: 8),
-            shimmerLabelMiniRightView.leadingAnchor.constraint(equalTo: shimmerLabelMiniLeftView.trailingAnchor, constant: 10),
+            shimmerLabelMiniRightView.leadingAnchor.constraint(
+                equalTo: shimmerLabelMiniLeftView.trailingAnchor,
+                constant: 10
+            ),
             shimmerLabelMiniRightView.widthAnchor.constraint(equalToConstant: 91),
             shimmerLabelMiniRightView.heightAnchor.constraint(equalToConstant: 15),
         ])
