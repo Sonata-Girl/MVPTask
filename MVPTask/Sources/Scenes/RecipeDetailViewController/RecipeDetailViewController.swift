@@ -3,6 +3,14 @@
 
 import UIKit
 
+/// Состояния загрузки
+public enum ViewState {
+    /// Данные загружены
+    case loaded
+    /// Данные еще не загружены
+    case loading
+}
+
 /// Экран отображения детализации рецепта
 final class RecipeDetailViewController: UIViewController {
     // MARK: Constants

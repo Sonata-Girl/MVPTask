@@ -36,7 +36,7 @@ final class FavoritesPlaceholderView: UIView {
         setupElementMainScreen()
     }
 
-    // MARK: Private Method
+    // MARK: Private Methods
 
     private func addView() {
         frameUnderView.addSubview(imageView)
@@ -79,12 +79,12 @@ final class FavoritesPlaceholderView: UIView {
         offTextLabel.numberOfLines = 0
         offTextLabel.clipsToBounds = true
         offTextLabel.text = Constant.offTextLabel
-        offTextLabel.font = .setVerdana(withSize: 12.5)
+        offTextLabel.font = .addVerdana(withSize: 12.5)
         offTextLabel.textAlignment = .center
         offTextLabel.textColor = #colorLiteral(red: 0.5914113898, green: 0.633750514, blue: 0.6919073808, alpha: 1)
 
         addTextLabel.text = Constant.addRecipteLabel
-        addTextLabel.font = .setVerdanaBold(withSize: 18)
+        addTextLabel.font = .addVerdanaBold(withSize: 18)
         addTextLabel.textAlignment = .center
         addTextLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     }

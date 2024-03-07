@@ -5,9 +5,9 @@ import UIKit
 
 ///
 class FavoritesCell: RecipeTableViewCell {
-    // MARK: Initializer
-
     var identifierFavoritesCell = "FavoritesCell"
+
+    // MARK: Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

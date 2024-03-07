@@ -8,9 +8,9 @@ final class FavoritesSceneCoordinator: BaseCoordinator {
     // MARK: Public Properties
 
     var navigationController: UINavigationController?
-    var finishFlowHandler: (() -> ())?
+    var finishFlowHandler: VoidHandler?
 
-    // MARK: Public Methode
+    // MARK: Public Methods
 
     func setRootViewController(view: UIViewController) {
         navigationController = UINavigationController(

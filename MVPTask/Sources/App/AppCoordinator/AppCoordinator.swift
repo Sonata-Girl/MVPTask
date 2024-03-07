@@ -17,7 +17,6 @@ final class AppCoordinator: BaseCoordinator {
         }
     }
 
-    // TODO: Будет дорабатываться
     func goToMainTabBarController() {
         mainTabBarController = MainTabBarController()
         guard let mainTabBarController else { return }

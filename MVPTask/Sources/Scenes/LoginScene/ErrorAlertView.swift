@@ -1,15 +1,15 @@
-// ErorrAlertView.swift
+// ErrorAlertView.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
 /// Класс для отображения ошибки
-final class ErorrAlertView: UIView {
+final class ErrorAlertView: UIView {
     // MARK: Private Property
 
     private let errorLabel = UILabel()
 
-    // MARK: Life Cycle
+    // MARK: Initializers
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,15 +19,17 @@ final class ErorrAlertView: UIView {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        setupErrorView()
+        setupLavelError()
     }
+
+    // MARK: Private Methods
 
     private func setupErrorView() {
         backgroundColor = UIColor(red: 240 / 255, green: 97 / 255, blue: 85 / 255, alpha: 1)
         layer.cornerRadius = 12
     }
-
-    // MARK: Private Method
 
     private func setupLavelError() {
         errorLabel.text = "Please check the accuracy of the entered credentials."

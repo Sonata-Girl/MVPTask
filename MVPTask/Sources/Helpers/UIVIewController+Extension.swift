@@ -15,7 +15,7 @@ extension UIViewController {
         title: String,
         defaultButtonTitle: String = "Ok",
         hasCancel: Bool,
-        completion: (() -> ())? = nil
+        completion: VoidHandler? = nil
     ) {
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         let actionOk = UIAlertAction(title: defaultButtonTitle, style: .default) { _ in

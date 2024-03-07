@@ -46,7 +46,7 @@ class RecipeTableViewCell: UITableViewCell {
 
     private lazy var recipeNameLabel: UILabel = {
         let label = makeLabel()
-        label.font = .setVerdana(withSize: 14)
+        label.font = .addVerdana(withSize: 14)
         label.numberOfLines = 2
         return label
     }()
@@ -93,14 +93,6 @@ class RecipeTableViewCell: UITableViewCell {
         setupConstraints()
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        recipeImageView.image = nil
-        recipeNameLabel.text = nil
-        timerLabel.text = nil
-        caloriesLabel.text = nil
-    }
-
     // MARK: Public methods
 
     func selectCell() {
@@ -143,7 +135,7 @@ class RecipeTableViewCell: UITableViewCell {
     private func makeLabel() -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .setVerdana(withSize: 12)
+        label.font = .addVerdana(withSize: 12)
         label.textColor = .gray
         return label
     }
@@ -189,6 +181,7 @@ class RecipeTableViewCell: UITableViewCell {
             recipeImageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 10),
             recipeImageView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -10),
             recipeImageView.widthAnchor.constraint(equalToConstant: 80)
+
         ])
     }
 

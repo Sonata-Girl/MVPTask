@@ -26,14 +26,14 @@ final class HeaderRecipeViewCell: UITableViewCell {
     private let recipeLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .setVerdanaBold(withSize: 25)
+        label.font = .addVerdanaBold(withSize: 25)
         label.textColor = .black
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
     }()
 
-    private lazy var mainImageView: UIImageView = {
+    private let mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
@@ -84,7 +84,7 @@ final class HeaderRecipeViewCell: UITableViewCell {
 
     private lazy var timeRecipeCountLabel = makeLabel(color: .white)
 
-    // MARK: Life Cycle
+    // MARK: Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -246,7 +246,7 @@ final class HeaderRecipeViewCell: UITableViewCell {
     private func makeLabel(color: UIColor) -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .setVerdana(withSize: 10)
+        label.font = .addVerdana(withSize: 10)
         label.textColor = color
         label.textAlignment = .center
         return label

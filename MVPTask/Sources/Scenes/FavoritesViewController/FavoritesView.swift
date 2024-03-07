@@ -28,7 +28,7 @@ class FavoritesView: UIViewController {
     private var titleLabel: UILabel = {
         var label = UILabel()
         label.text = "Favorites"
-        label.font = .setVerdanaBold(withSize: 28)
+        label.font = .addVerdanaBold(withSize: 28)
         label.textColor = .black
         return label
     }()

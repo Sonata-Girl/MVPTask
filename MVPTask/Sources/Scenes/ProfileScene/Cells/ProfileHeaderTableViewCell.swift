@@ -34,7 +34,7 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .setVerdanaBold(withSize: 25)
+        label.font = .addVerdanaBold(withSize: 25)
         label.textColor = .gray
         label.textAlignment = .center
         return label
@@ -51,10 +51,10 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
 
     // MARK: Public Properties
 
-    var nameChangeHandler: (() -> ())?
-    var avatarChangeHandler: (() -> ())?
+    var nameChangeHandler: VoidHandler?
+    var avatarChangeHandler: VoidHandler?
 
-    // MARK: Life Cycle
+    // MARK: Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

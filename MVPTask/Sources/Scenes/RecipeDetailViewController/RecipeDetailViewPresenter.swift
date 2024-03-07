@@ -34,6 +34,8 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
         self.recipe = recipe
     }
 
+    // MARK: Public Methods
+
     func backToCategoryScreen() {
         coordinator?.backToPreviousScreen()
     }

@@ -9,14 +9,14 @@ class RecipeCellColectionView: UICollectionViewCell {
 
     let recipeCellColectionView = "RecipeCellColectionView"
 
-    // MARK: Private Property
+    // MARK: Visual Components
 
     private let nameImageView = UIImageView()
     private let nameLabel = UILabel()
     private let screenView = UIView()
     private let translitionButton = UIButton()
 
-    // MARK: Life Cycle
+    // MARK: Initializers
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,12 +35,20 @@ class RecipeCellColectionView: UICollectionViewCell {
         setupContentView()
     }
 
-    // MARK: Public Methode
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        nameImageView.image = nil
+        nameLabel.text = nil
+    }
+
+    // MARK: Public Methods
 
     func configureCell(param: Category) {
         nameImageView.image = UIImage(named: param.imageName)
         nameLabel.text = param.name
     }
+
+    // MARK: Private Methods
 
     private func setupContentView() {
         contentView.layer.cornerRadius = 24
@@ -80,6 +88,6 @@ class RecipeCellColectionView: UICollectionViewCell {
         nameLabel.centerYAnchor.constraint(equalTo: screenView.centerYAnchor).isActive = true
         nameLabel.textColor = #colorLiteral(red: 0.9567841887, green: 0.9992051721, blue: 1, alpha: 1)
         nameLabel.textAlignment = .center
-        nameLabel.font = UIFont(name: "Verdana", size: 20)
+        nameLabel.font = .addFont("Verdana", 20)
     }
 }

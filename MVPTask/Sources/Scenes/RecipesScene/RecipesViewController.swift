@@ -5,14 +5,14 @@ import UIKit
 
 /// Экран отображения  рецептов
 final class RecipesViewController: UIViewController {
-    // MARK: Public Properties
-
-    var presenter: RecipesViewPresenter?
-
-    // MARK: Private Properties
+    // MARK: Visual Components
 
     private var collectionView: UICollectionView!
     private let collectionViewLayout = UICollectionViewFlowLayout()
+
+    // MARK: Public Properties
+
+    var presenter: RecipesViewPresenter?
 
     // MARK: Life Cycle
 
@@ -23,9 +23,11 @@ final class RecipesViewController: UIViewController {
         addConstraints()
         title = "Recipes"
         navigationController?.navigationBar.prefersLargeTitles = true
+
+        presenter?.loadRecipes()
     }
 
-    // MARK: Private Methode
+    // MARK: Private Methods
 
     private func addView() {
         view.addSubview(collectionView)
@@ -47,13 +49,21 @@ final class RecipesViewController: UIViewController {
             RecipeCellColectionView.self,
             forCellWithReuseIdentifier: "RecipeCellColectionView"
         )
+        collectionView.register(
+            ShimmerRecipeViewCell.self,
+            forCellWithReuseIdentifier: ShimmerRecipeViewCell.identifier
+        )
     }
 }
 
 // MARK: - RecipesViewProtocol
 
 /// RecipesViewController + RecipesViewProtocol
-extension RecipesViewController: RecipesViewProtocol {}
+extension RecipesViewController: RecipesViewProtocol {
+    func reloadTable() {
+        collectionView.reloadData()
+    }
+}
 
 // MARK: - Extension + UICollectionViewDataSource
 
@@ -63,20 +73,37 @@ extension RecipesViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        presenter?.categories.count ?? 0
+        switch presenter?.state {
+        case .loaded:
+            presenter?.categories.count ?? 0
+        case .loading:
+            10
+        case nil:
+            0
+        }
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let presenter,
-              let cell = collectionView.dequeueReusableCell(
-                  withReuseIdentifier: "RecipeCellColectionView",
-                  for: indexPath
-              ) as? RecipeCellColectionView else { return UICollectionViewCell() }
-        cell.configureCell(param: presenter.categories[indexPath.item])
-        return cell
+        guard let presenter else { return UICollectionViewCell() }
+        switch presenter.state {
+        case .loaded:
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "RecipeCellColectionView",
+                for: indexPath
+            ) as? RecipeCellColectionView else { return UICollectionViewCell() }
+            cell.configureCell(param: presenter.categories[indexPath.item])
+            return cell
+        case .loading:
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: ShimmerRecipeViewCell.identifier,
+                for: indexPath
+            ) as? ShimmerRecipeViewCell else { return UICollectionViewCell() }
+            cell.setupShimmers()
+            return cell
+        }
     }
 }
 

@@ -23,6 +23,8 @@ protocol ProfileViewPresenterProtocol: AnyObject {
     func showLogOutAlert()
     ///  Показать алерт для соглашений и политики
     func showTermsAlert()
+    /// Описание соглашений и политики
+    var termsDescription: String { get }
 }
 
 /// Презентер экрана профиля
@@ -38,15 +40,14 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
         static let defaultButtonTermsAlert = "Ok"
     }
 
-    // MARK: Private Methods
+    // MARK: Private Properties
 
     private let storageSource = StorageService()
     private weak var coordinator: ProfileSceneCoordinator?
     private(set) var user: User?
     private(set) var profileInfoCellTypes: [ProfileInfoCellTypes] = [.bonuses, .terms, .logOut]
-
-    // MARK: Private Properties
-
+    private(set) var termsDescription: String = ""
+    private let storageService = StorageService()
     private weak var view: ProfileViewProtocol?
 
     // MARK: Initializers
@@ -58,6 +59,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
         self.view = view
         self.coordinator = coordinator
         user = storageSource.getUser()
+        termsDescription = storageService.getDescriptionTerms()
     }
 
     // MARK: Public Methods
