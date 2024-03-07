@@ -9,7 +9,6 @@ final class StorageService {
 
     private var recipes: [Recipe] = []
     private var categories: [Category] = []
-    private var user: User = .init(name: "Name", surname: "Surname", imageName: "userAvatar")
 
     // MARK: Initializers
 
@@ -18,10 +17,6 @@ final class StorageService {
     }
 
     // MARK: Public Methods
-
-    func getUser() -> User {
-        user
-    }
 
     func getRecipes() -> [Recipe] {
         recipes

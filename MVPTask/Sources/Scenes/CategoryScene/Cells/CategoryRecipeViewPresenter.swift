@@ -27,10 +27,18 @@ protocol CategoryRecipeViewPresenterProtocol: AnyObject {
     func loadRecipes()
     /// Состояние загрузки
     var state: ViewState { get }
+    ///  Записать переход на экран
+    func logTransition()
 }
 
 /// Презентер экрана списка рецептов одной категории
 final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
+    // MARK: Constants
+
+    private enum Constants {
+        static let titleScreen = "Экран со списком рецептов"
+    }
+
     // MARK: Public Properties
 
     private weak var coordinator: RecipesSceneCoordinator?
@@ -69,6 +77,10 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     }
 
     // MARK: Public Methods
+
+    func logTransition() {
+        log(.goToScreen(screenName: Constants.titleScreen, title: category?.name ?? ""))
+    }
 
     func loadRecipes() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {

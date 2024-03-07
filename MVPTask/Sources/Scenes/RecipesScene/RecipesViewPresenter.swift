@@ -20,10 +20,18 @@ protocol RecipesViewPresenterProtocol: AnyObject {
     func loadRecipes()
     /// Состояние загрузки
     var state: ViewState { get }
+    ///  Записать переход на экран
+    func logTransition()
 }
 
 /// Презентер экрана общего списка рецептов
 final class RecipesViewPresenter: RecipesViewPresenterProtocol {
+    // MARK: Constants
+
+    private enum Constants {
+        static let titleScreen = "Экран рецептов"
+    }
+
     // MARK: Private Properties
 
     private weak var coordinator: RecipesSceneCoordinator?
@@ -44,6 +52,10 @@ final class RecipesViewPresenter: RecipesViewPresenterProtocol {
     }
 
     // MARK: Public Methods
+
+    func logTransition() {
+        log(.openScreen(screenName: Constants.titleScreen))
+    }
 
     func loadRecipes() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {

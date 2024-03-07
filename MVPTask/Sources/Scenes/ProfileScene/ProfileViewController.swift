@@ -126,6 +126,9 @@ final class ProfileViewController: UIViewController {
                 at: IndexPath(row: 0, section: 0)
             ) as? ProfileHeaderTableViewCell
             cell?.changeAvatar(image: image)
+            if let imageData = image.jpegData(compressionQuality: 0.5) {
+                self.presenter?.saveAvatar(imageData: imageData)
+            }
         }
     }
 
@@ -163,7 +166,7 @@ extension ProfileViewController: UITableViewDataSource {
                   ) as? ProfileHeaderTableViewCell
             else { return UITableViewCell() }
             cell.configureCell(
-                imageName: user.imageName,
+                image: user.imageBase64,
                 userName: "\(user.surname) \(user.name)"
             )
             cell.nameChangeHandler = { [weak self] in

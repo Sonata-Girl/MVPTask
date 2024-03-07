@@ -27,6 +27,11 @@ final class RecipesViewController: UIViewController {
         presenter?.loadRecipes()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter?.logTransition()
+    }
+
     // MARK: Private Methods
 
     private func addView() {

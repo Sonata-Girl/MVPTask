@@ -10,11 +10,11 @@ final class AppCoordinator: BaseCoordinator {
 
     // TODO: Будет дорабатываться
     override func start() {
-        if true {
-            goToMainTabBarController()
-        } else {
-            goToLoginController()
-        }
+//        if true {
+//            goToLoginController()
+//        } else {
+        goToMainTabBarController()
+//        }
     }
 
     func goToMainTabBarController() {
