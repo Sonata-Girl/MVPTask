@@ -16,7 +16,6 @@ public enum LogAction {
 }
 
 final class LogCommand {
-
     // MARK: Private Properties
 
     private let action: LogAction

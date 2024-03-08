@@ -16,6 +16,8 @@ protocol RecipeDetailPresenterProtocol: AnyObject {
     func logTransition()
     ///  Записать действие поделиться рецептом
     func logShare()
+    /// Добавление рецепта в избранные
+    func addToFavorites()
 }
 
 /// Презентер экрана детализации рецепта
@@ -50,5 +52,10 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
 
     func backToCategoryScreen() {
         coordinator?.backToPreviousScreen()
+    }
+
+    func addToFavorites() {
+        guard let recipe else { return }
+        FavoritesStateService.shared.addFavorite(recipe: recipe)
     }
 }
