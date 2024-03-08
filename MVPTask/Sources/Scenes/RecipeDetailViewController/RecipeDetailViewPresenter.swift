@@ -12,6 +12,10 @@ protocol RecipeDetailPresenterProtocol: AnyObject {
     var recipe: Recipe? { get }
     /// Возврат на экран категории
     func backToCategoryScreen()
+    ///  Записать переход на экран
+    func logTransition()
+    ///  Записать действие поделиться рецептом
+    func logShare()
 }
 
 /// Презентер экрана детализации рецепта
@@ -35,6 +39,14 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
     }
 
     // MARK: Public Methods
+
+    func logTransition() {
+        log(.openRecipe(recipeName: recipe?.name ?? ""))
+    }
+
+    func logShare() {
+        log(.shareRecipe(recipeName: recipe?.name ?? ""))
+    }
 
     func backToCategoryScreen() {
         coordinator?.backToPreviousScreen()

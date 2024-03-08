@@ -76,6 +76,11 @@ final class CategoryRecipeViewController: UIViewController {
         presenter?.loadRecipes()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter?.logTransition()
+    }
+
     // MARK: Public methods
 
     func setTitle(title: String) {

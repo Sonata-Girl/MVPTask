@@ -45,21 +45,21 @@ final class RecipeDetailViewController: UIViewController {
         return button
     }()
 
-    private let shareButton: UIButton = {
+    private lazy var shareButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .label
         button.setImage(UIImage(systemName: Constants.shareButtonImage), for: .normal)
-        button.addTarget(nil, action: #selector(shareRecipeDescription), for: .touchUpInside)
+        button.addTarget(self, action: #selector(shareRecipeDescription), for: .touchUpInside)
         return button
     }()
 
-    private let addFavoriteButton: UIButton = {
+    private lazy var addFavoriteButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .label
         button.setImage(UIImage(systemName: Constants.bookMarkImage), for: .normal)
-        button.addTarget(nil, action: #selector(addFavoriteRecipe), for: .touchUpInside)
+        button.addTarget(self, action: #selector(addFavoriteRecipe), for: .touchUpInside)
         return button
     }()
 
@@ -90,6 +90,11 @@ final class RecipeDetailViewController: UIViewController {
         configureNavigationBar()
         setupHierarchy()
         setupConstraints()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter?.logTransition()
     }
 
     // MARK: Private Methods
@@ -129,6 +134,7 @@ final class RecipeDetailViewController: UIViewController {
     }
 
     @objc private func shareRecipeDescription() {
+        presenter?.logShare()
         guard let recipe = presenter?.recipe else { return }
         let shareController = UIActivityViewController(
             activityItems: [recipe.detailDescription],

@@ -25,6 +25,8 @@ protocol ProfileViewPresenterProtocol: AnyObject {
     func showTermsAlert()
     /// Описание соглашений и политики
     var termsDescription: String { get }
+    /// Сохранить измененный аватар
+    func saveAvatar(imageData: Data)
 }
 
 /// Презентер экрана профиля
@@ -49,6 +51,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     private(set) var termsDescription: String = ""
     private let storageService = StorageService()
     private weak var view: ProfileViewProtocol?
+    private let userProfileService = UserDataCaretaker()
 
     // MARK: Initializers
 
@@ -58,7 +61,8 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     ) {
         self.view = view
         self.coordinator = coordinator
-        user = storageSource.getUser()
+
+        loadUser()
         termsDescription = storageService.getDescriptionTerms()
     }
 
@@ -75,7 +79,17 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
             self?.user?.name = name ?? ""
             self?.user?.surname = surname ?? ""
 
+            if let user = self?.user {
+                self?.userProfileService.save(userProfile: user)
+            }
             self?.view?.reloadHeaderProfile()
+        }
+    }
+
+    func saveAvatar(imageData: Data) {
+        user?.imageBase64 = imageData.base64EncodedString()
+        if let user = user {
+            userProfileService.save(userProfile: user)
         }
     }
 
@@ -100,5 +114,11 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
 
     func showBonusesScreen() {
         coordinator?.showBonusesScreen()
+    }
+
+    // MARK: Private Methods
+
+    private func loadUser() {
+        user = userProfileService.retrieveUserProfileData()
     }
 }

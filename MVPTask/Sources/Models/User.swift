@@ -2,11 +2,15 @@
 // Copyright © RoadMap. All rights reserved.
 
 /// Пользователь
-struct User {
+struct User: Codable {
     /// Имя
     var name: String
     /// Фамилия
     var surname: String
-    /// Имя картинки аватара
-    var imageName: String
+    /// Картинки аватара
+    var imageBase64: String
+    /// Пароль
+    var password: String
+    /// Логин
+    var login: String
 }

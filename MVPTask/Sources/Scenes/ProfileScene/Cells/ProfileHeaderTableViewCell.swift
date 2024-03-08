@@ -78,8 +78,13 @@ final class ProfileHeaderTableViewCell: UITableViewCell {
 
     // MARK: Public methods
 
-    func configureCell(imageName: String, userName: String) {
-        mainImageView.image = UIImage(named: imageName)
+    func configureCell(image: String, userName: String) {
+        if let dataDecoded = Data(
+            base64Encoded: image,
+            options: .ignoreUnknownCharacters
+        ) {
+            mainImageView.image = UIImage(data: dataDecoded)
+        }
         nameLabel.text = userName
     }
 
