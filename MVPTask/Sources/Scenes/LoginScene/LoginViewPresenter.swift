@@ -29,12 +29,14 @@ protocol LoginViewPresenterProtocol: AnyObject {
 final class LoginViewPresenter: LoginViewPresenterProtocol {
     // MARK: Public Properties
 
-    let textPassword = "qwerty12345"
     private weak var coordinator: LoginSceneCoordinator?
 
     // MARK: Private Properties
 
     private weak var view: LoginViewProtocol?
+    private let userProfileService = UserDataCaretaker()
+    private var user: User?
+    private var login: String = ""
 
     // MARK: Initializers
 
@@ -47,16 +49,45 @@ final class LoginViewPresenter: LoginViewPresenterProtocol {
     }
 
     func validatePassword(password: String) {
-        if password == textPassword {
-            view?.changePasswordColor(valideStyle: .valid)
-            coordinator?.finishFlowHandler?()
+        user = userProfileService.retrieveUserProfileData()
+        if let user {
+            let comparisonResultPassword = password.compare(
+                user.password,
+                options: [.caseInsensitive, .diacriticInsensitive]
+            )
+            let comparisonResultMail = login.compare(
+                user.login,
+                options: [.caseInsensitive, .diacriticInsensitive]
+            )
+
+            if comparisonResultPassword == .orderedSame, comparisonResultMail == .orderedSame {
+                view?.changePasswordColor(valideStyle: .valid)
+                coordinator?.finishFlowHandler?()
+            } else {
+                view?.changePasswordColor(valideStyle: .notValide)
+            }
         } else {
-            view?.changePasswordColor(valideStyle: .notValide)
+            if password.isValidPassword() {
+                view?.changePasswordColor(valideStyle: .valid)
+                userProfileService.save(
+                    userProfile: User(
+                        name: "UserName",
+                        surname: "UserSurname",
+                        imageBase64: "",
+                        password: password,
+                        login: login
+                    )
+                )
+                coordinator?.finishFlowHandler?()
+            } else {
+                view?.changePasswordColor(valideStyle: .notValide)
+            }
         }
     }
 
     func validateEmail(email: String) {
-        if email.contains("example@mail.ru") {
+        if email.isValidEmail() {
+            login = email
             view?.changeEmailColor(valideStyle: .valid)
         } else {
             view?.changeEmailColor(valideStyle: .notValide)
