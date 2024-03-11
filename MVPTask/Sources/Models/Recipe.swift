@@ -2,7 +2,7 @@
 // Copyright © RoadMap. All rights reserved.
 
 /// Рецепт
-struct Recipe {
+struct Recipe: Codable {
     /// Наименование блюда
     var name: String
     /// Категория
@@ -25,4 +25,11 @@ struct Recipe {
     var imageName: String
     /// Описание детальное
     var detailDescription: String
+}
+
+extension Recipe: Equatable {
+    static func == (lhs: Recipe, rhs: Recipe) -> Bool {
+        lhs.name == rhs.name &&
+            lhs.category.name == rhs.category.name
+    }
 }

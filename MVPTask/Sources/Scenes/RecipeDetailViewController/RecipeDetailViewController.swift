@@ -144,7 +144,7 @@ final class RecipeDetailViewController: UIViewController {
     }
 
     @objc private func addFavoriteRecipe() {
-        showAlertAboutFunctionality()
+        presenter?.addToFavorites()
     }
 
     @objc private func backToPreviousScreen() {

@@ -21,7 +21,6 @@ protocol FavoritesPresenterProtocol: AnyObject {
 final class FavoritesPresenter {
     private var recipes: [Recipe]?
     private let storageSource = StorageService()
-    private var category: Category?
 
     // MARK: Public Properties
 
@@ -52,15 +51,18 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
     }
 
     func deleteElement(index: Int) {
-        recipes?.remove(at: index)
+        if let recipes, recipes.indices.contains(index) {
+            self.recipes?.remove(at: index)
+            FavoritesStateService.shared.deleteFavorite(recipe: recipes[index])
+        }
     }
 
     func getRecipes() -> [Recipe] {
-        recipes ?? []
+        fillSources()
+        return recipes ?? []
     }
 
     private func fillSources() {
-        recipes = storageSource.getRecipes()
-        category = recipes?.last?.category
+        recipes = FavoritesStateService.shared.loadFavorites()
     }
 }

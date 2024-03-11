@@ -15,8 +15,13 @@ public enum LogAction {
     case shareRecipe(recipeName: String)
 }
 
-final class LogCommand {
+/// Функция для записи логов
+public func log(_ action: LogAction) {
+    let command = LogCommand(action: action)
+    LoggerInvoker.shared.addLogCommand(command)
+}
 
+final class LogCommand {
     // MARK: Private Properties
 
     private let action: LogAction

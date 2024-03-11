@@ -3,12 +3,6 @@
 
 import Foundation
 
-/// Функция для записи логов
-public func log(_ action: LogAction) {
-    let command = LogCommand(action: action)
-    LoggerInvoker.shared.addLogCommand(command)
-}
-
 final class LoggerInvoker {
     // MARK: Singleton
 
