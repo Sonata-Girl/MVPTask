@@ -4,7 +4,7 @@
 import Foundation
 
 /// Категория рецептов
-struct Category {
+struct Category: Codable {
     /// Наименование
     var name: String
     /// Наименование картинки категории

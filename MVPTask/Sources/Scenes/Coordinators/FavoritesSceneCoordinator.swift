@@ -18,12 +18,7 @@ final class FavoritesSceneCoordinator: BaseCoordinator {
         )
     }
 
-    func showCategoryScreen(category: Category) {
-        let favoriteViewController = AppBuilder().makeFavoritesModule(coordinator: self)
-        navigationController?.pushViewController(favoriteViewController, animated: true)
-    }
-
-    func tapProfile() {
+    func finishFlow() {
         finishFlowHandler?()
     }
 }

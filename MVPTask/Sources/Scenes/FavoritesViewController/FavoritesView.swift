@@ -48,6 +48,11 @@ class FavoritesView: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter?.getRecipes()
+    }
+
     // MARK: Private Methode
 
     private func setupTableView() {
@@ -93,7 +98,7 @@ extension FavoritesView: UITableViewDataSource {
         commit editingStyle: UITableViewCell.EditingStyle,
         forRowAt indexPath: IndexPath
     ) {
-        presenter?.deleteElement(index: indexPath.section)
+        presenter?.deleteElement(index: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .left)
         presenter?.examinationEmptyElement()
     }
