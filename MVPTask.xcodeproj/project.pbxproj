@@ -54,6 +54,8 @@
 		67CE9A1A2B9A55CC0024B8A5 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE9A192B9A55CB0024B8A5 /* Logger.swift */; };
 		67CE9A1C2B9A561E0024B8A5 /* LoggerInvoker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE9A1B2B9A561E0024B8A5 /* LoggerInvoker.swift */; };
 		67CE9A1E2B9B5CE50024B8A5 /* FavoritesStateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE9A1D2B9B5CE50024B8A5 /* FavoritesStateService.swift */; };
+		67CE9A212BA0D2190024B8A5 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE9A202BA0D2190024B8A5 /* NetworkService.swift */; };
+		67CE9A232BA0DEE60024B8A5 /* RecipesDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE9A222BA0DEE60024B8A5 /* RecipesDto.swift */; };
 		7308C4CB2B90EA2400A5F949 /* ErrorAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308C4CA2B90EA2400A5F949 /* ErrorAlertView.swift */; };
 		73315B752B98B7B600E8BB1C /* ShimmerCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73315B742B98B7B600E8BB1C /* ShimmerCellView.swift */; };
 		7360CB322B932FFB009B676A /* RecipeCellColectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7360CB312B932FFB009B676A /* RecipeCellColectionView.swift */; };
@@ -118,6 +120,8 @@
 		67CE9A192B9A55CB0024B8A5 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		67CE9A1B2B9A561E0024B8A5 /* LoggerInvoker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerInvoker.swift; sourceTree = "<group>"; };
 		67CE9A1D2B9B5CE50024B8A5 /* FavoritesStateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStateService.swift; sourceTree = "<group>"; };
+		67CE9A202BA0D2190024B8A5 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		67CE9A222BA0DEE60024B8A5 /* RecipesDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesDto.swift; sourceTree = "<group>"; };
 		7308C4CA2B90EA2400A5F949 /* ErrorAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertView.swift; sourceTree = "<group>"; };
 		73315B742B98B7B600E8BB1C /* ShimmerCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerCellView.swift; sourceTree = "<group>"; };
 		7360CB312B932FFB009B676A /* RecipeCellColectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCellColectionView.swift; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 				6751D02D2B8CC9B700396F91 /* App */,
 				6751D0462B8D18E600396F91 /* Helpers */,
 				6751D05D2B8E49CA00396F91 /* Models */,
+				67CE9A1F2BA0D1FD0024B8A5 /* NetworkService */,
 				6751D0782B8FC55500396F91 /* CustomUI */,
 				6751D02E2B8CC9BF00396F91 /* Scenes */,
 			);
@@ -298,6 +303,7 @@
 				6751D05E2B8E49E900396F91 /* User.swift */,
 				6751D0872B90E2AA00396F91 /* StorageService.swift */,
 				6751D0802B909B3700396F91 /* Recipe.swift */,
+				67CE9A222BA0DEE60024B8A5 /* RecipesDto.swift */,
 				6751D0822B909B4900396F91 /* Category.swift */,
 			);
 			path = Models;
@@ -412,6 +418,14 @@
 				67CE9A1B2B9A561E0024B8A5 /* LoggerInvoker.swift */,
 			);
 			path = LoggerService;
+			sourceTree = "<group>";
+		};
+		67CE9A1F2BA0D1FD0024B8A5 /* NetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				67CE9A202BA0D2190024B8A5 /* NetworkService.swift */,
+			);
+			path = NetworkService;
 			sourceTree = "<group>";
 		};
 		7377CB7E2B9499A200FC2554 /* FavoritesViewController */ = {
@@ -589,9 +603,11 @@
 				6751D0722B8FB00700396F91 /* CategoryRecipeViewPresenter.swift in Sources */,
 				6751D06D2B8FAF1600396F91 /* RecipesSceneCoordinator.swift in Sources */,
 				6751D0882B90E2AA00396F91 /* StorageService.swift in Sources */,
+				67CE9A232BA0DEE60024B8A5 /* RecipesDto.swift in Sources */,
 				6751D0912B93B9B700396F91 /* NutrientsRecipeViewCell.swift in Sources */,
 				67CE9A152B9A07100024B8A5 /* UIString+Exstension.swift in Sources */,
 				6751D0122B8CB9AB00396F91 /* SceneDelegate.swift in Sources */,
+				67CE9A212BA0D2190024B8A5 /* NetworkService.swift in Sources */,
 				7399872F2B97358B00E0EEF8 /* UIFont+Extension.swift in Sources */,
 				6751D0642B8E974300396F91 /* BonusesViewPresenter.swift in Sources */,
 				6751D0812B909B3700396F91 /* Recipe.swift in Sources */,

@@ -54,7 +54,7 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe1",
+//            imageName: "recipe1",
             detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe1)
@@ -69,7 +69,7 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe2",
+//            imageName: "recipe2",
             detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe2)
@@ -84,7 +84,7 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe3",
+//            imageName: "recipe3",
             detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe3)
@@ -99,7 +99,7 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe4",
+//            imageName: "recipe4",
             detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe4)
@@ -114,7 +114,7 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe5",
+//            imageName: "recipe5",
             detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe5)
@@ -129,7 +129,7 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe6",
+//            imageName: "recipe6",
             detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe6)
@@ -144,7 +144,7 @@ final class StorageService {
             fatsGram: 10.00,
             proteinGram: 97.30,
             enercKcal: 1322,
-            imageName: "recipe6",
+//            imageName: "recipe6",
             detailDescription: getDescriptionForRecipe()
         )
         recipes.append(recipe7)
