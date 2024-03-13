@@ -27,7 +27,8 @@ protocol CategoryRecipeViewPresenterProtocol: AnyObject {
     func search(searchText: String)
     /// Загрузить данные
     func loadRecipes()
-    /// Состояние загрузки
+    //// Состояние загрузки
+    //   var state: ViewState<Recipe> { get }
     var state: ViewState { get }
     ///  Записать переход на экран
     func logTransition()
@@ -55,6 +56,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     private var category: Category?
     private var searchingActive = false
     private var searchText = ""
+//    private(set) var state: ViewState<Recipe> = .loading
     private(set) var state: ViewState = .loading
 
     private var activatedSources: [SortType] = [
@@ -90,7 +92,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     func loadRecipes() {
         var categoryName = category?.name ?? ""
         var qParameter = ""
-        let replacingCategories = ["Chicken", "Meat", "Fish", "Side Dish"]
+        let replacingCategories = ["Chicken", "Meat", "Fish", "Side dish"]
         if replacingCategories.contains(categoryName) {
             categoryName = "Main course"
             qParameter = categoryName + searchText
@@ -105,6 +107,10 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
                     self.state = .loaded
                     self.recipes = recipes ?? []
                     self.configureSort()
+
+//                    guard let firstRecipe = recipes?.first else { return }
+//                    self.state = .data(firstRecipe)
+
                     self.view?.reloadTable()
                 case let .failure(error):
                     self.view?.showErrorAlert(error: error.localizedDescription)
@@ -112,6 +118,16 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
             }
         )
     }
+
+//    func getRecipe(index: Int) -> ViewState<Recipe> {
+//        if searchingActive {
+//            return presentedRecipes.filter {
+//                $0.name.lowercased().contains(searchText.lowercased())
+//            }
+//        }
+//        return state( presentedRecipes[index]
+
+//    }
 
     func getRecipes() -> [Recipe] {
         if searchingActive {

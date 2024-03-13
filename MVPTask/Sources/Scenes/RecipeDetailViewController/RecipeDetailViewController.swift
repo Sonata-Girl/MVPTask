@@ -5,10 +5,16 @@ import UIKit
 
 /// Состояния загрузки
 public enum ViewState {
-    /// Данные загружены
-    case loaded
     /// Данные еще не загружены
     case loading
+    /// Данные еще не загружены
+    case loaded
+    //// Данные загружены
+    //    case data/*(_ model: Model)*/
+    //    /// Нет данных
+    //    case noData(_ retryHandler: VoidHandler? = nil)
+    //    /// Ошибка
+    //    case error(_ error: Error, _ retryHandler: VoidHandler)
 }
 
 /// Экран отображения детализации рецепта

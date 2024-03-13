@@ -1,12 +1,9 @@
-//
-//  NetworkError.swift
-//  MVPTask
-//
-//  Created by Sonata Girl on 13.03.2024.
-//
+// NetworkError.swift
+// Copyright © RoadMap. All rights reserved.
 
 import Foundation
 
+/// Описание ошибок сети
 enum NetworkError: Error {
     case errorRequest
     case invalidResponceCode
@@ -15,12 +12,12 @@ enum NetworkError: Error {
     case error(message: String)
 
     public var description: String {
-        switch self{
+        switch self {
         case .errorRequest: return "Can't get answer from api"
         case .invalidResponceCode: return "Server back failure code"
         case .decodedProblem: return "Decoded problem from server"
         case .getDataProblem: return "Can't get data"
-        case.error(let message): return"\(message)"
+        case let .error(message): return"\(message)"
         }
     }
 }
