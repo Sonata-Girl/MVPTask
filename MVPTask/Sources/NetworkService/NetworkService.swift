@@ -28,7 +28,6 @@ final class NetworkService: NetworkServiceProtocol {
 
     func getRecipes(
         categoryName: String,
-
         qParameter: String,
         completion: @escaping (
             Result<[Recipe]?, Error>

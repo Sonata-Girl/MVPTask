@@ -80,11 +80,11 @@ extension RecipesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch presenter?.state {
         case .loaded:
-            presenter?.categories.count ?? 0
+            return presenter?.categories.count ?? 0
         case .loading:
-            10
+            return 10
         case nil:
-            0
+            return 0
         }
     }
 
