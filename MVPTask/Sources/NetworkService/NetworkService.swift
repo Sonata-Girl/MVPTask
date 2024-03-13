@@ -17,8 +17,8 @@ protocol NetworkServiceProtocol {
 
 /// Сервис для получения данных из сети
 final class NetworkService: NetworkServiceProtocol {
-    
     // MARK: Private Properties
+
     private let jsonDecoder = JSONDecoder()
 
     private var component = URLComponents()
