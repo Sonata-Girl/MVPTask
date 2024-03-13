@@ -10,7 +10,10 @@ protocol AppBuilderProtocol {
     /// Создание модуля экрана рецептов (1 экран таббара)
     func makeRecipesModule(coordinator: RecipesSceneCoordinator) -> RecipesViewController
     /// Создание модуля экрана категории
-    func makeCategoryRecipeModule(coordinator: RecipesSceneCoordinator) -> CategoryRecipeViewController
+    func makeCategoryRecipeModule(
+        coordinator: RecipesSceneCoordinator,
+        category: Category
+    ) -> CategoryRecipeViewController
     /// Создание модуля экрана детализации рецепта
     func makeDetailRecipeModule(
         coordinator: RecipesSceneCoordinator,
@@ -69,11 +72,17 @@ final class AppBuilder: AppBuilderProtocol {
         return view
     }
 
-    func makeCategoryRecipeModule(coordinator: RecipesSceneCoordinator) -> CategoryRecipeViewController {
+    func makeCategoryRecipeModule(
+        coordinator: RecipesSceneCoordinator,
+        category: Category
+    ) -> CategoryRecipeViewController {
         let view = CategoryRecipeViewController()
+        let networkService = NetworkService()
         let presenter = CategoryRecipeViewPresenter(
             view: view,
-            coordinator: coordinator
+            coordinator: coordinator,
+            networkService: networkService,
+            category: category
         )
         view.presenter = presenter
         return view
