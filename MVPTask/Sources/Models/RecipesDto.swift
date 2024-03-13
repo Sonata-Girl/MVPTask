@@ -5,45 +5,64 @@ import Foundation
 
 // MARK: - RecipesDto
 
-/// Рецепты
-struct RecipesDto: Decodable {
-    ///
+/// Корень получения данных рецептов
+struct RecipesDTO: Decodable {
+    /// От
     let from: Int?
+    /// К
     let to: Int?
+    /// Количество
     let count: Int?
-//    let links: LinksDto
+    /// Список рецептов
     var hits: [Hit]
 }
 
 // MARK: - Hit
 
-/// Хит
+/// Обертка для состава рецепта
 struct Hit: Decodable {
-    var recipe: RecipeDto
+    /// Рецепт
+    var recipe: RecipeDTO
 }
 
-// MARK: - Recipe
+// MARK: - RecipeDto
 
 /// Рецепт
-struct RecipeDto: Decodable {
+struct RecipeDTO: Decodable {
+    /// Название
     let label: String
+    /// Адрес картинки
     let image: String
+    /// Картинка в base64
     var imageBase64: String?
-    let images: ImagesDto
+    /// Картинки в разных размерах
+    let images: ImagesDTO
+    /// Адрес рецепта
     let url: String
+    /// Время приготовления
     let totalTime: Int
+    /// Ингредиенты рецепта
     let ingredientLines: [String]
+    /// Количества калорий рецепта
     let calories: Double
+    /// Вес рецепта
     let totalWeight: Double
+    /// Тип блюда
     let dishType: [String]
-    let totalNutrients: NutrinentsDto
+    /// Состав ингредиентов
+    let totalNutrients: NutrinentsDTO
 }
 
-// MARK: - Images
+// MARK: - ImagesDTO
 
-/// Рецепты
-struct ImagesDto: Decodable {
-    let thumbnail, small, regular: ImageDto
+/// Картинка рецепта
+struct ImagesDTO: Decodable {
+    /// Размер наброска картинки
+    let thumbnail: ImageDTO
+    /// Маленькая картинка
+    let small: ImageDTO
+    /// Обычный размер картинки
+    let regular: ImageDTO
 
     enum CodingKeys: String, CodingKey {
         case thumbnail = "THUMBNAIL"
@@ -52,22 +71,30 @@ struct ImagesDto: Decodable {
     }
 }
 
-// MARK: - Large
+// MARK: - ImageDTO
 
-/// Рецепты
-struct ImageDto: Decodable {
+/// Свойства картинок рецепта
+struct ImageDTO: Decodable {
+    /// Адрес картинки
     let url: String
-    let width, height: Int
+    /// Ширина , высота
+    let width: Int
+    /// Высота
+    let height: Int
 }
 
-// MARK: - Total
+// MARK: - NutrinentsDto
 
-/// Рецепты
-struct NutrinentsDto: Decodable {
-    let enercKcal: NutrientDto?
-    let fat: NutrientDto
-    let carbohydrates: NutrientDto
-    let proteins: NutrientDto
+/// Питательные вещества
+struct NutrinentsDTO: Decodable {
+    /// Энергетические калории
+    let enercKcal: NutrientDTO?
+    /// Жиры
+    let fat: NutrientDTO
+    /// Карбогидраты
+    let carbohydrates: NutrientDTO
+    /// Протеины
+    let proteins: NutrientDTO
 
     enum CodingKeys: String, CodingKey {
         case enercKcal = "ENERC_KCAL"
@@ -77,11 +104,14 @@ struct NutrinentsDto: Decodable {
     }
 }
 
-// MARK: - AdditionalProp
+// MARK: - NutrientDTO
 
-/// Рецепты
-struct NutrientDto: Decodable {
+/// Состав питательного вещества
+struct NutrientDTO: Decodable {
+    /// Наименование
     let label: String
+    /// Количество
     let quantity: Double
+    /// Единицы измерения
     let unit: String
 }

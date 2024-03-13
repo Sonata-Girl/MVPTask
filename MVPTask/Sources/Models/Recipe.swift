@@ -30,36 +30,36 @@ struct Recipe: Codable {
     /// Описание детальное
     var detailDescription: String
 
-    init(
-        name: String,
-        dishType: [String] = [],
+//    init(
+//        name: String,
+//        dishType: [String] = [],
+//
+//        category: Category,
+//        cookingTimeInMinutes: Int,
+//        caloriesCount: Int,
+//        weightGram: Int,
+//        carbohydratesGram: Double,
+//        fatsGram: Double,
+//        proteinGram: Double,
+//        enercKcal: Int,
+//        imageBase64: String = "",
+//        detailDescription: String
+//    ) {
+//        self.name = name
+//        self.dishType = dishType
+//        self.category = category
+//        self.cookingTimeInMinutes = cookingTimeInMinutes
+//        self.caloriesCount = caloriesCount
+//        self.weightGram = weightGram
+//        self.carbohydratesGram = carbohydratesGram
+//        self.fatsGram = fatsGram
+//        self.proteinGram = proteinGram
+//        self.enercKcal = enercKcal
+//        self.imageBase64 = imageBase64
+//        self.detailDescription = detailDescription
+//    }
 
-        category: Category,
-        cookingTimeInMinutes: Int,
-        caloriesCount: Int,
-        weightGram: Int,
-        carbohydratesGram: Double,
-        fatsGram: Double,
-        proteinGram: Double,
-        enercKcal: Int,
-        imageBase64: String = "",
-        detailDescription: String
-    ) {
-        self.name = name
-        self.dishType = dishType
-        self.category = category
-        self.cookingTimeInMinutes = cookingTimeInMinutes
-        self.caloriesCount = caloriesCount
-        self.weightGram = weightGram
-        self.carbohydratesGram = carbohydratesGram
-        self.fatsGram = fatsGram
-        self.proteinGram = proteinGram
-        self.enercKcal = enercKcal
-        self.imageBase64 = imageBase64
-        self.detailDescription = detailDescription
-    }
-
-    init(dto: RecipeDto) {
+    init(dto: RecipeDTO) {
         name = dto.label
         dishType = dto.dishType
         cookingTimeInMinutes = dto.totalTime
