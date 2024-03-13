@@ -1,8 +1,6 @@
 // ImagesDTO.swift
 // Copyright © RoadMap. All rights reserved.
 
-// MARK: - ImagesDTO
-
 /// Картинка рецепта
 struct ImagesDTO: Decodable {
     /// Размер наброска картинки

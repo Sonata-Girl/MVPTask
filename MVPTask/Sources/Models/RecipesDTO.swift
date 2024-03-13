@@ -1,10 +1,6 @@
 // RecipesDTO.swift
 // Copyright © RoadMap. All rights reserved.
 
-import Foundation
-
-// MARK: - RecipesDto
-
 /// Корень получения данных рецептов
 struct RecipesDTO: Decodable {
     /// От

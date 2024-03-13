@@ -1,8 +1,6 @@
 // NutrientsDTO.swift
 // Copyright © RoadMap. All rights reserved.
 
-// MARK: - NutrinentsDto
-
 /// Питательные вещества
 struct NutrinentsDTO: Decodable {
     /// Энергетические калории

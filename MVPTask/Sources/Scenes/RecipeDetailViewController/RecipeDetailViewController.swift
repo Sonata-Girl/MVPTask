@@ -90,6 +90,8 @@ final class RecipeDetailViewController: UIViewController {
         configureNavigationBar()
         setupHierarchy()
         setupConstraints()
+
+        presenter?.loadRecipe()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -209,4 +211,16 @@ extension RecipeDetailViewController: UITableViewDataSource {
 // MARK: - RecipeDetailViewProtocol
 
 /// RecipeDetailViewController + RecipeDetailViewProtocol
-extension RecipeDetailViewController: RecipeDetailViewProtocol {}
+extension RecipeDetailViewController: RecipeDetailViewProtocol {
+    func reloadTable() {
+        DispatchQueue.main.async {
+            self.mainTableView.reloadData()
+        }
+    }
+
+    func showErrorAlert(error: String) {
+        DispatchQueue.main.async {
+            self.showAlert(title: error, hasCancel: false)
+        }
+    }
+}

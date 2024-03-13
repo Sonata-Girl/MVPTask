@@ -1,8 +1,6 @@
 // NutrientDTO.swift
 // Copyright © RoadMap. All rights reserved.
 
-// MARK: - NutrientDTO
-
 /// Состав питательного вещества
 struct NutrientDTO: Decodable {
     /// Наименование

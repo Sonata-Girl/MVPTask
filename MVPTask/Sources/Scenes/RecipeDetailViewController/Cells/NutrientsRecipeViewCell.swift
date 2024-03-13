@@ -87,9 +87,9 @@ final class NutrientsRecipeViewCell: UITableViewCell {
 
     func configureCell(recipe: Recipe) {
         enercCaloriesCountLabel.text = "\(recipe.enercKcal) \(Constants.enercCaloriesText)"
-        carbohydratesCountLabel.text = "\(recipe.carbohydratesGram) \(Constants.gramText)"
-        fatsCountLabel.text = "\(recipe.fatsGram) \(Constants.gramText)"
-        proteinsCountLabel.text = "\(recipe.proteinGram) \(Constants.gramText)"
+        carbohydratesCountLabel.text = "\(String(format: "%.2f", recipe.carbohydratesGram)) \(Constants.gramText)"
+        fatsCountLabel.text = "\(String(format: "%.2f", recipe.fatsGram)) \(Constants.gramText)"
+        proteinsCountLabel.text = "\(String(format: "%.2f", recipe.proteinGram)) \(Constants.gramText)"
     }
 
     // MARK: Private Methods
