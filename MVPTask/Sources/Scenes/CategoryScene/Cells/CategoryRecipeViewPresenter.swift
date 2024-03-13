@@ -9,6 +9,8 @@ protocol CategoryRecipeViewProtocol: AnyObject {
     func setTitle(title: String)
     /// Перезагрузить таблицу
     func reloadTable()
+    /// Показать ошибку
+    func showErrorAlert(error: String)
 }
 
 /// Протокол презентера экрана списка рецептов одной категории
@@ -69,7 +71,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     init(
         view: CategoryRecipeViewProtocol?,
         coordinator: RecipesSceneCoordinator,
-        networkService: NetworkService,
+        networkService: NetworkServiceProtocol,
         category: Category
     ) {
         self.view = view
@@ -88,28 +90,24 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     func loadRecipes() {
         var categoryName = category?.name ?? ""
         var qParameter = ""
-        if categoryName.contains("Chicken") || 
-            categoryName.contains("Meat") ||
-            categoryName.contains("Fish") || 
-            categoryName.contains("Side Dish") {
+        let replacingCategories = ["Chicken", "Meat", "Fish", "Side Dish"]
+        if replacingCategories.contains(categoryName) {
             categoryName = "Main course"
-            qParameter = categoryName
+            qParameter = categoryName + searchText
         }
         networkService?.getRecipes(
             categoryName: categoryName,
             qParameter: qParameter,
             completion: { [weak self] result in
                 guard let self else { return }
-                DispatchQueue.main.async {
-                    switch result {
-                    case let .success(recipes):
-                        self.state = .loaded
-                        self.recipes = recipes ?? []
-                        self.configureSort()
-                        self.view?.reloadTable()
-                    case let .failure(error):
-                        print(error)
-                    }
+                switch result {
+                case let .success(recipes):
+                    self.state = .loaded
+                    self.recipes = recipes ?? []
+                    self.configureSort()
+                    self.view?.reloadTable()
+                case let .failure(error):
+                    self.view?.showErrorAlert(error: error.localizedDescription)
                 }
             }
         )
@@ -129,7 +127,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     }
 
     func goToDetailRecipeScreen(index: Int) {
-        coordinator?.goToDetailRecipeScreen(recipe: recipes[index])
+        coordinator?.goToDetailRecipeScreen(uri: recipes[index].uri)
     }
 
     private func fillSources() {

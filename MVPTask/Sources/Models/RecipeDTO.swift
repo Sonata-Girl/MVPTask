@@ -1,8 +1,6 @@
 // RecipeDTO.swift
 // Copyright © RoadMap. All rights reserved.
 
-// MARK: - RecipeDto
-
 /// Рецепт
 struct RecipeDTO: Decodable {
     /// Название
@@ -15,6 +13,8 @@ struct RecipeDTO: Decodable {
     let images: ImagesDTO
     /// Адрес рецепта
     let url: String
+    /// Параметр для запроса инициализации
+    let uri: String
     /// Время приготовления
     let totalTime: Int
     /// Ингредиенты рецепта

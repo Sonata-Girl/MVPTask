@@ -29,6 +29,8 @@ struct Recipe: Codable {
     var imageBase64: String
     /// Описание детальное
     var detailDescription: String
+    /// Ссылка для получения рецепта
+    var uri: String
 
     init(dto: RecipeDTO) {
         name = dto.label
@@ -41,8 +43,9 @@ struct Recipe: Codable {
         proteinGram = dto.totalNutrients.proteins.quantity
         enercKcal = Int(dto.totalNutrients.enercKcal?.quantity ?? 0)
         imageBase64 = dto.imageBase64 ?? ""
-        detailDescription = dto.ingredientLines.joined(separator: "/n")
+        detailDescription = dto.ingredientLines.joined(separator: "\n")
         category = .init(name: "", imageName: "")
+        uri = dto.uri
     }
 }
 

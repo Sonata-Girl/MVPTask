@@ -30,13 +30,12 @@ final class StorageService {
 
     private func fillTestSources() {
         // Заполнение Категорий
-        let categoryFish = Category(name: "Fish", imageName: "recipe7")
         categories = [
+            .init(name: "Fish", imageName: "fish"),
             .init(name: "Salad", imageName: "salad"),
             .init(name: "Soup", imageName: "soup"),
             .init(name: "Chicken", imageName: "chicken"),
             .init(name: "Meat", imageName: "meat"),
-            categoryFish,
             .init(name: "Side dish", imageName: "side dish"),
             .init(name: "Drinks", imageName: "drinks"),
             .init(name: "Pancake", imageName: "pancakes"),
