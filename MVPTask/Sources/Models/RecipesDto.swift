@@ -14,13 +14,13 @@ struct RecipesDTO: Decodable {
     /// Количество
     let count: Int?
     /// Список рецептов
-    var hits: [Hit]
+    var hits: [HitDTO]
 }
 
 // MARK: - Hit
 
 /// Обертка для состава рецепта
-struct Hit: Decodable {
+struct HitDTO: Decodable {
     /// Рецепт
     var recipe: RecipeDTO
 }
@@ -43,7 +43,7 @@ struct RecipeDTO: Decodable {
     let totalTime: Int
     /// Ингредиенты рецепта
     let ingredientLines: [String]
-    /// Количества калорий рецепта
+    /// Калорийность блюда
     let calories: Double
     /// Вес рецепта
     let totalWeight: Double
@@ -91,7 +91,7 @@ struct NutrinentsDTO: Decodable {
     let enercKcal: NutrientDTO?
     /// Жиры
     let fat: NutrientDTO
-    /// Карбогидраты
+    /// Углеводы
     let carbohydrates: NutrientDTO
     /// Протеины
     let proteins: NutrientDTO
