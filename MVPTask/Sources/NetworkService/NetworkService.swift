@@ -4,7 +4,13 @@
 import Foundation
 
 protocol NetworkServiceProtocol {
-    func getRecipes(categoryName: String, completion: @escaping (Result<[Recipe]?, Error>) -> Void)
+    func getRecipes(
+        categoryName: String,
+        qParameter: String,
+        completion: @escaping (
+            Result<[Recipe]?, Error>
+        ) -> Void
+    )
 }
 
 final class NetworkService: NetworkServiceProtocol {
@@ -20,13 +26,21 @@ final class NetworkService: NetworkServiceProtocol {
         .init(name: "app_key", value: "c57834e6ab65957628fd02601f8b92bd")
     ]
 
-    func getRecipes(categoryName: String, completion: @escaping (Result<[Recipe]?, Error>) -> Void) {
+    func getRecipes(
+        categoryName: String,
+
+        qParameter: String,
+        completion: @escaping (
+            Result<[Recipe]?, Error>
+        ) -> Void
+    ) {
         var urlComponent = component
         urlComponent.scheme = scheme
         urlComponent.host = host
         urlComponent.path = path
         urlComponent.queryItems = queryItems
         urlComponent.queryItems?.append(URLQueryItem(name: "dishType", value: "\(categoryName)"))
+        urlComponent.queryItems?.append(URLQueryItem(name: "q", value: "\(qParameter)"))
 
         guard let url = urlComponent.url else { return }
 

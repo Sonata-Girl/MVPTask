@@ -86,8 +86,17 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     }
 
     func loadRecipes() {
+        var categoryName = category?.name ?? ""
+        var qParameter = ""
+        if categoryName.contains("Chicken") || categoryName.contains("Meat") ||
+            categoryName.contains("Fish") || categoryName.contains("Side Dish")
+        {
+            categoryName = "Main course"
+            qParameter = categoryName
+        }
         networkService?.getRecipes(
-            categoryName: category?.name.localizedLowercase ?? "",
+            categoryName: categoryName,
+            qParameter: qParameter,
             completion: { [weak self] result in
                 guard let self else { return }
                 DispatchQueue.main.async {
