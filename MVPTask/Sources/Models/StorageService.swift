@@ -43,6 +43,7 @@ final class StorageService {
             .init(name: "Desserts", imageName: "desserts")
         ]
 
+        // TODO: Временно заккоментировали
         /// Recipe
 //        let recipe1 = Recipe(
 //            name: "Simple Fish And Corn",
