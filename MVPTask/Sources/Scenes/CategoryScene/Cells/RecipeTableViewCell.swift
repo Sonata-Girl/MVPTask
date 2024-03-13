@@ -39,7 +39,7 @@ class RecipeTableViewCell: UITableViewCell {
     private let recipeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.clipsToBounds = false
+        imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
         return imageView
     }()
@@ -105,7 +105,12 @@ class RecipeTableViewCell: UITableViewCell {
     }
 
     func configureCell(recipe: Recipe) {
-        recipeImageView.image = UIImage(named: recipe.imageName)
+        if let dataDecoded = Data(
+            base64Encoded: recipe.imageBase64,
+            options: .ignoreUnknownCharacters
+        ) {
+            recipeImageView.image = UIImage(data: dataDecoded)
+        }
         recipeNameLabel.text = recipe.name
         timerLabel.text = "\(recipe.cookingTimeInMinutes) \(Constants.minutesTitle)"
         caloriesLabel.text = "\(recipe.caloriesCount) \(Constants.caloriesTitle)"
