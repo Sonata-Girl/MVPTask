@@ -3,7 +3,9 @@
 
 import Foundation
 
+/// Интерфейс сервиса для получения данных из сети
 protocol NetworkServiceProtocol {
+    /// Получение рецептов
     func getRecipes(
         categoryName: String,
         qParameter: String,
@@ -13,7 +15,10 @@ protocol NetworkServiceProtocol {
     )
 }
 
+/// Сервис для получения данных из сети
 final class NetworkService: NetworkServiceProtocol {
+    
+    // MARK: Private Properties
     private let jsonDecoder = JSONDecoder()
 
     private var component = URLComponents()
@@ -25,6 +30,8 @@ final class NetworkService: NetworkServiceProtocol {
         .init(name: "app_id", value: "92ffabec"),
         .init(name: "app_key", value: "c57834e6ab65957628fd02601f8b92bd")
     ]
+
+    // MARK: Public Methods
 
     func getRecipes(
         categoryName: String,
@@ -54,13 +61,13 @@ final class NetworkService: NetworkServiceProtocol {
                 guard let data else { return }
                 self.jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
 
-                var recipesDto = try self.jsonDecoder.decode(RecipesDto.self, from: data)
-                for (index, hit) in recipesDto.hits.enumerated() {
+                var recipesDTO = try self.jsonDecoder.decode(RecipesDTO.self, from: data)
+                for (index, hit) in recipesDTO.hits.enumerated() {
                     if let imageURL = URL(string: hit.recipe.image), let data = try? Data(contentsOf: imageURL) {
-                        recipesDto.hits[index].recipe.imageBase64 = data.base64EncodedString()
+                        recipesDTO.hits[index].recipe.imageBase64 = data.base64EncodedString()
                     }
                 }
-                let recipes = recipesDto.hits.map {
+                let recipes = recipesDTO.hits.map {
                     Recipe(dto: $0.recipe)
                 }
 
