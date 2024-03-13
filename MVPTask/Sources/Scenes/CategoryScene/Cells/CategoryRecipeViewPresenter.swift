@@ -88,9 +88,10 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     func loadRecipes() {
         var categoryName = category?.name ?? ""
         var qParameter = ""
-        if categoryName.contains("Chicken") || categoryName.contains("Meat") ||
-            categoryName.contains("Fish") || categoryName.contains("Side Dish")
-        {
+        if categoryName.contains("Chicken") || 
+            categoryName.contains("Meat") ||
+            categoryName.contains("Fish") || 
+            categoryName.contains("Side Dish") {
             categoryName = "Main course"
             qParameter = categoryName
         }
