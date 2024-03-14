@@ -47,6 +47,8 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
 
     private enum Constants {
         static let titleScreen = "Экран со списком рецептов"
+        static let vegetarianText = "vegetarian"
+        static let sideDishText = "Side dish"
     }
 
     // MARK: Public Properties
@@ -56,6 +58,8 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     // MARK: Private Properties
 
     private let networkService: NetworkServiceProtocol?
+    private let proxyImageService: LoadImageServiceProtocol?
+
     private weak var view: CategoryRecipeViewProtocol?
     private let storageSource = StorageService()
     private var recipes: [Recipe] = []
@@ -90,6 +94,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         self.coordinator = coordinator
         self.networkService = networkService
         self.category = category
+        proxyImageService = ProxyLoadService(service: LoadImageService())
         view?.setTitle(title: category.name)
     }
 
@@ -103,26 +108,40 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         state = .loading
         var categoryName = category?.name ?? ""
         var qParameter = ""
+        var health = ""
         let replacingCategories = ["Chicken", "Meat", "Fish", "Side dish"]
         if replacingCategories.contains(categoryName) {
             categoryName = "Main course"
             qParameter = categoryName + searchText
+            if categoryName == Constants.sideDishText {
+                health = Constants.vegetarianText
+            }
         }
         networkService?.getRecipes(
             categoryName: categoryName,
             qParameter: qParameter,
+            health: health,
             completion: { [weak self] result in
-                guard let self else { return }
                 switch result {
                 case let .success(recipes):
-                    self.recipes = recipes
-                    self.configureSort()
-                    updateState()
+                    self?.recipes = recipes
+                    self?.configureSort()
+                    DispatchQueue.main.async {
+                        self?.updateState()
+                    }
                 case let .failure(error):
-                    state = .error(error) {}
+                    self?.state = .error(error) {}
                 }
             }
         )
+    }
+
+    func loadImage(url: String, indexCell: Int) {
+        guard let url = URL(string: url) else { return }
+        proxyImageService?.loadImage(url: url) { [weak self] data, _, error in
+            guard let self = self, let data = data, error == nil else { return }
+            self.recipes[indexCell].imageBase64 = data.base64EncodedString()
+        }
     }
 
     func backToRecipeScreen() {

@@ -219,8 +219,6 @@ extension RecipeDetailViewController: UITableViewDataSource {
 /// RecipeDetailViewController + RecipeDetailViewProtocol
 extension RecipeDetailViewController: RecipeDetailViewProtocol {
     func reloadTable() {
-        DispatchQueue.main.async {
-            self.mainTableView.reloadData()
-        }
+        mainTableView.reloadData()
     }
 }

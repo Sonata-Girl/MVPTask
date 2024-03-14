@@ -152,9 +152,7 @@ final class CategoryRecipeViewController: UIViewController {
 /// CategoryRecipeViewController + CategoryRecipeViewProtocol
 extension CategoryRecipeViewController: CategoryRecipeViewProtocol {
     func reloadTable() {
-        DispatchQueue.main.async {
-            self.mainTableView.reloadData()
-        }
+        mainTableView.reloadData()
     }
 }
 

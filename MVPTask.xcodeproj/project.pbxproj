@@ -65,6 +65,10 @@
 		67CE9A312BA2183E0024B8A5 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE9A302BA2183E0024B8A5 /* RequestBuilder.swift */; };
 		67CE9A332BA2399C0024B8A5 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE9A322BA2399C0024B8A5 /* NetworkError.swift */; };
 		67CE9A372BA255CA0024B8A5 /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE9A362BA255CA0024B8A5 /* URLSession+Extension.swift */; };
+		67CE9A3A2BA334310024B8A5 /* LoadImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE9A392BA334310024B8A5 /* LoadImageService.swift */; };
+		67CE9A3C2BA334500024B8A5 /* LoadImageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE9A3B2BA334500024B8A5 /* LoadImageServiceProtocol.swift */; };
+		67CE9A3E2BA340F00024B8A5 /* ProxyLoadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE9A3D2BA340F00024B8A5 /* ProxyLoadService.swift */; };
+		67CE9A402BA343290024B8A5 /* ImageWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE9A3F2BA343290024B8A5 /* ImageWrapper.swift */; };
 		7308C4CB2B90EA2400A5F949 /* ErrorAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308C4CA2B90EA2400A5F949 /* ErrorAlertView.swift */; };
 		73315B752B98B7B600E8BB1C /* ShimmerCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73315B742B98B7B600E8BB1C /* ShimmerCellView.swift */; };
 		7360CB322B932FFB009B676A /* RecipeCellColectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7360CB312B932FFB009B676A /* RecipeCellColectionView.swift */; };
@@ -140,6 +144,10 @@
 		67CE9A302BA2183E0024B8A5 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
 		67CE9A322BA2399C0024B8A5 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		67CE9A362BA255CA0024B8A5 /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
+		67CE9A392BA334310024B8A5 /* LoadImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadImageService.swift; sourceTree = "<group>"; };
+		67CE9A3B2BA334500024B8A5 /* LoadImageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadImageServiceProtocol.swift; sourceTree = "<group>"; };
+		67CE9A3D2BA340F00024B8A5 /* ProxyLoadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyLoadService.swift; sourceTree = "<group>"; };
+		67CE9A3F2BA343290024B8A5 /* ImageWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageWrapper.swift; sourceTree = "<group>"; };
 		7308C4CA2B90EA2400A5F949 /* ErrorAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertView.swift; sourceTree = "<group>"; };
 		73315B742B98B7B600E8BB1C /* ShimmerCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerCellView.swift; sourceTree = "<group>"; };
 		7360CB312B932FFB009B676A /* RecipeCellColectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCellColectionView.swift; sourceTree = "<group>"; };
@@ -448,11 +456,23 @@
 		67CE9A1F2BA0D1FD0024B8A5 /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
+				67CE9A382BA334120024B8A5 /* LoadImageService */,
 				67CE9A202BA0D2190024B8A5 /* NetworkService.swift */,
 				67CE9A322BA2399C0024B8A5 /* NetworkError.swift */,
 				67CE9A302BA2183E0024B8A5 /* RequestBuilder.swift */,
 			);
 			path = NetworkService;
+			sourceTree = "<group>";
+		};
+		67CE9A382BA334120024B8A5 /* LoadImageService */ = {
+			isa = PBXGroup;
+			children = (
+				67CE9A392BA334310024B8A5 /* LoadImageService.swift */,
+				67CE9A3F2BA343290024B8A5 /* ImageWrapper.swift */,
+				67CE9A3D2BA340F00024B8A5 /* ProxyLoadService.swift */,
+				67CE9A3B2BA334500024B8A5 /* LoadImageServiceProtocol.swift */,
+			);
+			path = LoadImageService;
 			sourceTree = "<group>";
 		};
 		7377CB7E2B9499A200FC2554 /* FavoritesViewController */ = {
@@ -584,6 +604,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6751D05C2B8E465600396F91 /* UIVIewController+Extension.swift in Sources */,
+				67CE9A3A2BA334310024B8A5 /* LoadImageService.swift in Sources */,
 				6751D0622B8E808B00396F91 /* BonusesViewController.swift in Sources */,
 				6751D0702B8FAFB600396F91 /* CategoryRecipeViewController.swift in Sources */,
 				6751D0142B8CB9AB00396F91 /* LoginViewController.swift in Sources */,
@@ -603,6 +624,7 @@
 				7377CB802B949A0200FC2554 /* FavoritesView.swift in Sources */,
 				6751D04E2B8D2B0800396F91 /* AppBuilder.swift in Sources */,
 				73A326722B8E241000D92928 /* UIColor+Extension.swift in Sources */,
+				67CE9A3C2BA334500024B8A5 /* LoadImageServiceProtocol.swift in Sources */,
 				6751D0102B8CB9AB00396F91 /* AppDelegate.swift in Sources */,
 				6751D0542B8D3F4500396F91 /* ProfileSceneCoordinator.swift in Sources */,
 				6751D0362B8CCAFD00396F91 /* MainTabBarController.swift in Sources */,
@@ -640,6 +662,7 @@
 				67CE9A2D2BA1D5D00024B8A5 /* NutrientsDTO.swift in Sources */,
 				67CE9A2B2BA1D5B60024B8A5 /* ImageDTO.swift in Sources */,
 				67CE9A152B9A07100024B8A5 /* UIString+Exstension.swift in Sources */,
+				67CE9A402BA343290024B8A5 /* ImageWrapper.swift in Sources */,
 				67CE9A312BA2183E0024B8A5 /* RequestBuilder.swift in Sources */,
 				6751D0122B8CB9AB00396F91 /* SceneDelegate.swift in Sources */,
 				67CE9A212BA0D2190024B8A5 /* NetworkService.swift in Sources */,
@@ -647,6 +670,7 @@
 				7399872F2B97358B00E0EEF8 /* UIFont+Extension.swift in Sources */,
 				6751D0642B8E974300396F91 /* BonusesViewPresenter.swift in Sources */,
 				6751D0812B909B3700396F91 /* Recipe.swift in Sources */,
+				67CE9A3E2BA340F00024B8A5 /* ProxyLoadService.swift in Sources */,
 				6751D0A12B97B58000396F91 /* ShimmerRecipeViewCell.swift in Sources */,
 				6751D07A2B8FC58600396F91 /* SortButtonsView.swift in Sources */,
 				73315B752B98B7B600E8BB1C /* ShimmerCellView.swift in Sources */,

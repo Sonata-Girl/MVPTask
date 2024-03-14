@@ -14,6 +14,7 @@ protocol NetworkServiceProtocol {
     func getRecipes(
         categoryName: String,
         qParameter: String,
+        health: String,
         completion: @escaping HandlerRecipes
     )
 
@@ -44,11 +45,13 @@ final class NetworkService: NetworkServiceProtocol {
     func getRecipes(
         categoryName: String,
         qParameter: String,
+        health: String,
         completion: @escaping HandlerRecipes
     ) {
         guard let url = requestBuilder.makeCategoryRecipeRequest(
             categoryName: categoryName,
-            qParameter: qParameter
+            qParameter: qParameter,
+            health: health
         )?.url else { return }
 
         session.dataTask(with: url) { result in

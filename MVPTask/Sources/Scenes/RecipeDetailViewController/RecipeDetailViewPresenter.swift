@@ -67,8 +67,10 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
                 guard let self else { return }
                 switch result {
                 case let .success(recipe):
-                    self.state = .data(recipe)
                     self.recipe = recipe
+                    DispatchQueue.main.async {
+                        self.state = .data(recipe)
+                    }
                 case let .failure(error):
                     state = .error(error) {}
                 }
