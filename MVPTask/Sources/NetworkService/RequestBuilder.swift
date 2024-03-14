@@ -43,10 +43,13 @@ enum ApiType {
 final class RequestBuilder {
     private let api = ApiType.self
 
-    func makeCategoryRecipeRequest(categoryName: String, qParameter: String) -> URLRequest? {
+    func makeCategoryRecipeRequest(categoryName: String, qParameter: String, health: String) -> URLRequest? {
         var components = api.getRecipes.components
         components.queryItems?.append(URLQueryItem(name: "dishType", value: categoryName))
         components.queryItems?.append(URLQueryItem(name: "q", value: qParameter))
+        if !health.isEmpty {
+            components.queryItems?.append(URLQueryItem(name: "health", value: health))
+        }
         guard let url = components.url else { return nil }
         return URLRequest(url: url)
     }

@@ -67,6 +67,12 @@ final class RecipeDetailViewController: UIViewController {
         return tableView
     }()
 
+    private lazy var refreshTableControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
+        return refreshControl
+    }()
+
     // MARK: Public Properties
 
     var presenter: RecipeDetailViewPresenter?
@@ -84,9 +90,9 @@ final class RecipeDetailViewController: UIViewController {
         setupHierarchy()
         setupConstraints()
 
-        presenter?.loadRecipe()
         view.addSubview(copyImitatorScreenShimmerView)
         copyImitatorScreenShimmerView.isHidden = false
+        presenter?.loadRecipe(refresh: false)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -108,6 +114,7 @@ final class RecipeDetailViewController: UIViewController {
 
     private func setupHierarchy() {
         view.addSubview(mainTableView)
+        mainTableView.addSubview(refreshTableControl)
     }
 
     private func setupConstraints() {
@@ -150,6 +157,10 @@ final class RecipeDetailViewController: UIViewController {
 
     @objc private func backToPreviousScreen() {
         presenter?.backToCategoryScreen()
+    }
+
+    @objc private func refreshTableView() {
+        presenter?.loadRecipe(refresh: true)
     }
 }
 
@@ -222,8 +233,16 @@ extension RecipeDetailViewController: UITableViewDataSource {
 /// RecipeDetailViewController + RecipeDetailViewProtocol
 extension RecipeDetailViewController: RecipeDetailViewProtocol {
     func reloadTable() {
-        DispatchQueue.main.async {
-            self.mainTableView.reloadData()
+        mainTableView.reloadData()
+    }
+
+    func loadImage(imageBase64: String) {
+        if let cell = mainTableView.cellForRow(at: IndexPath(item: 0, section: 0)) as? HeaderRecipeViewCell {
+            cell.setupImage(imageBase64: imageBase64)
         }
+    }
+
+    func stopRefreshing() {
+        refreshTableControl.endRefreshing()
     }
 }

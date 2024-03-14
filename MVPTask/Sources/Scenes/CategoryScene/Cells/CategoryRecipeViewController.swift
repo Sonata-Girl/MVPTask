@@ -60,6 +60,12 @@ final class CategoryRecipeViewController: UIViewController {
         return tableView
     }()
 
+    private lazy var refreshTableControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
+        return refreshControl
+    }()
+
     // MARK: Public Properties
 
     var presenter: CategoryRecipeViewPresenterProtocol?
@@ -73,7 +79,7 @@ final class CategoryRecipeViewController: UIViewController {
         setupHierarchy()
         setupConstraints()
 
-        presenter?.loadRecipes()
+        presenter?.loadRecipes(refresh: false)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -104,6 +110,8 @@ final class CategoryRecipeViewController: UIViewController {
             mainTableView,
             searchBar
         ].forEach { view.addSubview($0) }
+
+        mainTableView.addSubview(refreshTableControl)
     }
 
     private func setupConstraints() {
@@ -145,6 +153,10 @@ final class CategoryRecipeViewController: UIViewController {
     @objc private func backToPreviousScreen() {
         presenter?.backToRecipeScreen()
     }
+
+    @objc private func refreshTableView() {
+        presenter?.loadRecipes(refresh: true)
+    }
 }
 
 // MARK: - CategoryRecipeViewProtocol
@@ -152,9 +164,17 @@ final class CategoryRecipeViewController: UIViewController {
 /// CategoryRecipeViewController + CategoryRecipeViewProtocol
 extension CategoryRecipeViewController: CategoryRecipeViewProtocol {
     func reloadTable() {
-        DispatchQueue.main.async {
-            self.mainTableView.reloadData()
+        mainTableView.reloadData()
+    }
+
+    func loadImageInCell(indexCell: Int, imageBase64: String) {
+        if let cell = mainTableView.cellForRow(at: IndexPath(item: indexCell, section: 0)) as? RecipeTableViewCell {
+            cell.setupImage(imageBase64: imageBase64)
         }
+    }
+
+    func stopRefreshing() {
+        refreshTableControl.endRefreshing()
     }
 }
 
@@ -188,18 +208,22 @@ extension CategoryRecipeViewController: UITableViewDataSource {
         case .loading:
             return getShimmerCell(tableView)
         case let .data(recipes):
-            return getRecipeCell(tableView, recipes: recipes, index: indexPath.row)
+            return getRecipeCell(tableView, recipes: recipes, indexPath: indexPath)
         default:
             return UITableViewCell()
         }
     }
 
-    private func getRecipeCell(_ tableView: UITableView, recipes: [Recipe], index: Int) -> UITableViewCell {
+    private func getRecipeCell(_ tableView: UITableView, recipes: [Recipe], indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: RecipeTableViewCell.identifier
         ) as? RecipeTableViewCell
         else { return UITableViewCell() }
-        cell.configureCell(recipe: recipes[index])
+        let recipe = recipes[indexPath.row]
+        cell.configureCell(recipe: recipe)
+        if recipe.imageBase64.isEmpty {
+            presenter?.loadImage(indexCell: indexPath.row)
+        }
         return cell
     }
 
