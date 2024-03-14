@@ -61,12 +61,12 @@ final class NetworkService: NetworkServiceProtocol {
             case let .success(data):
                 do {
                     self.jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-                    var recipesDTO = try self.jsonDecoder.decode(RecipesDTO.self, from: data)
-                    for (index, hit) in recipesDTO.hits.enumerated() {
-                        if let imageURL = URL(string: hit.recipe.image), let data = try? Data(contentsOf: imageURL) {
-                            recipesDTO.hits[index].recipe.imageBase64 = data.base64EncodedString()
-                        }
-                    }
+                    let recipesDTO = try self.jsonDecoder.decode(RecipesDTO.self, from: data)
+//                    for (index, hit) in recipesDTO.hits.enumerated() {
+//                        if let imageURL = URL(string: hit.recipe.image), let data = try? Data(contentsOf: imageURL) {
+//                            recipesDTO.hits[index].recipe.imageBase64 = data.base64EncodedString()
+//                        }
+//                    }
                     let recipes = recipesDTO.hits.map {
                         Recipe(dto: $0.recipe)
                     }
@@ -97,9 +97,10 @@ final class NetworkService: NetworkServiceProtocol {
                     guard var recipeDto = recipesDTO.hits.first else {
                         return completion(.failure(.error(message: "Не найден рецепт")))
                     }
-                    if let imageURL = URL(string: recipeDto.recipe.image), let data = try? Data(contentsOf: imageURL) {
-                        recipeDto.recipe.imageBase64 = data.base64EncodedString()
-                    }
+//                    if let imageURL = URL(string: recipeDto.recipe.image), let data = try? Data(contentsOf: imageURL)
+//                    {
+//                        recipeDto.recipe.imageBase64 = data.base64EncodedString()
+//                    }
                     completion(.success(Recipe(dto: recipeDto.recipe)))
                 } catch {
                     completion(.failure(.decodedProblem))

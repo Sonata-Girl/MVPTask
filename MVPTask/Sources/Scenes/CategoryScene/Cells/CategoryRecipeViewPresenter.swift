@@ -9,6 +9,10 @@ protocol CategoryRecipeViewProtocol: AnyObject {
     func setTitle(title: String)
     /// Перезагрузить таблицу
     func reloadTable()
+    /// Загрузить изображение в ячейку
+    func loadImageInCell(indexCell: Int, imageBase64: String)
+    /// Остановить обновление страницы
+    func stopRefreshing()
 }
 
 /// Состояния загрузки
@@ -34,11 +38,13 @@ protocol CategoryRecipeViewPresenterProtocol: AnyObject {
     /// Начать поиск по рецептам
     func search(searchText: String)
     /// Загрузить данные
-    func loadRecipes()
+    func loadRecipes(refresh: Bool)
     //// Состояние загрузки
     var state: ViewState<[Recipe]> { get }
     ///  Записать переход на экран
     func logTransition()
+    /// Загрузить изображение
+    func loadImage(indexCell: Int)
 }
 
 /// Презентер экрана списка рецептов одной категории
@@ -58,9 +64,8 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     // MARK: Private Properties
 
     private let networkService: NetworkServiceProtocol?
-    private let proxyImageService: LoadImageServiceProtocol?
-
     private weak var view: CategoryRecipeViewProtocol?
+    private let proxyImageService: LoadImageServiceProtocol?
     private let storageSource = StorageService()
     private var recipes: [Recipe] = []
     private var presentedRecipes: [Recipe] = []
@@ -104,7 +109,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         log(.goToScreen(screenName: Constants.titleScreen, title: category?.name ?? ""))
     }
 
-    func loadRecipes() {
+    func loadRecipes(refresh: Bool = false) {
         state = .loading
         var categoryName = category?.name ?? ""
         var qParameter = ""
@@ -128,6 +133,9 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
                     self?.configureSort()
                     DispatchQueue.main.async {
                         self?.updateState()
+                        if refresh {
+                            self?.view?.stopRefreshing()
+                        }
                     }
                 case let .failure(error):
                     self?.state = .error(error) {}
@@ -136,11 +144,16 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         )
     }
 
-    func loadImage(url: String, indexCell: Int) {
-        guard let url = URL(string: url) else { return }
+    func loadImage(indexCell: Int) {
+        guard recipes.indices.contains(indexCell) else { return }
+        guard let url = URL(string: recipes[indexCell].imageUrl) else { return }
         proxyImageService?.loadImage(url: url) { [weak self] data, _, error in
             guard let self = self, let data = data, error == nil else { return }
-            self.recipes[indexCell].imageBase64 = data.base64EncodedString()
+            let base64Image = data.base64EncodedString()
+            self.recipes[indexCell].imageBase64 = base64Image
+            DispatchQueue.main.async {
+                self.view?.loadImageInCell(indexCell: indexCell, imageBase64: base64Image)
+            }
         }
     }
 

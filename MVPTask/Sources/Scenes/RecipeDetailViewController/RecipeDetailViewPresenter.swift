@@ -7,6 +7,10 @@ import Foundation
 protocol RecipeDetailViewProtocol: AnyObject {
     /// Перезагрузить таблицу
     func reloadTable()
+    /// Загрузить изображение
+    func loadImage(imageBase64: String)
+    /// Остановить обновление страницы
+    func stopRefreshing()
 }
 
 /// Протокол презентера экрана детализации рецепта
@@ -22,7 +26,7 @@ protocol RecipeDetailPresenterProtocol: AnyObject {
     /// Добавление рецепта в избранные
     func addToFavorites()
     /// Загрузка данных рецепта
-    func loadRecipe()
+    func loadRecipe(refresh: Bool)
     //// Состояние загрузки
     var state: ViewState<Recipe> { get }
 }
@@ -33,6 +37,7 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
 
     private weak var view: RecipeDetailViewProtocol?
     private let networkService: NetworkServiceProtocol?
+    private let proxyImageService: LoadImageServiceProtocol?
     private weak var coordinator: RecipesSceneCoordinator?
     private(set) var recipe: Recipe?
     private(set) var uri: String?
@@ -54,28 +59,45 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
         self.coordinator = coordinator
         self.networkService = networkService
         self.uri = uri
+        proxyImageService = ProxyLoadService(service: LoadImageService())
     }
 
     // MARK: Public Methods
 
-    func loadRecipe() {
+    func loadRecipe(refresh: Bool) {
         state = .loading
         guard let uri else { return }
         networkService?.getRecipe(
             uri: uri,
             completion: { [weak self] result in
-                guard let self else { return }
                 switch result {
                 case let .success(recipe):
-                    self.recipe = recipe
+                    self?.recipe = recipe
                     DispatchQueue.main.async {
-                        self.state = .data(recipe)
+                        self?.state = .data(recipe)
+                        if refresh {
+                            self?.view?.stopRefreshing()
+                        }
                     }
+                    self?.loadImage()
                 case let .failure(error):
-                    state = .error(error) {}
+                    self?.state = .error(error) {}
                 }
             }
         )
+    }
+
+    private func loadImage() {
+        guard var recipe else { return }
+        guard let url = URL(string: recipe.imageUrl) else { return }
+        proxyImageService?.loadImage(url: url) { [weak self] data, _, error in
+            guard let self = self, let data = data, error == nil else { return }
+            let base64Image = data.base64EncodedString()
+            recipe.imageBase64 = base64Image
+            DispatchQueue.main.async {
+                self.view?.loadImage(imageBase64: base64Image)
+            }
+        }
     }
 
     func logTransition() {

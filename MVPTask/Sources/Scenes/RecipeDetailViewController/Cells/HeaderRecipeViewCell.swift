@@ -105,21 +105,26 @@ final class HeaderRecipeViewCell: UITableViewCell {
         mainImageView.image = nil
         weightCountLabel.text = nil
         timeRecipeCountLabel.text = nil
+        timeRecipeTitleLabel.text = nil
+        recipeLabel.text = nil
     }
 
     // MARK: Public methods
 
     func configureCell(recipe: Recipe) {
         recipeLabel.text = recipe.name
+        weightCountLabel.text = "\(recipe.weightGram) \(Constants.gramText)"
+        timeRecipeCountLabel.text = "\(recipe.cookingTimeInMinutes) \(Constants.timeText)"
+        timeRecipeTitleLabel.text = Constants.timeTitle
+    }
+
+    func setupImage(imageBase64: String) {
         if let dataDecoded = Data(
-            base64Encoded: recipe.imageBase64,
+            base64Encoded: imageBase64,
             options: .ignoreUnknownCharacters
         ) {
             mainImageView.image = UIImage(data: dataDecoded)
         }
-        weightCountLabel.text = "\(recipe.weightGram) \(Constants.gramText)"
-        timeRecipeCountLabel.text = "\(recipe.cookingTimeInMinutes) \(Constants.timeText)"
-        timeRecipeTitleLabel.text = Constants.timeTitle
     }
 
     // MARK: Private Methods

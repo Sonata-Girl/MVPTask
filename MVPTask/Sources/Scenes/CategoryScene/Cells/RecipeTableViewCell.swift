@@ -93,6 +93,14 @@ class RecipeTableViewCell: UITableViewCell {
         setupConstraints()
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        recipeNameLabel.text = nil
+        timerLabel.text = nil
+        caloriesLabel.text = nil
+        recipeImageView.image = nil
+    }
+
     // MARK: Public methods
 
     func selectCell() {
@@ -105,15 +113,18 @@ class RecipeTableViewCell: UITableViewCell {
     }
 
     func configureCell(recipe: Recipe) {
+        recipeNameLabel.text = recipe.name
+        timerLabel.text = "\(recipe.cookingTimeInMinutes) \(Constants.minutesTitle)"
+        caloriesLabel.text = "\(recipe.caloriesCount) \(Constants.caloriesTitle)"
+    }
+
+    func setupImage(imageBase64: String) {
         if let dataDecoded = Data(
-            base64Encoded: recipe.imageBase64,
+            base64Encoded: imageBase64,
             options: .ignoreUnknownCharacters
         ) {
             recipeImageView.image = UIImage(data: dataDecoded)
         }
-        recipeNameLabel.text = recipe.name
-        timerLabel.text = "\(recipe.cookingTimeInMinutes) \(Constants.minutesTitle)"
-        caloriesLabel.text = "\(recipe.caloriesCount) \(Constants.caloriesTitle)"
     }
 
     // MARK: Private Methods

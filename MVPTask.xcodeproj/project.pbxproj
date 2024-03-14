@@ -467,10 +467,10 @@
 		67CE9A382BA334120024B8A5 /* LoadImageService */ = {
 			isa = PBXGroup;
 			children = (
-				67CE9A392BA334310024B8A5 /* LoadImageService.swift */,
 				67CE9A3F2BA343290024B8A5 /* ImageWrapper.swift */,
-				67CE9A3D2BA340F00024B8A5 /* ProxyLoadService.swift */,
 				67CE9A3B2BA334500024B8A5 /* LoadImageServiceProtocol.swift */,
+				67CE9A392BA334310024B8A5 /* LoadImageService.swift */,
+				67CE9A3D2BA340F00024B8A5 /* ProxyLoadService.swift */,
 			);
 			path = LoadImageService;
 			sourceTree = "<group>";
