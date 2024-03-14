@@ -14,9 +14,7 @@ protocol NetworkServiceProtocol {
     func getRecipes(
         categoryName: String,
         qParameter: String,
-        completion: @escaping (
-            Result<[Recipe]?, Error>
-        ) -> Void
+        completion: @escaping HandlerRecipes
     )
 
     /// Получение рецепта
@@ -26,16 +24,18 @@ protocol NetworkServiceProtocol {
     /// - Returns: Рецепт
     func getRecipe(
         uri: String,
-        completion: @escaping (
-            Result<Recipe?, Error>
-        ) -> Void
+        completion: @escaping HandlerRecipe
     )
 }
+
+typealias HandlerRecipes = (Result<[Recipe], NetworkError>) -> Void
+typealias HandlerRecipe = (Result<Recipe, NetworkError>) -> Void
 
 /// Сервис для получения данных из сети
 final class NetworkService: NetworkServiceProtocol {
     // MARK: Private Properties
 
+    private let session = URLSession.shared
     private let jsonDecoder = JSONDecoder()
     private let requestBuilder = RequestBuilder()
 
@@ -44,69 +44,63 @@ final class NetworkService: NetworkServiceProtocol {
     func getRecipes(
         categoryName: String,
         qParameter: String,
-        completion: @escaping (
-            Result<[Recipe]?, Error>
-        ) -> Void
+        completion: @escaping HandlerRecipes
     ) {
-        guard let request = requestBuilder.makeCategoryRecipeRequest(
+        guard let url = requestBuilder.makeCategoryRecipeRequest(
             categoryName: categoryName,
             qParameter: qParameter
-        ) else { return }
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
+        )?.url else { return }
 
-            do {
-                guard let data else { return }
-                self.jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-
-                var recipesDTO = try self.jsonDecoder.decode(RecipesDTO.self, from: data)
-                for (index, hit) in recipesDTO.hits.enumerated() {
-                    if let imageURL = URL(string: hit.recipe.image), let data = try? Data(contentsOf: imageURL) {
-                        recipesDTO.hits[index].recipe.imageBase64 = data.base64EncodedString()
+        session.dataTask(with: url) { result in
+            switch result {
+            case let .failure(error):
+                completion(.failure(.error(message: error.localizedDescription)))
+            case let .success(data):
+                do {
+                    self.jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+                    var recipesDTO = try self.jsonDecoder.decode(RecipesDTO.self, from: data)
+                    for (index, hit) in recipesDTO.hits.enumerated() {
+                        if let imageURL = URL(string: hit.recipe.image), let data = try? Data(contentsOf: imageURL) {
+                            recipesDTO.hits[index].recipe.imageBase64 = data.base64EncodedString()
+                        }
                     }
+                    let recipes = recipesDTO.hits.map {
+                        Recipe(dto: $0.recipe)
+                    }
+                    completion(.success(recipes))
+                } catch {
+                    completion(.failure(.decodedProblem))
                 }
-                let recipes = recipesDTO.hits.map {
-                    Recipe(dto: $0.recipe)
-                }
-
-                completion(.success(recipes))
-            } catch {
-                completion(.failure(error))
             }
         }.resume()
     }
 
     func getRecipe(
         uri: String,
-        completion: @escaping (
-            Result<Recipe?, Error>
-        ) -> Void
+        completion: @escaping HandlerRecipe
     ) {
-        guard let request = requestBuilder.makeCategoryRecipeRequest(uri: uri) else { return }
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                completion(.failure(error))
+        guard let url = requestBuilder.makeCategoryRecipeRequest(uri: uri)?.url else { return }
+        session.dataTask(with: url) { result in
+            switch result {
+            case let .failure(error):
+                completion(.failure(.error(message: error.localizedDescription)))
                 return
-            }
+            case let .success(data):
+                do {
+                    self.jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
 
-            do {
-                guard let data else { return }
-                self.jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let recipesDTO = try self.jsonDecoder.decode(RecipesDTO.self, from: data)
 
-                var recipesDTO = try self.jsonDecoder.decode(RecipesDTO.self, from: data)
-
-                guard var recipeDto = recipesDTO.hits.first else {
-                    return completion(.failure(NSError(domain: "Не удалось получить рецепт", code: 0, userInfo: nil)))
+                    guard var recipeDto = recipesDTO.hits.first else {
+                        return completion(.failure(.error(message: "Не найден рецепт")))
+                    }
+                    if let imageURL = URL(string: recipeDto.recipe.image), let data = try? Data(contentsOf: imageURL) {
+                        recipeDto.recipe.imageBase64 = data.base64EncodedString()
+                    }
+                    completion(.success(Recipe(dto: recipeDto.recipe)))
+                } catch {
+                    completion(.failure(.decodedProblem))
                 }
-                if let imageURL = URL(string: recipeDto.recipe.image), let data = try? Data(contentsOf: imageURL) {
-                    recipeDto.recipe.imageBase64 = data.base64EncodedString()
-                }
-                completion(.success(Recipe(dto: recipeDto.recipe)))
-            } catch {
-                completion(.failure(error))
             }
         }.resume()
     }

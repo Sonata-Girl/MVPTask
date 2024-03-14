@@ -9,16 +9,24 @@ protocol CategoryRecipeViewProtocol: AnyObject {
     func setTitle(title: String)
     /// Перезагрузить таблицу
     func reloadTable()
-    /// Показать ошибку
-    func showErrorAlert(error: String)
+}
+
+/// Состояния загрузки
+public enum ViewState<Model> {
+    /// Данные еще не загружены
+    case loading
+    // Данные загружены
+    case data(_ model: Model)
+    /// Нет данных
+    case noData(_ retryHandler: VoidHandler? = nil)
+    /// Ошибка
+    case error(_ error: Error, _ retryHandler: VoidHandler)
 }
 
 /// Протокол презентера экрана списка рецептов одной категории
 protocol CategoryRecipeViewPresenterProtocol: AnyObject {
     /// Переход на экран рецептов по кнопке возврата
     func backToRecipeScreen()
-    /// Получение рецептов для таблицы
-    func getRecipes() -> [Recipe]
     /// Переход на экран детализации рецепта
     func goToDetailRecipeScreen(index: Int)
     /// Изменить сортировку
@@ -27,8 +35,8 @@ protocol CategoryRecipeViewPresenterProtocol: AnyObject {
     func search(searchText: String)
     /// Загрузить данные
     func loadRecipes()
-    /// Состояние загрузки
-    var state: ViewState { get }
+    //// Состояние загрузки
+    var state: ViewState<[Recipe]> { get }
     ///  Записать переход на экран
     func logTransition()
 }
@@ -55,7 +63,11 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     private var category: Category?
     private var searchingActive = false
     private var searchText = ""
-    private(set) var state: ViewState = .loading
+    private(set) var state: ViewState<[Recipe]> = .loading {
+        didSet {
+            view?.reloadTable()
+        }
+    }
 
     private var activatedSources: [SortType] = [
         .calories,
@@ -88,9 +100,10 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     }
 
     func loadRecipes() {
+        state = .loading
         var categoryName = category?.name ?? ""
         var qParameter = ""
-        let replacingCategories = ["Chicken", "Meat", "Fish", "Side Dish"]
+        let replacingCategories = ["Chicken", "Meat", "Fish", "Side dish"]
         if replacingCategories.contains(categoryName) {
             categoryName = "Main course"
             qParameter = categoryName + searchText
@@ -102,24 +115,14 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
                 guard let self else { return }
                 switch result {
                 case let .success(recipes):
-                    self.state = .loaded
-                    self.recipes = recipes ?? []
+                    self.recipes = recipes
                     self.configureSort()
-                    self.view?.reloadTable()
+                    updateState()
                 case let .failure(error):
-                    self.view?.showErrorAlert(error: error.localizedDescription)
+                    state = .error(error) {}
                 }
             }
         )
-    }
-
-    func getRecipes() -> [Recipe] {
-        if searchingActive {
-            return presentedRecipes.filter {
-                $0.name.lowercased().contains(searchText.lowercased())
-            }
-        }
-        return presentedRecipes
     }
 
     func backToRecipeScreen() {
@@ -136,6 +139,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     }
 
     func search(searchText: String) {
+        state = .loading
         if searchText.count > 3 {
             searchingActive = true
         } else {
@@ -144,10 +148,11 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         }
 
         self.searchText = searchText
-        view?.reloadTable()
+        updateState()
     }
 
     func changeSort(sortType: SortType, stateSort: SortButtonState) {
+        state = .loading
         let firstSort = activatedSources.first
         let resetSort = firstSort == sortType
 
@@ -166,10 +171,20 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         }
 
         configureSort()
-        view?.reloadTable()
+        updateState()
     }
 
     // MARK: Private Methods
+
+    private func updateState() {
+        if searchingActive {
+            state = .data(presentedRecipes.filter {
+                $0.name.lowercased().contains(searchText.lowercased())
+            })
+        } else {
+            state = presentedRecipes.isEmpty ? .noData() : .data(presentedRecipes)
+        }
+    }
 
     private func configureSort() {
         let firstSort = activatedSources.first

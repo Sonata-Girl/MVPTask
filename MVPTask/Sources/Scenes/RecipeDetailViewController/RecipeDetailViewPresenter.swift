@@ -7,8 +7,6 @@ import Foundation
 protocol RecipeDetailViewProtocol: AnyObject {
     /// Перезагрузить таблицу
     func reloadTable()
-    /// Показать ошибку
-    func showErrorAlert(error: String)
 }
 
 /// Протокол презентера экрана детализации рецепта
@@ -25,6 +23,8 @@ protocol RecipeDetailPresenterProtocol: AnyObject {
     func addToFavorites()
     /// Загрузка данных рецепта
     func loadRecipe()
+    //// Состояние загрузки
+    var state: ViewState<Recipe> { get }
 }
 
 /// Презентер экрана детализации рецепта
@@ -36,6 +36,11 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
     private weak var coordinator: RecipesSceneCoordinator?
     private(set) var recipe: Recipe?
     private(set) var uri: String?
+    private(set) var state: ViewState<Recipe> = .loading {
+        didSet {
+            view?.reloadTable()
+        }
+    }
 
     // MARK: Initializers
 
@@ -54,6 +59,7 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
     // MARK: Public Methods
 
     func loadRecipe() {
+        state = .loading
         guard let uri else { return }
         networkService?.getRecipe(
             uri: uri,
@@ -61,10 +67,10 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
                 guard let self else { return }
                 switch result {
                 case let .success(recipe):
+                    self.state = .data(recipe)
                     self.recipe = recipe
-                    self.view?.reloadTable()
                 case let .failure(error):
-                    self.view?.showErrorAlert(error: error.localizedDescription)
+                    state = .error(error) {}
                 }
             }
         )
