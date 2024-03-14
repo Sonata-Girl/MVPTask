@@ -27,6 +27,10 @@ struct Recipe: Codable {
     var enercKcal: Int
     /// Картинка рецепта
     var imageBase64: String
+    /// Картинка рецепта
+    var imageData: Data?
+    /// Адрес картинки рецепта
+    var imageUrl: String
     /// Описание детальное
     var detailDescription: String
     /// Ссылка для получения рецепта
@@ -46,6 +50,7 @@ struct Recipe: Codable {
         detailDescription = dto.ingredientLines.joined(separator: "\n")
         category = .init(name: "", imageName: "")
         uri = dto.uri
+        imageUrl = dto.images.regular.url
     }
 }
 

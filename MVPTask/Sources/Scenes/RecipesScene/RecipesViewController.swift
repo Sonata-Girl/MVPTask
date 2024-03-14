@@ -59,6 +59,10 @@ final class RecipesViewController: UIViewController {
             forCellWithReuseIdentifier: ShimmerRecipeViewCell.identifier
         )
     }
+
+    private func showErrorAlert(error: String) {
+        showAlert(title: error, hasCancel: false)
+    }
 }
 
 // MARK: - RecipesViewProtocol
@@ -79,12 +83,12 @@ extension RecipesViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch presenter?.state {
-        case .loaded:
-            presenter?.categories.count ?? 0
+        case let .data(categories):
+            return categories.count
         case .loading:
-            10
-        case nil:
-            0
+            return 10
+        default:
+            return 0
         }
     }
 
@@ -94,12 +98,12 @@ extension RecipesViewController: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         guard let presenter else { return UICollectionViewCell() }
         switch presenter.state {
-        case .loaded:
+        case let .data(categories):
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "RecipeCellColectionView",
                 for: indexPath
             ) as? RecipeCellColectionView else { return UICollectionViewCell() }
-            cell.configureCell(param: presenter.categories[indexPath.item])
+            cell.configureCell(param: categories[indexPath.item])
             return cell
         case .loading:
             guard let cell = collectionView.dequeueReusableCell(
@@ -108,6 +112,8 @@ extension RecipesViewController: UICollectionViewDataSource {
             ) as? ShimmerRecipeViewCell else { return UICollectionViewCell() }
             cell.setupShimmers()
             return cell
+        default:
+            return UICollectionViewCell()
         }
     }
 }
