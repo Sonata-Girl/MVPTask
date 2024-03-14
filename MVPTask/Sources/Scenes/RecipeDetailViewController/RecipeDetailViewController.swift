@@ -76,6 +76,7 @@ final class RecipeDetailViewController: UIViewController {
     // MARK: Public Properties
 
     var presenter: RecipeDetailViewPresenter?
+    let copyImitatorScreenShimmerView = ImitatorScreenShimmerView()
 
     // MARK: Private Properties
 
@@ -89,6 +90,8 @@ final class RecipeDetailViewController: UIViewController {
         setupHierarchy()
         setupConstraints()
 
+        view.addSubview(copyImitatorScreenShimmerView)
+        copyImitatorScreenShimmerView.isHidden = false
         presenter?.loadRecipe(refresh: false)
     }
 

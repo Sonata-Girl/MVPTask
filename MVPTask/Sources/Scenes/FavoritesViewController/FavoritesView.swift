@@ -24,6 +24,7 @@ class FavoritesView: UIViewController {
     // MARK: Private Property
 
     private var copyMainScreenView = FavoritesPlaceholderView()
+
     private var tableView = UITableView()
     private var titleLabel: UILabel = {
         var label = UILabel()
