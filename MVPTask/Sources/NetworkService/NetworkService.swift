@@ -94,13 +94,9 @@ final class NetworkService: NetworkServiceProtocol {
 
                     let recipesDTO = try self.jsonDecoder.decode(RecipesDTO.self, from: data)
 
-                    guard var recipeDto = recipesDTO.hits.first else {
+                    guard let recipeDto = recipesDTO.hits.first else {
                         return completion(.failure(.error(message: "Не найден рецепт")))
                     }
-//                    if let imageURL = URL(string: recipeDto.recipe.image), let data = try? Data(contentsOf: imageURL)
-//                    {
-//                        recipeDto.recipe.imageBase64 = data.base64EncodedString()
-//                    }
                     completion(.success(Recipe(dto: recipeDto.recipe)))
                 } catch {
                     completion(.failure(.decodedProblem))

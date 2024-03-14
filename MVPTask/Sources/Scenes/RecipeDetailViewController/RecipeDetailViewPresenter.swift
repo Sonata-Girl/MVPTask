@@ -74,6 +74,7 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
                 case let .success(recipe):
                     self?.recipe = recipe
                     DispatchQueue.main.async {
+                        sleep(2)
                         self?.state = .data(recipe)
                         if refresh {
                             self?.view?.stopRefreshing()
