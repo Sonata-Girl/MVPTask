@@ -3,20 +3,6 @@
 
 import UIKit
 
-/// Состояния загрузки
-public enum ViewState {
-    /// Данные еще не загружены
-    case loading
-    /// Данные еще не загружены
-    case loaded
-    //// Данные загружены
-    //    case data/*(_ model: Model)*/
-    //    /// Нет данных
-    //    case noData(_ retryHandler: VoidHandler? = nil)
-    //    /// Ошибка
-    //    case error(_ error: Error, _ retryHandler: VoidHandler)
-}
-
 /// Экран отображения детализации рецепта
 final class RecipeDetailViewController: UIViewController {
     // MARK: Constants
@@ -141,6 +127,10 @@ final class RecipeDetailViewController: UIViewController {
         )
     }
 
+    private func showErrorAlert(error: String) {
+        showAlert(title: error, hasCancel: false)
+    }
+
     @objc private func shareRecipeDescription() {
         presenter?.logShare()
         guard let recipe = presenter?.recipe else { return }
@@ -173,8 +163,18 @@ extension RecipeDetailViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let recipe = presenter?.recipe else { return UITableViewCell() }
-        switch tableSections[indexPath.section] {
+        switch presenter?.state {
+        case .loading:
+            return UITableViewCell()
+        case let .data(recipe):
+            return getCell(tableView, indexSection: indexPath.section, recipe: recipe)
+        default:
+            return UITableViewCell()
+        }
+    }
+
+    private func getCell(_ tableView: UITableView, indexSection: Int, recipe: Recipe) -> UITableViewCell {
+        switch tableSections[indexSection] {
         case .header:
             let cell = getHeaderCell(tableView)
             cell.configureCell(recipe: recipe)
@@ -221,12 +221,6 @@ extension RecipeDetailViewController: RecipeDetailViewProtocol {
     func reloadTable() {
         DispatchQueue.main.async {
             self.mainTableView.reloadData()
-        }
-    }
-
-    func showErrorAlert(error: String) {
-        DispatchQueue.main.async {
-            self.showAlert(title: error, hasCancel: false)
         }
     }
 }

@@ -138,6 +138,10 @@ final class CategoryRecipeViewController: UIViewController {
         ])
     }
 
+    private func showErrorAlert(error: String) {
+        showAlert(title: error, hasCancel: false)
+    }
+
     @objc private func backToPreviousScreen() {
         presenter?.backToRecipeScreen()
     }
@@ -150,12 +154,6 @@ extension CategoryRecipeViewController: CategoryRecipeViewProtocol {
     func reloadTable() {
         DispatchQueue.main.async {
             self.mainTableView.reloadData()
-        }
-    }
-
-    func showErrorAlert(error: String) {
-        DispatchQueue.main.async {
-            self.showAlert(title: error, hasCancel: false)
         }
     }
 }
@@ -174,32 +172,35 @@ extension CategoryRecipeViewController: UISearchBarDelegate {
 /// CategoryRecipeViewController + UITableViewDataSource
 extension CategoryRecipeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard presenter?.getRecipes().count ?? 0 > 0 else { return 10 }
         switch presenter?.state {
-        case .loaded:
-            return presenter?.getRecipes().count ?? 0
         case .loading:
             return 10
-        case nil:
+        case let .data(recipes):
+            return recipes.count
+        default:
             return 0
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let presenter else { return UITableViewCell() }
-        guard presenter.getRecipes().count > 0 else { return getShimmerCell(tableView) }
-
         switch presenter.state {
-        case .loaded:
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: RecipeTableViewCell.identifier
-            ) as? RecipeTableViewCell
-            else { return UITableViewCell() }
-            cell.configureCell(recipe: presenter.getRecipes()[indexPath.row])
-            return cell
         case .loading:
             return getShimmerCell(tableView)
+        case let .data(recipes):
+            return getRecipeCell(tableView, recipes: recipes, index: indexPath.row)
+        default:
+            return UITableViewCell()
         }
+    }
+
+    private func getRecipeCell(_ tableView: UITableView, recipes: [Recipe], index: Int) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: RecipeTableViewCell.identifier
+        ) as? RecipeTableViewCell
+        else { return UITableViewCell() }
+        cell.configureCell(recipe: recipes[index])
+        return cell
     }
 
     private func getShimmerCell(_ tableView: UITableView) -> UITableViewCell {

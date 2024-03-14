@@ -28,8 +28,8 @@ protocol NetworkServiceProtocol {
     )
 }
 
-typealias HandlerRecipes = (Result<[Recipe]?, NetworkError>) -> Void
-typealias HandlerRecipe = (Result<Recipe?, NetworkError>) -> Void
+typealias HandlerRecipes = (Result<[Recipe], NetworkError>) -> Void
+typealias HandlerRecipe = (Result<Recipe, NetworkError>) -> Void
 
 /// Сервис для получения данных из сети
 final class NetworkService: NetworkServiceProtocol {
