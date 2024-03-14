@@ -10,11 +10,14 @@ protocol AppBuilderProtocol {
     /// Создание модуля экрана рецептов (1 экран таббара)
     func makeRecipesModule(coordinator: RecipesSceneCoordinator) -> RecipesViewController
     /// Создание модуля экрана категории
-    func makeCategoryRecipeModule(coordinator: RecipesSceneCoordinator) -> CategoryRecipeViewController
+    func makeCategoryRecipeModule(
+        coordinator: RecipesSceneCoordinator,
+        category: Category
+    ) -> CategoryRecipeViewController
     /// Создание модуля экрана детализации рецепта
     func makeDetailRecipeModule(
         coordinator: RecipesSceneCoordinator,
-        recipe: Recipe
+        uri: String
     ) -> RecipeDetailViewController
     /// Создание модуля экрана избранных  (2 экран таббара)
     func makeFavoritesModule(coordinator: FavoritesSceneCoordinator) ->
@@ -69,11 +72,17 @@ final class AppBuilder: AppBuilderProtocol {
         return view
     }
 
-    func makeCategoryRecipeModule(coordinator: RecipesSceneCoordinator) -> CategoryRecipeViewController {
+    func makeCategoryRecipeModule(
+        coordinator: RecipesSceneCoordinator,
+        category: Category
+    ) -> CategoryRecipeViewController {
         let view = CategoryRecipeViewController()
+        let networkService = NetworkService()
         let presenter = CategoryRecipeViewPresenter(
             view: view,
-            coordinator: coordinator
+            coordinator: coordinator,
+            networkService: networkService,
+            category: category
         )
         view.presenter = presenter
         return view
@@ -81,13 +90,15 @@ final class AppBuilder: AppBuilderProtocol {
 
     func makeDetailRecipeModule(
         coordinator: RecipesSceneCoordinator,
-        recipe: Recipe
+        uri: String
     ) -> RecipeDetailViewController {
         let view = RecipeDetailViewController()
+        let networkService = NetworkService()
         let presenter = RecipeDetailViewPresenter(
             view: view,
             coordinator: coordinator,
-            recipe: recipe
+            networkService: networkService,
+            uri: uri
         )
         view.presenter = presenter
         return view

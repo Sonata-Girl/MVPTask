@@ -19,13 +19,12 @@ final class RecipesSceneCoordinator: BaseCoordinator {
     }
 
     func showCategoryScreen(category: Category) {
-        let categoryViewController = AppBuilder().makeCategoryRecipeModule(coordinator: self)
-        categoryViewController.setTitle(title: category.name)
+        let categoryViewController = AppBuilder().makeCategoryRecipeModule(coordinator: self, category: category)
         navigationController?.pushViewController(categoryViewController, animated: true)
     }
 
-    func goToDetailRecipeScreen(recipe: Recipe) {
-        let detailRecipeViewController = AppBuilder().makeDetailRecipeModule(coordinator: self, recipe: recipe)
+    func goToDetailRecipeScreen(uri: String) {
+        let detailRecipeViewController = AppBuilder().makeDetailRecipeModule(coordinator: self, uri: uri)
         navigationController?.pushViewController(detailRecipeViewController, animated: true)
     }
 

@@ -9,6 +9,8 @@ protocol CategoryRecipeViewProtocol: AnyObject {
     func setTitle(title: String)
     /// Перезагрузить таблицу
     func reloadTable()
+    /// Показать ошибку
+    func showErrorAlert(error: String)
 }
 
 /// Протокол презентера экрана списка рецептов одной категории
@@ -45,10 +47,11 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
 
     // MARK: Private Properties
 
+    private let networkService: NetworkServiceProtocol?
     private weak var view: CategoryRecipeViewProtocol?
     private let storageSource = StorageService()
-    private var recipes: [Recipe]?
-    private var presentedRecipes: [Recipe]?
+    private var recipes: [Recipe] = []
+    private var presentedRecipes: [Recipe] = []
     private var category: Category?
     private var searchingActive = false
     private var searchText = ""
@@ -67,13 +70,15 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
 
     init(
         view: CategoryRecipeViewProtocol?,
-        coordinator: RecipesSceneCoordinator
+        coordinator: RecipesSceneCoordinator,
+        networkService: NetworkServiceProtocol,
+        category: Category
     ) {
         self.view = view
         self.coordinator = coordinator
-        fillSources()
-        configureSort()
-        view?.setTitle(title: category?.name ?? "")
+        self.networkService = networkService
+        self.category = category
+        view?.setTitle(title: category.name)
     }
 
     // MARK: Public Methods
@@ -83,19 +88,38 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     }
 
     func loadRecipes() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.state = .loaded
-            self.view?.reloadTable()
+        var categoryName = category?.name ?? ""
+        var qParameter = ""
+        let replacingCategories = ["Chicken", "Meat", "Fish", "Side Dish"]
+        if replacingCategories.contains(categoryName) {
+            categoryName = "Main course"
+            qParameter = categoryName + searchText
         }
+        networkService?.getRecipes(
+            categoryName: categoryName,
+            qParameter: qParameter,
+            completion: { [weak self] result in
+                guard let self else { return }
+                switch result {
+                case let .success(recipes):
+                    self.state = .loaded
+                    self.recipes = recipes ?? []
+                    self.configureSort()
+                    self.view?.reloadTable()
+                case let .failure(error):
+                    self.view?.showErrorAlert(error: error.localizedDescription)
+                }
+            }
+        )
     }
 
     func getRecipes() -> [Recipe] {
         if searchingActive {
-            return presentedRecipes?.filter {
+            return presentedRecipes.filter {
                 $0.name.lowercased().contains(searchText.lowercased())
-            } ?? []
+            }
         }
-        return presentedRecipes ?? []
+        return presentedRecipes
     }
 
     func backToRecipeScreen() {
@@ -103,13 +127,12 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     }
 
     func goToDetailRecipeScreen(index: Int) {
-        guard let recipes else { return }
-        coordinator?.goToDetailRecipeScreen(recipe: recipes[index])
+        coordinator?.goToDetailRecipeScreen(uri: recipes[index].uri)
     }
 
     private func fillSources() {
         recipes = storageSource.getRecipes()
-        category = recipes?.last?.category
+        category = recipes.last?.category
     }
 
     func search(searchText: String) {
@@ -159,7 +182,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
             return
         }
 
-        presentedRecipes = recipes?.sorted { lhs, rhs in
+        presentedRecipes = recipes.sorted { lhs, rhs in
             switch ((firstSort, stateFirstSort), (secondSort, stateSecondSort)) {
             case ((.calories, .notSelected), (.time, .sortHighToLow)):
                 return lhs.cookingTimeInMinutes > rhs.cookingTimeInMinutes

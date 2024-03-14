@@ -111,7 +111,12 @@ final class HeaderRecipeViewCell: UITableViewCell {
 
     func configureCell(recipe: Recipe) {
         recipeLabel.text = recipe.name
-        mainImageView.image = UIImage(named: recipe.imageName)
+        if let dataDecoded = Data(
+            base64Encoded: recipe.imageBase64,
+            options: .ignoreUnknownCharacters
+        ) {
+            mainImageView.image = UIImage(data: dataDecoded)
+        }
         weightCountLabel.text = "\(recipe.weightGram) \(Constants.gramText)"
         timeRecipeCountLabel.text = "\(recipe.cookingTimeInMinutes) \(Constants.timeText)"
         timeRecipeTitleLabel.text = Constants.timeTitle
