@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1534000F43FA6F99D08C47D5 /* Pods_MVPTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D967D0EA8003ACEAF5CDE3 /* Pods_MVPTask.framework */; };
 		6751D0102B8CB9AB00396F91 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751D00F2B8CB9AB00396F91 /* AppDelegate.swift */; };
 		6751D0122B8CB9AB00396F91 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751D0112B8CB9AB00396F91 /* SceneDelegate.swift */; };
 		6751D0142B8CB9AB00396F91 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751D0132B8CB9AB00396F91 /* LoginViewController.swift */; };
@@ -87,6 +88,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		112940B38FCF50D7E2AA1EF8 /* Pods-MVPTask.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MVPTask.release.xcconfig"; path = "Target Support Files/Pods-MVPTask/Pods-MVPTask.release.xcconfig"; sourceTree = "<group>"; };
+		63D967D0EA8003ACEAF5CDE3 /* Pods_MVPTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MVPTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6751D00C2B8CB9AB00396F91 /* MVPTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MVPTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6751D00F2B8CB9AB00396F91 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6751D0112B8CB9AB00396F91 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -166,6 +169,7 @@
 		737A75582B8E46530019FB22 /* LoginSceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSceneCoordinator.swift; sourceTree = "<group>"; };
 		7399872E2B97358B00E0EEF8 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		73A326712B8E241000D92928 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		9518FC434BF6FBB29CE117CC /* Pods-MVPTask.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MVPTask.debug.xcconfig"; path = "Target Support Files/Pods-MVPTask/Pods-MVPTask.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +177,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1534000F43FA6F99D08C47D5 /* Pods_MVPTask.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +189,8 @@
 			children = (
 				6751D00E2B8CB9AB00396F91 /* MVPTask */,
 				6751D00D2B8CB9AB00396F91 /* Products */,
+				BCED4D48332CDCD8E36F3268 /* Pods */,
+				EA17764A35142380F7DAE98B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -496,6 +503,24 @@
 			path = FavoritesViewController;
 			sourceTree = "<group>";
 		};
+		BCED4D48332CDCD8E36F3268 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9518FC434BF6FBB29CE117CC /* Pods-MVPTask.debug.xcconfig */,
+				112940B38FCF50D7E2AA1EF8 /* Pods-MVPTask.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		EA17764A35142380F7DAE98B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				63D967D0EA8003ACEAF5CDE3 /* Pods_MVPTask.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -503,11 +528,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6751D0202B8CB9AD00396F91 /* Build configuration list for PBXNativeTarget "MVPTask" */;
 			buildPhases = (
+				F00AC214744E6648D8278999 /* [CP] Check Pods Manifest.lock */,
 				6751D0082B8CB9AB00396F91 /* Sources */,
 				6751D0092B8CB9AB00396F91 /* Frameworks */,
 				6751D00A2B8CB9AB00396F91 /* Resources */,
 				6751D0232B8CBF5E00396F91 /* SwiftLint */,
 				6751D0242B8CC13800396F91 /* SwiftFormat */,
+				75C977EA45B880C57D691526 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -603,6 +630,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftformat > /dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		75C977EA45B880C57D691526 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MVPTask/Pods-MVPTask-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MVPTask/Pods-MVPTask-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MVPTask/Pods-MVPTask-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F00AC214744E6648D8278999 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MVPTask-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -824,6 +890,7 @@
 		};
 		6751D0212B8CB9AD00396F91 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9518FC434BF6FBB29CE117CC /* Pods-MVPTask.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -853,6 +920,7 @@
 		};
 		6751D0222B8CB9AD00396F91 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 112940B38FCF50D7E2AA1EF8 /* Pods-MVPTask.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
