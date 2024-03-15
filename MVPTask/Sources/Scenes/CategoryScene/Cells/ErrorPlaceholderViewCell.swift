@@ -48,7 +48,7 @@ final class ErrorPlaceholderViewCell: UITableViewCell {
     // MARK: Public Methods
 
     func setupLessSize() {
-        heightCellConstraint?.constant -= 200
+        heightCellConstraint?.constant = UIScreen.main.bounds.height - 120 - 200
     }
 
     // MARK: Private Methods

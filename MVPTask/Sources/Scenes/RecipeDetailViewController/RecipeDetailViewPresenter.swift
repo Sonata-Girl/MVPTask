@@ -82,7 +82,9 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
                     }
                     self?.loadImage()
                 case let .failure(error):
-                    self?.state = .error(error) {}
+                    DispatchQueue.main.async {
+                        self?.state = .error(error) {}
+                    }
                 }
             }
         )

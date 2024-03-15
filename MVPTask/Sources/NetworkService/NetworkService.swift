@@ -62,11 +62,7 @@ final class NetworkService: NetworkServiceProtocol {
                 do {
                     self.jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                     let recipesDTO = try self.jsonDecoder.decode(RecipesDTO.self, from: data)
-//                    for (index, hit) in recipesDTO.hits.enumerated() {
-//                        if let imageURL = URL(string: hit.recipe.image), let data = try? Data(contentsOf: imageURL) {
-//                            recipesDTO.hits[index].recipe.imageBase64 = data.base64EncodedString()
-//                        }
-//                    }
+
                     let recipes = recipesDTO.hits.map {
                         Recipe(dto: $0.recipe)
                     }

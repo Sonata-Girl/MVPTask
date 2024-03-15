@@ -132,14 +132,16 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
                     self?.recipes = recipes
                     self?.configureSort()
                     DispatchQueue.main.async {
-//                        self?.state = .error(NetworkError.error(message: "Ошибка")) {}
+//                            self?.state = .error(NetworkError.error(message: "Ошибка")) {}
                         self?.setupDataState()
                         if refresh {
                             self?.view?.stopRefreshing()
                         }
                     }
                 case let .failure(error):
-                    self?.state = .error(error) {}
+                    DispatchQueue.main.async {
+                        self?.state = .error(error) {}
+                    }
                 }
             }
         )

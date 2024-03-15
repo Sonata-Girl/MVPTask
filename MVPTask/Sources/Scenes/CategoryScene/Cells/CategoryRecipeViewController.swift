@@ -223,8 +223,6 @@ extension CategoryRecipeViewController: UITableViewDataSource {
             return getErrorCell(tableView)
         case .noData:
             return getNoDataCell(tableView)
-        default:
-            return UITableViewCell()
         }
     }
 
