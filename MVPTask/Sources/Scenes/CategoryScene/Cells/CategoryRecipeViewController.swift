@@ -53,6 +53,14 @@ final class CategoryRecipeViewController: UIViewController {
             RecipeTableViewCell.self,
             forCellReuseIdentifier: RecipeTableViewCell.identifier
         )
+        tableView.register(
+            ErrorPlaceholderViewCell.self,
+            forCellReuseIdentifier: ErrorPlaceholderViewCell.identifier
+        )
+        tableView.register(
+            NoDataPlaceholderViewCell.self,
+            forCellReuseIdentifier: NoDataPlaceholderViewCell.identifier
+        )
         tableView.register(ShimmerCellView.self, forCellReuseIdentifier: "ShimmerCellView")
         tableView.dataSource = self
         tableView.delegate = self
@@ -197,6 +205,8 @@ extension CategoryRecipeViewController: UITableViewDataSource {
             return 10
         case let .data(recipes):
             return recipes.count
+        case .error, .noData:
+            return 1
         default:
             return 0
         }
@@ -209,8 +219,10 @@ extension CategoryRecipeViewController: UITableViewDataSource {
             return getShimmerCell(tableView)
         case let .data(recipes):
             return getRecipeCell(tableView, recipes: recipes, indexPath: indexPath)
-        default:
-            return UITableViewCell()
+        case .error:
+            return getErrorCell(tableView)
+        case .noData:
+            return getNoDataCell(tableView)
         }
     }
 
@@ -233,6 +245,24 @@ extension CategoryRecipeViewController: UITableViewDataSource {
         ) as? ShimmerCellView
         else { return UITableViewCell() }
         cell.startShimmers()
+        return cell
+    }
+
+    private func getErrorCell(_ tableView: UITableView) -> ErrorPlaceholderViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ErrorPlaceholderViewCell.identifier)
+            as? ErrorPlaceholderViewCell
+        else { return ErrorPlaceholderViewCell() }
+        cell.reloadButtonHandler = { [weak self] in
+            self?.presenter?.loadRecipes(refresh: false)
+        }
+        cell.setupLessSize()
+        return cell
+    }
+
+    private func getNoDataCell(_ tableView: UITableView) -> NoDataPlaceholderViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NoDataPlaceholderViewCell.identifier)
+            as? NoDataPlaceholderViewCell
+        else { return NoDataPlaceholderViewCell() }
         return cell
     }
 }

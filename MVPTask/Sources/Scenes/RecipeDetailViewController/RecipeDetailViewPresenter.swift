@@ -74,6 +74,7 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
                 case let .success(recipe):
                     self?.recipe = recipe
                     DispatchQueue.main.async {
+                        sleep(2)
                         self?.state = .data(recipe)
                         if refresh {
                             self?.view?.stopRefreshing()
@@ -81,7 +82,9 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
                     }
                     self?.loadImage()
                 case let .failure(error):
-                    self?.state = .error(error) {}
+                    DispatchQueue.main.async {
+                        self?.state = .error(error) {}
+                    }
                 }
             }
         )
