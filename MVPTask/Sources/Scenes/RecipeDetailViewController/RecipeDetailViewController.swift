@@ -63,6 +63,12 @@ final class RecipeDetailViewController: UIViewController {
         tableView.register(HeaderRecipeViewCell.self, forCellReuseIdentifier: HeaderRecipeViewCell.identifier)
         tableView.register(NutrientsRecipeViewCell.self, forCellReuseIdentifier: NutrientsRecipeViewCell.identifier)
         tableView.register(RecipeDescriptionCell.self, forCellReuseIdentifier: RecipeDescriptionCell.identifier)
+        tableView.register(
+            ShimmerDetailRecipeViewCell.self,
+            forCellReuseIdentifier: ShimmerDetailRecipeViewCell.identifier
+        )
+        tableView.register(ErrorPlaceholderViewCell.self, forCellReuseIdentifier: ErrorPlaceholderViewCell.identifier)
+        tableView.register(NoDataPlaceholderViewCell.self, forCellReuseIdentifier: NoDataPlaceholderViewCell.identifier)
         tableView.dataSource = self
         return tableView
     }()
@@ -76,7 +82,6 @@ final class RecipeDetailViewController: UIViewController {
     // MARK: Public Properties
 
     var presenter: RecipeDetailViewPresenter?
-    let copyImitatorScreenShimmerView = ImitatorScreenShimmerView()
 
     // MARK: Private Properties
 
@@ -90,8 +95,6 @@ final class RecipeDetailViewController: UIViewController {
         setupHierarchy()
         setupConstraints()
 
-        view.addSubview(copyImitatorScreenShimmerView)
-        copyImitatorScreenShimmerView.isHidden = false
         presenter?.loadRecipe(refresh: false)
     }
 
@@ -169,7 +172,16 @@ final class RecipeDetailViewController: UIViewController {
 /// RecipeDetailViewController + UITableViewDataSource
 extension RecipeDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        tableSections.count
+        switch presenter?.state {
+        case .loading:
+            return 1
+        case .data:
+            return tableSections.count
+        case .error, .noData:
+            return 1
+        default:
+            return 0
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -179,9 +191,13 @@ extension RecipeDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch presenter?.state {
         case .loading:
-            return UITableViewCell()
+            return getShimmerCell(tableView)
         case let .data(recipe):
             return getCell(tableView, indexSection: indexPath.section, recipe: recipe)
+        case .error:
+            return getErrorCell(tableView)
+        case .noData:
+            return getNoDataCell(tableView)
         default:
             return UITableViewCell()
         }
@@ -224,6 +240,31 @@ extension RecipeDetailViewController: UITableViewDataSource {
                 withIdentifier: RecipeDescriptionCell.identifier
             ) as? RecipeDescriptionCell
         else { return RecipeDescriptionCell() }
+        return cell
+    }
+
+    private func getShimmerCell(_ tableView: UITableView) -> ShimmerDetailRecipeViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ShimmerDetailRecipeViewCell.identifier)
+            as? ShimmerDetailRecipeViewCell
+        else { return ShimmerDetailRecipeViewCell() }
+        cell.startShimmer()
+        return cell
+    }
+
+    private func getErrorCell(_ tableView: UITableView) -> ErrorPlaceholderViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ErrorPlaceholderViewCell.identifier)
+            as? ErrorPlaceholderViewCell
+        else { return ErrorPlaceholderViewCell() }
+        cell.reloadButtonHandler = { [weak self] in
+            self?.presenter?.loadRecipe(refresh: false)
+        }
+        return cell
+    }
+
+    private func getNoDataCell(_ tableView: UITableView) -> NoDataPlaceholderViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NoDataPlaceholderViewCell.identifier)
+            as? NoDataPlaceholderViewCell
+        else { return NoDataPlaceholderViewCell() }
         return cell
     }
 }

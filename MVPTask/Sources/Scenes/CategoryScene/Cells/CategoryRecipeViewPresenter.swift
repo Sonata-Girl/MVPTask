@@ -132,13 +132,16 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
                     self?.recipes = recipes
                     self?.configureSort()
                     DispatchQueue.main.async {
-                        self?.updateState()
+//                            self?.state = .error(NetworkError.error(message: "Ошибка")) {}
+                        self?.setupDataState()
                         if refresh {
                             self?.view?.stopRefreshing()
                         }
                     }
                 case let .failure(error):
-                    self?.state = .error(error) {}
+                    DispatchQueue.main.async {
+                        self?.state = .error(error) {}
+                    }
                 }
             }
         )
@@ -180,7 +183,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         }
 
         self.searchText = searchText
-        updateState()
+        setupDataState()
     }
 
     func changeSort(sortType: SortType, stateSort: SortButtonState) {
@@ -203,12 +206,12 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         }
 
         configureSort()
-        updateState()
+        setupDataState()
     }
 
     // MARK: Private Methods
 
-    private func updateState() {
+    private func setupDataState() {
         if searchingActive {
             state = .data(presentedRecipes.filter {
                 $0.name.lowercased().contains(searchText.lowercased())
