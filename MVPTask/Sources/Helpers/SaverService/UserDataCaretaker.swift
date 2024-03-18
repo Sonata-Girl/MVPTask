@@ -6,30 +6,35 @@ import Keychain
 
 /// Класс для сохранения данных пользователя
 final class UserDataCaretaker {
+    // MARK: Constants
+
+    private enum Constants {
+        static let key = "UserDataProfile"
+        static let passwordKey = "passwordUser"
+        static let loginKey = "loginUser"
+        static let nameKey = "nameUser"
+        static let surnameKey = "surnameUser"
+        static let imageKey = "imageUser"
+    }
+
     // MARK: Private Properties
 
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
-    private let key = "UserDataProfile"
-    private let passwordKey = "passwordUser"
-    private let loginKey = "loginUser"
-    private let nameKey = "nameUser"
-    private let surnameKey = "surnameUser"
-    private let imageKey = "imageUser"
 
     // MARK: Public Methods
 
     func saveUD(userProfile: User) {
         do {
             let data = try encoder.encode(userProfile)
-            UserDefaults.standard.set(data, forKey: key)
+            UserDefaults.standard.set(data, forKey: Constants.key)
         } catch {
             print(error)
         }
     }
 
     func retrieveUserProfileDataUD() -> User? {
-        guard let data = UserDefaults.standard.data(forKey: key) else {
+        guard let data = UserDefaults.standard.data(forKey: Constants.key) else {
             return nil
         }
 
@@ -42,19 +47,19 @@ final class UserDataCaretaker {
     }
 
     func save(userProfile: User) {
-        Keychain.save(userProfile.password, forKey: passwordKey)
-        Keychain.save(userProfile.login, forKey: loginKey)
-        Keychain.save(userProfile.name, forKey: nameKey)
-        Keychain.save(userProfile.surname, forKey: surnameKey)
-        Keychain.save(userProfile.imageBase64, forKey: imageKey)
+        Keychain.save(userProfile.password, forKey: Constants.passwordKey)
+        Keychain.save(userProfile.login, forKey: Constants.loginKey)
+        Keychain.save(userProfile.name, forKey: Constants.nameKey)
+        Keychain.save(userProfile.surname, forKey: Constants.surnameKey)
+        Keychain.save(userProfile.imageBase64, forKey: Constants.imageKey)
     }
 
     func retrieveUserProfileData() -> User? {
-        guard let password = Keychain.load(passwordKey),
-              let login = Keychain.load(loginKey),
-              let name = Keychain.load(nameKey),
-              let surname = Keychain.load(surnameKey),
-              let image = Keychain.load(imageKey)
+        guard let password = Keychain.load(Constants.passwordKey),
+              let login = Keychain.load(Constants.loginKey),
+              let name = Keychain.load(Constants.nameKey),
+              let surname = Keychain.load(Constants.surnameKey),
+              let image = Keychain.load(Constants.imageKey)
         else {
             return nil
         }
