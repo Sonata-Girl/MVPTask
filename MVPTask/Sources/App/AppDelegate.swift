@@ -1,6 +1,7 @@
 // AppDelegate.swift
 // Copyright © RoadMap. All rights reserved.
 
+import CoreData
 import UIKit
 
 @main
@@ -20,8 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         configurationForConnecting connectingSceneSession: UISceneSession,
         options: UIScene.ConnectionOptions
     ) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
         UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 }
