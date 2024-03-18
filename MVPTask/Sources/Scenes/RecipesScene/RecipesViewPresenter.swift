@@ -19,7 +19,7 @@ protocol RecipesViewPresenterProtocol: AnyObject {
     /// Загрузить данные
     func loadRecipes()
     /// Состояние загрузки
-    var state: ViewState { get }
+    var state: ViewState<[Category]> { get }
     ///  Записать переход на экран
     func logTransition()
 }
@@ -38,7 +38,11 @@ final class RecipesViewPresenter: RecipesViewPresenterProtocol {
     private var storageService = StorageService()
     private weak var view: RecipesViewProtocol?
     private(set) var categories: [Category] = []
-    private(set) var state: ViewState = .loading
+    private(set) var state: ViewState<[Category]> = .loading {
+        didSet {
+            view?.reloadTable()
+        }
+    }
 
     // MARK: Initializers
 
@@ -58,10 +62,14 @@ final class RecipesViewPresenter: RecipesViewPresenterProtocol {
     }
 
     func loadRecipes() {
+        state = .loading
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.state = .loaded
-            self.view?.reloadTable()
+            self.updateState()
         }
+    }
+
+    private func updateState() {
+        state = categories.isEmpty ? .noData() : .data(categories)
     }
 
     func goToCategoryScreen(index: Int) {

@@ -3,14 +3,6 @@
 
 import UIKit
 
-/// Состояния загрузки
-public enum ViewState {
-    /// Данные загружены
-    case loaded
-    /// Данные еще не загружены
-    case loading
-}
-
 /// Экран отображения детализации рецепта
 final class RecipeDetailViewController: UIViewController {
     // MARK: Constants
@@ -71,8 +63,20 @@ final class RecipeDetailViewController: UIViewController {
         tableView.register(HeaderRecipeViewCell.self, forCellReuseIdentifier: HeaderRecipeViewCell.identifier)
         tableView.register(NutrientsRecipeViewCell.self, forCellReuseIdentifier: NutrientsRecipeViewCell.identifier)
         tableView.register(RecipeDescriptionCell.self, forCellReuseIdentifier: RecipeDescriptionCell.identifier)
+        tableView.register(
+            ShimmerDetailRecipeViewCell.self,
+            forCellReuseIdentifier: ShimmerDetailRecipeViewCell.identifier
+        )
+        tableView.register(ErrorPlaceholderViewCell.self, forCellReuseIdentifier: ErrorPlaceholderViewCell.identifier)
+        tableView.register(NoDataPlaceholderViewCell.self, forCellReuseIdentifier: NoDataPlaceholderViewCell.identifier)
         tableView.dataSource = self
         return tableView
+    }()
+
+    private lazy var refreshTableControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
+        return refreshControl
     }()
 
     // MARK: Public Properties
@@ -91,7 +95,7 @@ final class RecipeDetailViewController: UIViewController {
         setupHierarchy()
         setupConstraints()
 
-        presenter?.loadRecipe()
+        presenter?.loadRecipe(refresh: false)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -113,6 +117,7 @@ final class RecipeDetailViewController: UIViewController {
 
     private func setupHierarchy() {
         view.addSubview(mainTableView)
+        mainTableView.addSubview(refreshTableControl)
     }
 
     private func setupConstraints() {
@@ -135,6 +140,10 @@ final class RecipeDetailViewController: UIViewController {
         )
     }
 
+    private func showErrorAlert(error: String) {
+        showAlert(title: error, hasCancel: false)
+    }
+
     @objc private func shareRecipeDescription() {
         presenter?.logShare()
         guard let recipe = presenter?.recipe else { return }
@@ -152,6 +161,10 @@ final class RecipeDetailViewController: UIViewController {
     @objc private func backToPreviousScreen() {
         presenter?.backToCategoryScreen()
     }
+
+    @objc private func refreshTableView() {
+        presenter?.loadRecipe(refresh: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -159,7 +172,16 @@ final class RecipeDetailViewController: UIViewController {
 /// RecipeDetailViewController + UITableViewDataSource
 extension RecipeDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        tableSections.count
+        switch presenter?.state {
+        case .loading:
+            return 1
+        case .data:
+            return tableSections.count
+        case .error, .noData:
+            return 1
+        default:
+            return 0
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -167,8 +189,22 @@ extension RecipeDetailViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let recipe = presenter?.recipe else { return UITableViewCell() }
-        switch tableSections[indexPath.section] {
+        switch presenter?.state {
+        case .loading:
+            return getShimmerCell(tableView)
+        case let .data(recipe):
+            return getCell(tableView, indexSection: indexPath.section, recipe: recipe)
+        case .error:
+            return getErrorCell(tableView)
+        case .noData:
+            return getNoDataCell(tableView)
+        default:
+            return UITableViewCell()
+        }
+    }
+
+    private func getCell(_ tableView: UITableView, indexSection: Int, recipe: Recipe) -> UITableViewCell {
+        switch tableSections[indexSection] {
         case .header:
             let cell = getHeaderCell(tableView)
             cell.configureCell(recipe: recipe)
@@ -206,6 +242,31 @@ extension RecipeDetailViewController: UITableViewDataSource {
         else { return RecipeDescriptionCell() }
         return cell
     }
+
+    private func getShimmerCell(_ tableView: UITableView) -> ShimmerDetailRecipeViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ShimmerDetailRecipeViewCell.identifier)
+            as? ShimmerDetailRecipeViewCell
+        else { return ShimmerDetailRecipeViewCell() }
+        cell.startShimmer()
+        return cell
+    }
+
+    private func getErrorCell(_ tableView: UITableView) -> ErrorPlaceholderViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ErrorPlaceholderViewCell.identifier)
+            as? ErrorPlaceholderViewCell
+        else { return ErrorPlaceholderViewCell() }
+        cell.reloadButtonHandler = { [weak self] in
+            self?.presenter?.loadRecipe(refresh: false)
+        }
+        return cell
+    }
+
+    private func getNoDataCell(_ tableView: UITableView) -> NoDataPlaceholderViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NoDataPlaceholderViewCell.identifier)
+            as? NoDataPlaceholderViewCell
+        else { return NoDataPlaceholderViewCell() }
+        return cell
+    }
 }
 
 // MARK: - RecipeDetailViewProtocol
@@ -213,14 +274,16 @@ extension RecipeDetailViewController: UITableViewDataSource {
 /// RecipeDetailViewController + RecipeDetailViewProtocol
 extension RecipeDetailViewController: RecipeDetailViewProtocol {
     func reloadTable() {
-        DispatchQueue.main.async {
-            self.mainTableView.reloadData()
+        mainTableView.reloadData()
+    }
+
+    func loadImage(imageBase64: String) {
+        if let cell = mainTableView.cellForRow(at: IndexPath(item: 0, section: 0)) as? HeaderRecipeViewCell {
+            cell.setupImage(imageBase64: imageBase64)
         }
     }
 
-    func showErrorAlert(error: String) {
-        DispatchQueue.main.async {
-            self.showAlert(title: error, hasCancel: false)
-        }
+    func stopRefreshing() {
+        refreshTableControl.endRefreshing()
     }
 }

@@ -53,11 +53,25 @@ final class CategoryRecipeViewController: UIViewController {
             RecipeTableViewCell.self,
             forCellReuseIdentifier: RecipeTableViewCell.identifier
         )
+        tableView.register(
+            ErrorPlaceholderViewCell.self,
+            forCellReuseIdentifier: ErrorPlaceholderViewCell.identifier
+        )
+        tableView.register(
+            NoDataPlaceholderViewCell.self,
+            forCellReuseIdentifier: NoDataPlaceholderViewCell.identifier
+        )
         tableView.register(ShimmerCellView.self, forCellReuseIdentifier: "ShimmerCellView")
         tableView.dataSource = self
         tableView.delegate = self
 
         return tableView
+    }()
+
+    private lazy var refreshTableControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
+        return refreshControl
     }()
 
     // MARK: Public Properties
@@ -73,7 +87,7 @@ final class CategoryRecipeViewController: UIViewController {
         setupHierarchy()
         setupConstraints()
 
-        presenter?.loadRecipes()
+        presenter?.loadRecipes(refresh: false)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -104,6 +118,8 @@ final class CategoryRecipeViewController: UIViewController {
             mainTableView,
             searchBar
         ].forEach { view.addSubview($0) }
+
+        mainTableView.addSubview(refreshTableControl)
     }
 
     private func setupConstraints() {
@@ -138,8 +154,16 @@ final class CategoryRecipeViewController: UIViewController {
         ])
     }
 
+    private func showErrorAlert(error: String) {
+        showAlert(title: error, hasCancel: false)
+    }
+
     @objc private func backToPreviousScreen() {
         presenter?.backToRecipeScreen()
+    }
+
+    @objc private func refreshTableView() {
+        presenter?.loadRecipes(refresh: true)
     }
 }
 
@@ -148,15 +172,17 @@ final class CategoryRecipeViewController: UIViewController {
 /// CategoryRecipeViewController + CategoryRecipeViewProtocol
 extension CategoryRecipeViewController: CategoryRecipeViewProtocol {
     func reloadTable() {
-        DispatchQueue.main.async {
-            self.mainTableView.reloadData()
+        mainTableView.reloadData()
+    }
+
+    func loadImageInCell(indexCell: Int, imageBase64: String) {
+        if let cell = mainTableView.cellForRow(at: IndexPath(item: indexCell, section: 0)) as? RecipeTableViewCell {
+            cell.setupImage(imageBase64: imageBase64)
         }
     }
 
-    func showErrorAlert(error: String) {
-        DispatchQueue.main.async {
-            self.showAlert(title: error, hasCancel: false)
-        }
+    func stopRefreshing() {
+        refreshTableControl.endRefreshing()
     }
 }
 
@@ -174,32 +200,43 @@ extension CategoryRecipeViewController: UISearchBarDelegate {
 /// CategoryRecipeViewController + UITableViewDataSource
 extension CategoryRecipeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard presenter?.getRecipes().count ?? 0 > 0 else { return 10 }
         switch presenter?.state {
-        case .loaded:
-            return presenter?.getRecipes().count ?? 0
         case .loading:
             return 10
-        case nil:
+        case let .data(recipes):
+            return recipes.count
+        case .error, .noData:
+            return 1
+        default:
             return 0
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let presenter else { return UITableViewCell() }
-        guard presenter.getRecipes().count > 0 else { return getShimmerCell(tableView) }
-
         switch presenter.state {
-        case .loaded:
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: RecipeTableViewCell.identifier
-            ) as? RecipeTableViewCell
-            else { return UITableViewCell() }
-            cell.configureCell(recipe: presenter.getRecipes()[indexPath.row])
-            return cell
         case .loading:
             return getShimmerCell(tableView)
+        case let .data(recipes):
+            return getRecipeCell(tableView, recipes: recipes, indexPath: indexPath)
+        case .error:
+            return getErrorCell(tableView)
+        case .noData:
+            return getNoDataCell(tableView)
         }
+    }
+
+    private func getRecipeCell(_ tableView: UITableView, recipes: [Recipe], indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: RecipeTableViewCell.identifier
+        ) as? RecipeTableViewCell
+        else { return UITableViewCell() }
+        let recipe = recipes[indexPath.row]
+        cell.configureCell(recipe: recipe)
+        if recipe.imageBase64.isEmpty {
+            presenter?.loadImage(indexCell: indexPath.row)
+        }
+        return cell
     }
 
     private func getShimmerCell(_ tableView: UITableView) -> UITableViewCell {
@@ -208,6 +245,24 @@ extension CategoryRecipeViewController: UITableViewDataSource {
         ) as? ShimmerCellView
         else { return UITableViewCell() }
         cell.startShimmers()
+        return cell
+    }
+
+    private func getErrorCell(_ tableView: UITableView) -> ErrorPlaceholderViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ErrorPlaceholderViewCell.identifier)
+            as? ErrorPlaceholderViewCell
+        else { return ErrorPlaceholderViewCell() }
+        cell.reloadButtonHandler = { [weak self] in
+            self?.presenter?.loadRecipes(refresh: false)
+        }
+        cell.setupLessSize()
+        return cell
+    }
+
+    private func getNoDataCell(_ tableView: UITableView) -> NoDataPlaceholderViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NoDataPlaceholderViewCell.identifier)
+            as? NoDataPlaceholderViewCell
+        else { return NoDataPlaceholderViewCell() }
         return cell
     }
 }
