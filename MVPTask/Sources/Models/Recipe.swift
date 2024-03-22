@@ -4,7 +4,7 @@
 import Foundation
 
 /// Рецепт
-struct Recipe: Codable {
+public struct Recipe: Codable {
     /// Наименование блюда
     var name: String
     /// Категория
@@ -55,8 +55,27 @@ struct Recipe: Codable {
 }
 
 extension Recipe: Equatable {
-    static func == (lhs: Recipe, rhs: Recipe) -> Bool {
+    public static func == (lhs: Recipe, rhs: Recipe) -> Bool {
         lhs.name == rhs.name &&
             lhs.category.name == rhs.category.name
+    }
+}
+
+extension Recipe {
+    init(recipeCD: RecipeCD) {
+        name = recipeCD.name ?? ""
+        cookingTimeInMinutes = Int(recipeCD.cookingTimeInMinutes)
+        caloriesCount = Int(recipeCD.caloriesCount)
+        weightGram = Int(recipeCD.weightGram)
+        carbohydratesGram = recipeCD.carbohydratesGram
+        fatsGram = recipeCD.fatsGram
+        proteinGram = recipeCD.proteinGram
+        enercKcal = Int(recipeCD.enercKcal)
+        imageBase64 = recipeCD.imageBase64 ?? ""
+        detailDescription = recipeCD.detailDescription ?? ""
+        category = .init(name: "", imageName: "")
+        uri = recipeCD.uri ?? ""
+        imageUrl = recipeCD.imageUrl ?? ""
+        dishType = [recipeCD.dishType ?? ""]
     }
 }

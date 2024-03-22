@@ -67,6 +67,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
     private weak var view: CategoryRecipeViewProtocol?
     private let proxyImageService: LoadImageServiceProtocol?
     private let storageSource = StorageService()
+    private let cacheService: CacheServiceProtocol?
     private var recipes: [Recipe] = []
     private var presentedRecipes: [Recipe] = []
     private var category: Category?
@@ -100,6 +101,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         self.networkService = networkService
         self.category = category
         proxyImageService = ProxyLoadService(service: LoadImageService())
+        cacheService = CacheService()
         view?.setTitle(title: category.name)
     }
 
@@ -116,10 +118,25 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
         var health = ""
         let replacingCategories = ["Chicken", "Meat", "Fish", "Side dish"]
         if replacingCategories.contains(categoryName) {
-            categoryName = "Main course"
             qParameter = categoryName + searchText
+            categoryName = "Main course"
             if categoryName == Constants.sideDishText {
                 health = Constants.vegetarianText
+            }
+        }
+        if let cacheService {
+            recipes = cacheService.loadRecipes(
+                dishType: categoryName,
+                qParameter: qParameter,
+                health: health
+            )
+            if !recipes.isEmpty {
+                configureSort()
+                setupDataState()
+                if refresh {
+                    view?.stopRefreshing()
+                }
+                return
             }
         }
         networkService?.getRecipes(
@@ -132,7 +149,7 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
                     self?.recipes = recipes
                     self?.configureSort()
                     DispatchQueue.main.async {
-//                            self?.state = .error(NetworkError.error(message: "Ошибка")) {}
+                        self?.saveCacheRecipes()
                         self?.setupDataState()
                         if refresh {
                             self?.view?.stopRefreshing()
@@ -145,6 +162,12 @@ final class CategoryRecipeViewPresenter: CategoryRecipeViewPresenterProtocol {
                 }
             }
         )
+    }
+
+    private func saveCacheRecipes() {
+        if let cacheService {
+            cacheService.saveRecipes(recipes: recipes)
+        }
     }
 
     func loadImage(indexCell: Int) {

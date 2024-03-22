@@ -39,6 +39,7 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
     private let networkService: NetworkServiceProtocol?
     private let proxyImageService: LoadImageServiceProtocol?
     private weak var coordinator: RecipesSceneCoordinator?
+    private let cacheService: CacheServiceProtocol?
     private(set) var recipe: Recipe?
     private(set) var uri: String?
     private(set) var state: ViewState<Recipe> = .loading {
@@ -60,6 +61,7 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
         self.networkService = networkService
         self.uri = uri
         proxyImageService = ProxyLoadService(service: LoadImageService())
+        cacheService = CacheService()
     }
 
     // MARK: Public Methods
@@ -67,6 +69,18 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
     func loadRecipe(refresh: Bool) {
         state = .loading
         guard let uri else { return }
+        if let cacheService {
+            recipe = cacheService.loadRecipe(uri: uri)
+            if let recipe {
+                state = .data(recipe)
+                if refresh {
+                    view?.stopRefreshing()
+                }
+                loadImage()
+                return
+            }
+        }
+
         networkService?.getRecipe(
             uri: uri,
             completion: { [weak self] result in
@@ -74,7 +88,8 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
                 case let .success(recipe):
                     self?.recipe = recipe
                     DispatchQueue.main.async {
-                        sleep(2)
+                        sleep(1)
+                        self?.saveCacheRecipe()
                         self?.state = .data(recipe)
                         if refresh {
                             self?.view?.stopRefreshing()
@@ -88,6 +103,12 @@ final class RecipeDetailViewPresenter: RecipeDetailPresenterProtocol {
                 }
             }
         )
+    }
+
+    private func saveCacheRecipe() {
+        if let cacheService, let recipe {
+            cacheService.saveRecipe(recipe: recipe)
+        }
     }
 
     private func loadImage() {
