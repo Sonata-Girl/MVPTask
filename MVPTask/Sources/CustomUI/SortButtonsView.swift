@@ -10,7 +10,7 @@ protocol SortButtonsViewDataSource: AnyObject {
     /// Заголовок для кнопок по индексу
     func sortButtonsViewTitle(_ sortButtonsView: SortButtonsView, indexPath: IndexPath) -> SortType
 }
-
+ 
 /// Делегат для фильтр вью
 protocol SortButtonsViewDelegate: AnyObject {
     /// Метод обработки нажатия кнопок коллекции
